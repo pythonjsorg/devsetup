@@ -1,33 +1,29 @@
 export type OS = 'macos' | 'windows' | 'linux'
 
+export type ToolId = 'nodejs' | 'bun' | 'uv' | 'claude-cli' | 'codex-cli'
+
+type InstallMethods = {
+  homebrew?: string[]
+  winget?: string[]
+  apt?: string[]
+  curl?: string[]
+  manual?: string[]
+}
+
 export type Tool = {
   id: string
   name: string
   description: string
   category: 'runtime' | 'ai-tool' | 'package-manager'
-  dependencies: string[]
+  dependencies: ToolId[]
   lts: {
     version: string
     label: string
   } | null
-  install: {
-    macos: {
-      homebrew?: string[]
-      manual?: string[]
-    }
-    windows: {
-      winget?: string[]
-      manual?: string[]
-    }
-    linux: {
-      curl?: string[]
-      apt?: string[]
-      manual?: string[]
-    }
-  }
+  install: Record<OS, InstallMethods>
 }
 
-export const TOOLS: Tool[] = [
+export const TOOLS = [
   {
     id: 'nodejs',
     name: 'Node.js',
@@ -43,15 +39,15 @@ export const TOOLS: Tool[] = [
       macos: {
         homebrew: [
           'brew install node@22',
-          'echo \'export PATH="/opt/homebrew/opt/node@22/bin:$PATH"\' >> ~/.zshrc',
-          'source ~/.zshrc',
+          'echo \'export PATH="$(brew --prefix node@22)/bin:$PATH"\' >> ~/.zshrc && source ~/.zshrc',
         ],
       },
       windows: {
         winget: ['winget install OpenJS.NodeJS.LTS'],
       },
       linux: {
-        curl: [
+        // Debian/Ubuntu only via NodeSource
+        apt: [
           'curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -',
           'sudo apt-get install -y nodejs',
         ],
@@ -107,15 +103,9 @@ export const TOOLS: Tool[] = [
     dependencies: ['nodejs'],
     lts: null,
     install: {
-      macos: {
-        manual: ['npm install -g @anthropic-ai/claude-code'],
-      },
-      windows: {
-        manual: ['npm install -g @anthropic-ai/claude-code'],
-      },
-      linux: {
-        manual: ['npm install -g @anthropic-ai/claude-code'],
-      },
+      macos: { manual: ['npm install -g @anthropic-ai/claude-code'] },
+      windows: { manual: ['npm install -g @anthropic-ai/claude-code'] },
+      linux: { manual: ['npm install -g @anthropic-ai/claude-code'] },
     },
   },
   {
@@ -127,15 +117,9 @@ export const TOOLS: Tool[] = [
     dependencies: ['nodejs'],
     lts: null,
     install: {
-      macos: {
-        manual: ['npm install -g @openai/codex'],
-      },
-      windows: {
-        manual: ['npm install -g @openai/codex'],
-      },
-      linux: {
-        manual: ['npm install -g @openai/codex'],
-      },
+      macos: { manual: ['npm install -g @openai/codex'] },
+      windows: { manual: ['npm install -g @openai/codex'] },
+      linux: { manual: ['npm install -g @openai/codex'] },
     },
   },
-]
+] as const satisfies readonly Tool[]
