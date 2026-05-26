@@ -13,7 +13,7 @@ export async function generateMetadata({
   const { tool: toolId } = await params
   const tool = getTool(toolId)
   return {
-    title: `Install ${tool.name} on macOS, Windows & Linux — DevSetup`,
+    title: `Install ${tool.name} on macOS, Windows & Linux`,
     description: `Step-by-step ${tool.name} install guide. ${
       tool.lts ? 'LTS ' + tool.lts.version + ' only.' : 'Latest stable.'
     } All dependencies included.`,
