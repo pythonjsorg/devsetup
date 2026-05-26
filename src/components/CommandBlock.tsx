@@ -10,34 +10,39 @@ export default function CommandBlock({ commands }: Props) {
 
   useEffect(() => {
     return () => {
-      if (timeoutRef.current !== null) {
-        clearTimeout(timeoutRef.current)
-      }
+      if (timeoutRef.current !== null) clearTimeout(timeoutRef.current)
     }
   }, [])
 
-  function handleCopy() {
+  if (commands.length === 0) return null
+
+  async function handleCopy() {
+    if (!navigator.clipboard) return
     if (timeoutRef.current !== null) clearTimeout(timeoutRef.current)
-    navigator.clipboard.writeText(commands.join('\n'))
-    setCopied(true)
-    timeoutRef.current = setTimeout(() => {
-      setCopied(false)
-      timeoutRef.current = null
-    }, 2000)
+    try {
+      await navigator.clipboard.writeText(commands.join('\n'))
+      setCopied(true)
+      timeoutRef.current = setTimeout(() => {
+        setCopied(false)
+        timeoutRef.current = null
+      }, 2000)
+    } catch {
+      // clipboard write failed silently (permission denied, insecure context, etc.)
+    }
   }
 
   return (
-    <div className="relative rounded-lg bg-zinc-900 px-5 py-4 font-mono text-sm text-zinc-100 dark:bg-zinc-950 dark:text-zinc-200">
+    <div className="relative rounded-lg bg-zinc-900 px-5 py-4 font-mono text-sm text-zinc-100">
       <button
         onClick={handleCopy}
-        className="absolute right-3 top-3 rounded px-2 py-1 text-xs font-sans font-medium text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-100 dark:hover:bg-zinc-800"
+        className="absolute right-3 top-3 rounded px-2 py-1 text-xs font-sans font-medium text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-100"
         aria-label="Copy commands to clipboard"
       >
         {copied ? 'Copied!' : 'Copy'}
       </button>
       <div className="flex flex-col gap-1 pr-14">
         {commands.map((cmd, i) => (
-          <div key={i} className="flex gap-2">
+          <div key={`${i}-${cmd}`} className="flex gap-2">
             <span className="select-none text-zinc-500">$</span>
             <span>{cmd}</span>
           </div>
