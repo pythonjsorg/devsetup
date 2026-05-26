@@ -1,60 +1,109 @@
+'use client'
+
 import Link from 'next/link'
 import type { Tool } from '@/data/tools'
 import { TOOLS } from '@/data/tools'
 
 type Props = { tool: Tool }
 
-const CATEGORY_STYLES: Record<Tool['category'], string> = {
-  runtime: 'bg-blue-50 text-blue-700 ring-blue-600/20 dark:bg-blue-950/40 dark:text-blue-400 dark:ring-blue-500/30',
-  'ai-tool': 'bg-violet-50 text-violet-700 ring-violet-600/20 dark:bg-violet-950/40 dark:text-violet-400 dark:ring-violet-500/30',
-  'package-manager': 'bg-amber-50 text-amber-700 ring-amber-600/20 dark:bg-amber-950/40 dark:text-amber-400 dark:ring-amber-500/30',
-}
-
-const CATEGORY_LABELS: Record<Tool['category'], string> = {
-  runtime: 'Runtime',
-  'ai-tool': 'AI Tool',
-  'package-manager': 'Package Manager',
+const CATEGORY_CONFIG: Record<Tool['category'], { label: string; color: string }> = {
+  runtime: { label: 'Runtime', color: '#3b82f6' },
+  'ai-tool': { label: 'AI Tool', color: '#a855f7' },
+  'package-manager': { label: 'Pkg Manager', color: '#f59e0b' },
 }
 
 export default function ToolCard({ tool }: Props) {
   const depNames = tool.dependencies.map(
     (depId) => TOOLS.find((t) => t.id === depId)?.name ?? depId
   )
+  const cat = CATEGORY_CONFIG[tool.category]
 
   return (
     <Link
       href={`/install/${tool.id}`}
-      className="group flex flex-col gap-3 rounded-xl border border-zinc-200 bg-white p-6 transition-all hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700 dark:hover:shadow-zinc-900/60"
+      className="group relative flex flex-col gap-4 p-5 transition-all duration-200"
+      style={{
+        background: 'var(--surface)',
+        border: '1px solid var(--border-col)',
+        outline: '1px solid transparent',
+        outlineOffset: '-1px',
+      }}
+      onMouseEnter={(e) => {
+        const el = e.currentTarget
+        el.style.borderColor = 'var(--accent)'
+        el.style.background = 'var(--surface-2)'
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget
+        el.style.borderColor = 'var(--border-col)'
+        el.style.background = 'var(--surface)'
+      }}
     >
-      {/* Header: name + category badge */}
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <h2 className="text-lg font-semibold text-zinc-900 group-hover:text-zinc-700 dark:text-zinc-50 dark:group-hover:text-zinc-300">
-          {tool.name}
-        </h2>
+      {/* Top: category dot + label */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div
+            className="h-1.5 w-1.5 rounded-full"
+            style={{ background: cat.color }}
+          />
+          <span
+            className="text-xs font-mono tracking-widest uppercase"
+            style={{ color: cat.color, fontFamily: 'var(--font-geist-mono)', opacity: 0.85 }}
+          >
+            {cat.label}
+          </span>
+        </div>
+        {/* Arrow */}
         <span
-          className={[
-            'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset',
-            CATEGORY_STYLES[tool.category],
-          ].join(' ')}
+          className="text-xs transition-transform duration-200 group-hover:translate-x-0.5"
+          style={{ color: 'var(--muted)' }}
         >
-          {CATEGORY_LABELS[tool.category]}
+          →
         </span>
       </div>
 
+      {/* Name */}
+      <div>
+        <h2
+          className="text-xl font-bold leading-tight transition-colors duration-200"
+          style={{ color: 'var(--fg)', letterSpacing: '-0.02em' }}
+        >
+          {tool.name}
+        </h2>
+        {tool.lts && (
+          <span
+            className="text-xs font-mono mt-1 inline-block"
+            style={{ color: 'var(--accent)', fontFamily: 'var(--font-geist-mono)' }}
+          >
+            v{tool.lts.version} LTS
+          </span>
+        )}
+      </div>
+
       {/* Description */}
-      <p className="flex-1 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+      <p
+        className="text-sm leading-relaxed flex-1"
+        style={{ color: 'var(--fg-dim)' }}
+      >
         {tool.description}
       </p>
 
-      {/* Dependencies chip */}
+      {/* Dependencies */}
       {depNames.length > 0 && (
-        <div className="mt-1">
-          <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-            <span className="text-zinc-400 dark:text-zinc-500">Requires:</span>
-            {depNames.join(', ')}
-          </span>
+        <div
+          className="flex items-center gap-1.5 text-xs font-mono pt-1 mt-auto"
+          style={{ color: 'var(--muted)', fontFamily: 'var(--font-geist-mono)', borderTop: '1px solid var(--border-col)' }}
+        >
+          <span style={{ color: 'var(--accent)' }}>↳</span>
+          <span>requires {depNames.join(', ')}</span>
         </div>
       )}
+
+      {/* Accent left border on hover */}
+      <div
+        className="absolute left-0 top-0 bottom-0 w-0.5 transition-all duration-200 opacity-0 group-hover:opacity-100"
+        style={{ background: 'var(--accent)' }}
+      />
     </Link>
   )
 }

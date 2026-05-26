@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Syne, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const syne = Syne({
+  variable: "--font-syne",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const geistMono = Geist_Mono({
@@ -30,29 +31,64 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${syne.variable} ${geistMono.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col bg-white dark:bg-zinc-950">
-        {/* Site header */}
-        <header className="sticky top-0 z-10 border-b border-zinc-200 bg-white/90 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/90">
-          <div className="mx-auto flex h-12 max-w-4xl items-center px-6">
+      <body className="min-h-full flex flex-col" style={{ background: 'var(--bg)', color: 'var(--fg)' }}>
+        {/* Header */}
+        <header
+          className="sticky top-0 z-50"
+          style={{
+            borderBottom: '1px solid var(--border-col)',
+            background: 'rgba(8,10,8,0.85)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+          }}
+        >
+          <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
             <Link
               href="/"
-              className="text-sm font-semibold text-zinc-900 hover:text-zinc-600 dark:text-zinc-50 dark:hover:text-zinc-300 transition-colors"
+              className="flex items-center gap-2 group"
             >
-              DevSetup
+              <span
+                className="flex h-6 w-6 items-center justify-center text-xs font-bold"
+                style={{
+                  background: 'var(--accent)',
+                  color: 'var(--bg)',
+                  fontFamily: 'var(--font-geist-mono)',
+                }}
+              >
+                &gt;_
+              </span>
+              <span
+                className="text-sm font-bold tracking-widest uppercase transition-colors"
+                style={{ color: 'var(--fg)', letterSpacing: '0.15em' }}
+              >
+                DevSetup
+              </span>
             </Link>
+            <span
+              className="hidden sm:block text-xs font-mono"
+              style={{ color: 'var(--muted)', fontFamily: 'var(--font-geist-mono)' }}
+            >
+              v1.0.0
+            </span>
           </div>
         </header>
 
-        {/* Page content */}
+        {/* Content */}
         <div className="flex flex-1 flex-col">{children}</div>
 
-        {/* Site footer */}
-        <footer className="border-t border-zinc-200 dark:border-zinc-800">
-          <div className="mx-auto max-w-4xl px-6 py-4 text-center text-xs text-zinc-400 dark:text-zinc-500">
-            DevSetup &middot; Install any dev tool correctly &middot; LTS
-            versions only
+        {/* Footer */}
+        <footer style={{ borderTop: '1px solid var(--border-col)' }}>
+          <div
+            className="mx-auto max-w-5xl px-6 py-5 flex items-center justify-between"
+          >
+            <span className="text-xs font-mono" style={{ color: 'var(--muted)', fontFamily: 'var(--font-geist-mono)' }}>
+              LTS versions only · Dependencies resolved automatically
+            </span>
+            <span className="text-xs font-mono" style={{ color: 'var(--muted)', fontFamily: 'var(--font-geist-mono)' }}>
+              DevSetup
+            </span>
           </div>
         </footer>
       </body>

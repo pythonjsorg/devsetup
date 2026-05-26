@@ -27,24 +27,49 @@ export default function CommandBlock({ commands }: Props) {
         timeoutRef.current = null
       }, 2000)
     } catch {
-      // clipboard write failed silently (permission denied, insecure context, etc.)
+      // clipboard write failed silently
     }
   }
 
   return (
-    <div className="relative rounded-lg bg-zinc-900 px-5 py-4 font-mono text-sm text-zinc-100">
+    <div
+      className="relative group/block"
+      style={{
+        background: '#030403',
+        border: '1px solid var(--border-col)',
+        borderLeft: '2px solid var(--accent)',
+      }}
+    >
+      {/* Copy button */}
       <button
         onClick={handleCopy}
-        className="absolute right-3 top-3 rounded px-2 py-1 text-xs font-sans font-medium text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-100"
+        className="absolute right-3 top-3 flex items-center gap-1.5 text-xs font-mono px-2 py-1 transition-all duration-150"
+        style={{
+          background: copied ? 'var(--accent)' : 'transparent',
+          color: copied ? 'var(--bg)' : 'var(--muted)',
+          border: `1px solid ${copied ? 'var(--accent)' : 'var(--border-col)'}`,
+          fontFamily: 'var(--font-geist-mono)',
+        }}
         aria-label="Copy commands to clipboard"
       >
-        {copied ? 'Copied!' : 'Copy'}
+        {copied ? '✓ copied' : 'copy'}
       </button>
-      <div className="flex flex-col gap-1 pr-14">
+
+      {/* Commands */}
+      <div className="p-4 pr-20 flex flex-col gap-2">
         {commands.map((cmd, i) => (
-          <div key={`${i}-${cmd}`} className="flex gap-2">
-            <span className="select-none text-zinc-500">$</span>
-            <span>{cmd}</span>
+          <div
+            key={`${i}-${cmd}`}
+            className="flex items-start gap-3 font-mono text-sm"
+            style={{ fontFamily: 'var(--font-geist-mono)' }}
+          >
+            <span
+              className="shrink-0 select-none mt-px"
+              style={{ color: 'var(--accent)', opacity: 0.6 }}
+            >
+              $
+            </span>
+            <span style={{ color: '#c8ffa0', wordBreak: 'break-all' }}>{cmd}</span>
           </div>
         ))}
       </div>
