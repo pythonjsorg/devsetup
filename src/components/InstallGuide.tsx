@@ -1,19 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import type { OS, Tool } from '@/data/tools'
+import type { OS, Tool, InstallMethods } from '@/data/tools'
 import OsPicker from '@/components/OsPicker'
 import StepCard from '@/components/StepCard'
 import CommandBlock from '@/components/CommandBlock'
 import LtsBadge from '@/components/LtsBadge'
-
-type InstallMethods = {
-  homebrew?: string[]
-  winget?: string[]
-  apt?: string[]
-  curl?: string[]
-  manual?: string[]
-}
 
 function getCommandsForOs(tool: Tool, os: OS): string[] {
   const methods = tool.install[os] as InstallMethods

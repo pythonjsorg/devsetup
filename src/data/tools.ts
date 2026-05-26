@@ -2,7 +2,7 @@ export type OS = 'macos' | 'windows' | 'linux'
 
 export type ToolId = 'nodejs' | 'bun' | 'uv' | 'claude-cli' | 'codex-cli'
 
-type InstallMethods = {
+export type InstallMethods = {
   homebrew?: string[]
   winget?: string[]
   apt?: string[]

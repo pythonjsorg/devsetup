@@ -1,0 +1,46 @@
+<h2>How should the page handle different operating systems?</h2>
+<p class="subtitle">Installation commands differ across Mac, Windows, and Linux</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock-nav" style="font-size:12px; padding: 8px 12px;">devsetup.sh</div>
+      <div class="mockup-body" style="padding: 16px; background: #0d1117; color: #e6edf3; font-family: monospace; font-size: 12px; min-height: 120px;">
+        <div style="color: #8b949e; margin-bottom: 8px;">✓ Detected: macOS (Apple Silicon)</div>
+        <div style="color: #79c0ff;">$ brew install node@22</div>
+        <div style="color: #56d364;">✓ LTS pinned</div>
+      </div>
+      <div class="card-body">
+        <h3>A — Auto-detect OS</h3>
+        <p>Page reads the browser's user agent and shows the right commands immediately. No OS picker needed — just land and copy.</p>
+        <div class="pros-cons" style="font-size: 12px;">
+          <div class="pros"><h4>Pros</h4><ul><li>Zero friction</li><li>Feels smart</li></ul></div>
+          <div class="cons"><h4>Cons</h4><ul><li>Can misdetect</li><li>Hard to share "Windows commands"</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock-nav" style="font-size:12px; padding: 8px 12px;">devsetup.sh</div>
+      <div class="mockup-body" style="padding: 16px; background: #f6f8fa; font-size: 12px; min-height: 120px;">
+        <div style="margin-bottom: 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #57606a;">Your OS</div>
+        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+          <div style="padding: 6px 14px; background: #0969da; color: white; border-radius: 6px; font-size: 12px; cursor: pointer;">macOS</div>
+          <div style="padding: 6px 14px; background: #eaeef2; border-radius: 6px; font-size: 12px; cursor: pointer;">Windows</div>
+          <div style="padding: 6px 14px; background: #eaeef2; border-radius: 6px; font-size: 12px; cursor: pointer;">Linux</div>
+        </div>
+        <div style="font-family: monospace; font-size: 12px; background: #0d1117; color: #79c0ff; padding: 8px 12px; border-radius: 4px;">$ brew install node@22</div>
+      </div>
+      <div class="card-body">
+        <h3>B — Manual OS picker (Recommended)</h3>
+        <p>Three tabs like the Node.js page. Auto-selects your detected OS but lets you switch. Commands update instantly.</p>
+        <div class="pros-cons" style="font-size: 12px;">
+          <div class="pros"><h4>Pros</h4><ul><li>Always accurate</li><li>Shareable per-OS URLs</li><li>Familiar pattern</li></ul></div>
+          <div class="cons"><h4>Cons</h4><ul><li>One extra click</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
