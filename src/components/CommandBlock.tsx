@@ -17,6 +17,7 @@ export default function CommandBlock({ commands }: Props) {
   }, [])
 
   function handleCopy() {
+    if (timeoutRef.current !== null) clearTimeout(timeoutRef.current)
     navigator.clipboard.writeText(commands.join('\n'))
     setCopied(true)
     timeoutRef.current = setTimeout(() => {
