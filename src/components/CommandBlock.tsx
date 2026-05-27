@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Icon from '@/components/Icon'
 
 type Props = { commands: string[] }
 
@@ -33,43 +34,56 @@ export default function CommandBlock({ commands }: Props) {
 
   return (
     <div
-      className="relative group/block"
+      className="relative"
       style={{
-        background: '#030403',
-        border: '1px solid var(--border-col)',
-        borderLeft: '2px solid var(--accent)',
+        background: 'var(--code-bg)',
+        borderRadius: 'var(--radius-lg)',
+        padding: '18px 20px',
+        fontFamily: 'var(--font-jetbrains)',
+        fontSize: 13.5,
+        lineHeight: 1.65,
+        color: 'var(--code-fg)',
       }}
     >
-      {/* Copy button */}
       <button
         onClick={handleCopy}
-        className="absolute right-3 top-3 flex items-center gap-1.5 text-xs font-mono px-2 py-1 transition-all duration-150"
-        style={{
-          background: copied ? 'var(--accent)' : 'transparent',
-          color: copied ? 'var(--bg)' : 'var(--muted)',
-          border: `1px solid ${copied ? 'var(--accent)' : 'var(--border-col)'}`,
-          fontFamily: 'var(--font-geist-mono)',
-        }}
         aria-label="Copy commands to clipboard"
+        className="absolute top-3 right-3 inline-flex items-center gap-1.5"
+        style={{
+          background: copied
+            ? 'var(--code-prompt)'
+            : 'transparent',
+          color: copied ? 'var(--code-bg)' : 'var(--code-fg)',
+          border: copied
+            ? '1px solid var(--code-prompt)'
+            : '1px solid rgba(255,255,255,0.18)',
+          borderRadius: 'var(--radius-sm)',
+          fontSize: 11,
+          padding: '4px 10px',
+          cursor: 'pointer',
+          fontFamily: 'var(--font-jetbrains)',
+          letterSpacing: '0.04em',
+          opacity: copied ? 1 : 0.85,
+          transition: 'opacity 120ms, background 120ms, color 120ms',
+        }}
       >
-        {copied ? '✓ copied' : 'copy'}
+        <Icon name={copied ? 'check' : 'copy'} size={11} strokeWidth={2.25} />
+        {copied ? 'copied' : 'copy'}
       </button>
 
-      {/* Commands */}
-      <div className="p-4 pr-20 flex flex-col gap-2">
+      <div className="flex flex-col gap-1 pr-20">
         {commands.map((cmd, i) => (
           <div
             key={`${i}-${cmd}`}
-            className="flex items-start gap-3 font-mono text-sm"
-            style={{ fontFamily: 'var(--font-geist-mono)' }}
+            className="flex items-start gap-3"
           >
             <span
-              className="shrink-0 select-none mt-px"
-              style={{ color: 'var(--accent)', opacity: 0.6 }}
+              className="shrink-0 select-none"
+              style={{ color: 'var(--code-prompt)' }}
             >
               $
             </span>
-            <span style={{ color: '#c8ffa0', wordBreak: 'break-all' }}>{cmd}</span>
+            <span style={{ wordBreak: 'break-all' }}>{cmd}</span>
           </div>
         ))}
       </div>

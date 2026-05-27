@@ -1,44 +1,73 @@
 'use client'
 
 import type { OS } from '@/data/tools'
+import Icon, { type IconName } from '@/components/Icon'
 
 type Props = {
   selected: OS
   onChange: (os: OS) => void
 }
 
-const OS_OPTIONS: { value: OS; label: string; mono: string }[] = [
-  { value: 'macos', label: 'macOS', mono: 'darwin' },
-  { value: 'windows', label: 'Windows', mono: 'win32' },
-  { value: 'linux', label: 'Linux', mono: 'linux' },
+const OPTIONS: { value: OS; label: string; mono: string; icon: IconName }[] = [
+  { value: 'macos',   label: 'macOS',   mono: 'darwin', icon: 'apple'   },
+  { value: 'windows', label: 'Windows', mono: 'win32',  icon: 'windows' },
+  { value: 'linux',   label: 'Linux',   mono: 'linux',  icon: 'monitor' },
 ]
 
 export default function OsPicker({ selected, onChange }: Props) {
   return (
-    <div className="flex items-center gap-0" aria-label="Operating system">
-      {OS_OPTIONS.map(({ value, label, mono }, idx) => {
-        const isActive = selected === value
+    <div
+      role="group"
+      aria-label="Operating system"
+      className="inline-flex"
+      style={{
+        background: 'var(--muted)',
+        borderRadius: 'var(--radius-full)',
+        padding: 4,
+        gap: 2,
+      }}
+    >
+      {OPTIONS.map(({ value, label, mono, icon }) => {
+        const active = selected === value
         return (
           <button
             key={value}
-            aria-pressed={isActive}
+            type="button"
+            aria-pressed={active}
             onClick={() => onChange(value)}
-            className="relative flex flex-col items-start px-4 py-2.5 text-sm font-medium transition-all duration-150"
+            className="inline-flex items-center gap-2.5 whitespace-nowrap"
             style={{
-              background: isActive ? 'var(--accent)' : 'var(--surface)',
-              color: isActive ? 'var(--bg)' : 'var(--muted)',
-              border: '1px solid var(--border-col)',
-              borderLeft: idx === 0 ? '1px solid var(--border-col)' : 'none',
-              fontFamily: 'var(--font-syne)',
+              padding: '10px 18px',
+              background: active ? 'var(--card)' : 'transparent',
+              border: 'none',
+              borderRadius: 'var(--radius-full)',
+              cursor: 'pointer',
+              boxShadow: active ? 'var(--shadow-sm)' : 'none',
+              fontFamily: 'var(--font-geist)',
+              transition: 'background 120ms, box-shadow 120ms',
             }}
           >
-            <span className="font-bold text-sm">{label}</span>
+            <Icon
+              name={icon}
+              size={16}
+              color={active ? 'var(--primary)' : 'var(--muted-foreground)'}
+              strokeWidth={active ? 2.25 : 1.75}
+            />
             <span
-              className="text-xs font-mono leading-none mt-0.5"
               style={{
-                color: isActive ? 'rgba(8,10,8,0.6)' : 'var(--muted)',
-                fontFamily: 'var(--font-geist-mono)',
-                opacity: isActive ? 1 : 0.7,
+                fontSize: 14,
+                fontWeight: 600,
+                color: active ? 'var(--foreground)' : 'var(--muted-foreground)',
+              }}
+            >
+              {label}
+            </span>
+            <span
+              style={{
+                fontFamily: 'var(--font-jetbrains)',
+                fontSize: 11,
+                color: 'var(--muted-foreground)',
+                opacity: active ? 0.9 : 0.6,
               }}
             >
               {mono}

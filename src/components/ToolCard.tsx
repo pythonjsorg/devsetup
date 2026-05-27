@@ -3,107 +3,174 @@
 import Link from 'next/link'
 import type { Tool } from '@/data/tools'
 import { TOOLS } from '@/data/tools'
+import Icon, { type IconName } from '@/components/Icon'
 
 type Props = { tool: Tool }
 
-const CATEGORY_CONFIG: Record<Tool['category'], { label: string; color: string }> = {
-  runtime: { label: 'Runtime', color: '#3b82f6' },
-  'ai-tool': { label: 'AI Tool', color: '#a855f7' },
-  'package-manager': { label: 'Pkg Manager', color: '#f59e0b' },
+const CAT: Record<
+  Tool['category'],
+  { label: string; icon: IconName; bg: string; fg: string }
+> = {
+  runtime: {
+    label: 'Runtime',
+    icon: 'bolt',
+    bg: 'var(--cat-runtime-bg)',
+    fg: 'var(--cat-runtime-fg)',
+  },
+  'ai-tool': {
+    label: 'AI agent',
+    icon: 'sparkles',
+    bg: 'var(--cat-ai-bg)',
+    fg: 'var(--cat-ai-fg)',
+  },
+  'package-manager': {
+    label: 'Pkg manager',
+    icon: 'package',
+    bg: 'var(--cat-pkg-bg)',
+    fg: 'var(--cat-pkg-fg)',
+  },
 }
 
 export default function ToolCard({ tool }: Props) {
+  const cat = CAT[tool.category]
   const depNames = tool.dependencies.map(
-    (depId) => TOOLS.find((t) => t.id === depId)?.name ?? depId
+    depId => TOOLS.find(t => t.id === depId)?.name ?? depId
   )
-  const cat = CATEGORY_CONFIG[tool.category]
 
   return (
     <Link
       href={`/install/${tool.id}`}
-      className="group relative flex flex-col gap-4 p-5 transition-all duration-200"
+      className="group flex flex-col gap-3.5 transition-colors"
       style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border-col)',
-        outline: '1px solid transparent',
-        outlineOffset: '-1px',
-      }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget
-        el.style.borderColor = 'var(--accent)'
-        el.style.background = 'var(--surface-2)'
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget
-        el.style.borderColor = 'var(--border-col)'
-        el.style.background = 'var(--surface)'
+        background: 'var(--card)',
+        border: '1px solid var(--border)',
+        borderRadius: 'var(--radius-2xl)',
+        padding: 22,
+        boxShadow: 'var(--shadow-sm)',
+        textDecoration: 'none',
       }}
     >
-      {/* Top: category dot + label */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div
-            className="h-1.5 w-1.5 rounded-full"
-            style={{ background: cat.color }}
-          />
-          <span
-            className="text-xs font-mono tracking-widest uppercase"
-            style={{ color: cat.color, fontFamily: 'var(--font-geist-mono)', opacity: 0.85 }}
-          >
-            {cat.label}
-          </span>
-        </div>
-        {/* Arrow */}
-        <span
-          className="text-xs transition-transform duration-200 group-hover:translate-x-0.5"
-          style={{ color: 'var(--muted)' }}
+      {/* Top: icon + category pill */}
+      <div className="flex items-start justify-between">
+        <div
+          className="flex items-center justify-center"
+          style={{
+            width: 46,
+            height: 46,
+            background: cat.bg,
+            color: cat.fg,
+            borderRadius: 'var(--radius-lg)',
+          }}
         >
-          →
+          <Icon name={cat.icon} size={22} strokeWidth={2} />
+        </div>
+        <span
+          className="whitespace-nowrap"
+          style={{
+            fontSize: 10,
+            fontWeight: 600,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: cat.fg,
+            background: cat.bg,
+            padding: '4px 10px',
+            borderRadius: 'var(--radius-full)',
+            fontFamily: 'var(--font-jetbrains)',
+          }}
+        >
+          {cat.label}
         </span>
       </div>
 
       {/* Name */}
       <div>
         <h2
-          className="text-xl font-bold leading-tight transition-colors duration-200"
-          style={{ color: 'var(--fg)', letterSpacing: '-0.02em' }}
+          style={{
+            fontFamily: 'var(--font-geist)',
+            fontWeight: 700,
+            fontSize: 22,
+            letterSpacing: '-0.025em',
+            lineHeight: 1.05,
+            margin: 0,
+            color: 'var(--foreground)',
+          }}
         >
           {tool.name}
         </h2>
         {tool.lts && (
-          <span
-            className="text-xs font-mono mt-1 inline-block"
-            style={{ color: 'var(--accent)', fontFamily: 'var(--font-geist-mono)' }}
+          <div
+            className="inline-flex items-center gap-1.5 mt-1.5 whitespace-nowrap"
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: '0.04em',
+              color: 'var(--cat-pkg-fg)',
+              fontFamily: 'var(--font-jetbrains)',
+            }}
           >
-            v{tool.lts.version} LTS
-          </span>
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: 'var(--cat-pkg-fg)',
+              }}
+            />
+            LTS v{tool.lts.version} · 30-mo
+          </div>
         )}
       </div>
 
       {/* Description */}
       <p
-        className="text-sm leading-relaxed flex-1"
-        style={{ color: 'var(--fg-dim)' }}
+        className="flex-1"
+        style={{
+          fontSize: 13.5,
+          lineHeight: 1.55,
+          color: 'var(--foreground-dim)',
+          margin: 0,
+          textWrap: 'pretty',
+        }}
       >
         {tool.description}
       </p>
 
-      {/* Dependencies */}
-      {depNames.length > 0 && (
-        <div
-          className="flex items-center gap-1.5 text-xs font-mono pt-1 mt-auto"
-          style={{ color: 'var(--muted)', fontFamily: 'var(--font-geist-mono)', borderTop: '1px solid var(--border-col)' }}
-        >
-          <span style={{ color: 'var(--accent)' }}>↳</span>
-          <span>requires {depNames.join(', ')}</span>
-        </div>
-      )}
-
-      {/* Accent left border on hover */}
+      {/* Footer */}
       <div
-        className="absolute left-0 top-0 bottom-0 w-0.5 transition-all duration-200 opacity-0 group-hover:opacity-100"
-        style={{ background: 'var(--accent)' }}
-      />
+        className="flex items-center pt-3"
+        style={{
+          borderTop: '1px solid var(--border-soft)',
+          fontSize: 12,
+          fontFamily: 'var(--font-jetbrains)',
+        }}
+      >
+        {depNames.length > 0 ? (
+          <span
+            className="whitespace-nowrap"
+            style={{ color: 'var(--muted-foreground)' }}
+          >
+            ↳ needs{' '}
+            <strong style={{ color: 'var(--foreground)' }}>
+              {depNames.join(', ')}
+            </strong>
+          </span>
+        ) : (
+          <span
+            className="inline-flex items-center gap-1.5 whitespace-nowrap"
+            style={{ color: 'var(--cat-pkg-fg)', fontWeight: 600 }}
+          >
+            <Icon name="check" size={12} strokeWidth={2.5} />
+            standalone
+          </span>
+        )}
+        <span
+          className="ml-auto inline-flex items-center gap-1 whitespace-nowrap transition-transform group-hover:translate-x-0.5"
+          style={{ color: 'var(--primary)', fontWeight: 600 }}
+        >
+          install
+          <Icon name="arrow" size={12} strokeWidth={2.5} />
+        </span>
+      </div>
     </Link>
   )
 }

@@ -1,79 +1,131 @@
 import React from 'react'
+import type { Tool } from '@/data/tools'
+import Icon, { type IconName } from '@/components/Icon'
+
+const CAT: Record<
+  Tool['category'],
+  { icon: IconName; bg: string; fg: string }
+> = {
+  runtime:           { icon: 'bolt',     bg: 'var(--cat-runtime-bg)', fg: 'var(--cat-runtime-fg)' },
+  'ai-tool':         { icon: 'sparkles', bg: 'var(--cat-ai-bg)',      fg: 'var(--cat-ai-fg)' },
+  'package-manager': { icon: 'package',  bg: 'var(--cat-pkg-bg)',     fg: 'var(--cat-pkg-fg)' },
+}
 
 type Props = {
   stepNumber: number
-  title: string
+  total: number
+  tool: Tool
+  isCurrent: boolean      // true if this is the target tool, false for deps
   badge?: React.ReactNode
   children: React.ReactNode
 }
 
-export default function StepCard({ stepNumber, title, badge, children }: Props) {
-  const num = String(stepNumber).padStart(2, '0')
+export default function StepCard({
+  stepNumber,
+  total,
+  tool,
+  isCurrent,
+  badge,
+  children,
+}: Props) {
+  const cat = CAT[tool.category]
 
   return (
-    <div
-      className="relative overflow-hidden"
+    <article
+      className="relative"
       style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border-col)',
+        background: 'var(--card)',
+        border: isCurrent
+          ? '2px solid var(--primary)'
+          : '1px solid var(--border)',
+        borderRadius: 'var(--radius-2xl)',
+        padding: 24,
+        boxShadow: isCurrent ? 'var(--shadow-md)' : 'var(--shadow-sm)',
       }}
     >
-      {/* Ghost step number */}
-      <div
-        aria-hidden="true"
-        className="absolute right-4 top-1/2 -translate-y-1/2 font-extrabold leading-none select-none pointer-events-none"
+      {/* Step header */}
+      <div className="flex items-center gap-3.5 mb-4">
+        <div
+          className="flex items-center justify-center shrink-0"
+          style={{
+            width: 32,
+            height: 32,
+            borderRadius: 'var(--radius-full)',
+            background: isCurrent ? 'var(--primary)' : 'var(--muted)',
+            color: isCurrent
+              ? 'var(--primary-foreground)'
+              : 'var(--foreground-dim)',
+            fontFamily: 'var(--font-jetbrains)',
+            fontWeight: 700,
+            fontSize: 13,
+          }}
+        >
+          {stepNumber}
+        </div>
+        <div
+          className="flex-1"
+          style={{ height: 1, background: 'var(--border-soft)' }}
+        />
+        <span
+          className="whitespace-nowrap"
+          style={{
+            fontSize: 10,
+            fontWeight: 600,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'var(--muted-foreground)',
+            fontFamily: 'var(--font-jetbrains)',
+          }}
+        >
+          step {stepNumber}/{total} ·{' '}
+          {isCurrent ? 'target' : 'dependency'}
+        </span>
+      </div>
+
+      {/* Title row */}
+      <div className="flex items-center gap-3 mb-2 flex-wrap">
+        <div
+          className="flex items-center justify-center"
+          style={{
+            width: 32,
+            height: 32,
+            background: cat.bg,
+            color: cat.fg,
+            borderRadius: 'var(--radius-md)',
+          }}
+        >
+          <Icon name={cat.icon} size={16} strokeWidth={2.25} />
+        </div>
+        <h3
+          style={{
+            fontFamily: 'var(--font-geist)',
+            fontWeight: 700,
+            fontSize: 22,
+            letterSpacing: '-0.025em',
+            color: 'var(--foreground)',
+            margin: 0,
+          }}
+        >
+          Install {tool.name}
+        </h3>
+        {badge}
+      </div>
+
+      {/* Description */}
+      <p
+        className="mb-4 max-w-2xl"
         style={{
-          fontSize: 'clamp(4rem, 12vw, 8rem)',
-          color: 'var(--fg)',
-          opacity: 0.025,
-          letterSpacing: '-0.05em',
-          fontFamily: 'var(--font-syne)',
+          fontSize: 13.5,
+          lineHeight: 1.55,
+          color: 'var(--foreground-dim)',
+          margin: '0 0 16px',
         }}
       >
-        {num}
-      </div>
+        {tool.description}
+      </p>
 
-      <div className="relative p-6">
-        {/* Step label */}
-        <div
-          className="flex items-center gap-3 mb-4"
-        >
-          <div
-            className="flex items-center justify-center h-6 w-6 text-xs font-bold font-mono shrink-0"
-            style={{
-              background: 'var(--accent)',
-              color: 'var(--bg)',
-              fontFamily: 'var(--font-geist-mono)',
-            }}
-          >
-            {stepNumber}
-          </div>
-          <div
-            className="h-px flex-1"
-            style={{ background: 'var(--border-col)' }}
-          />
-          <span
-            className="text-xs font-mono uppercase tracking-widest"
-            style={{ color: 'var(--muted)', fontFamily: 'var(--font-geist-mono)' }}
-          >
-            Step {num}
-          </span>
-        </div>
-
-        {/* Title + badge */}
-        <div className="flex flex-wrap items-center gap-3 mb-4">
-          <h3
-            className="text-lg font-bold"
-            style={{ color: 'var(--fg)', letterSpacing: '-0.02em' }}
-          >
-            {title}
-          </h3>
-          {badge}
-        </div>
-
-        {/* Content */}
-        <div>{children}</div>
-      </div>
-    </div>
+      {/* Slot: command block */}
+      <div>{children}</div>
+    </article>
   )
 }
