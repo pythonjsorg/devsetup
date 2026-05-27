@@ -145,6 +145,15 @@ export const TOOLS = [
         ],
       },
     },
+    tips: {
+      verify: 'node --version',
+      hello: [
+        { cmd: 'node -e "console.log(42)"', label: 'Run inline script' },
+        { cmd: 'node server.js', label: 'Run a file' },
+        { cmd: 'npm install express', label: 'Install a package' },
+      ],
+      cliRef: '/cli/nodejs',
+    },
   },
   {
     id: 'bun',
@@ -166,6 +175,15 @@ export const TOOLS = [
       linux: {
         curl: ['curl -fsSL https://bun.sh/install | bash'],
       },
+    },
+    tips: {
+      verify: 'bun --version',
+      hello: [
+        { cmd: 'bun add express', label: 'Install a package' },
+        { cmd: 'bun run dev', label: 'Run dev script' },
+        { cmd: 'bun test', label: 'Run tests' },
+      ],
+      cliRef: '/cli/bun',
     },
   },
   {
@@ -189,6 +207,15 @@ export const TOOLS = [
         curl: ['curl -LsSf https://astral.sh/uv/install.sh | sh'],
       },
     },
+    tips: {
+      verify: 'uv --version',
+      hello: [
+        { cmd: 'uv init myproject', label: 'Create a project' },
+        { cmd: 'uv add requests', label: 'Add a dependency' },
+        { cmd: 'uv run python app.py', label: 'Run with managed env' },
+      ],
+      cliRef: '/cli/uv',
+    },
   },
   {
     id: 'claude-cli',
@@ -204,6 +231,14 @@ export const TOOLS = [
       windows: { manual: ['npm install -g @anthropic-ai/claude-code'] },
       linux: { manual: ['npm install -g @anthropic-ai/claude-code'] },
     },
+    tips: {
+      verify: 'claude --version',
+      hello: [
+        { cmd: 'claude', label: 'Start interactive session' },
+        { cmd: 'claude "explain this code"', label: 'Quick question' },
+      ],
+      cliRef: '/cli/claude-cli',
+    },
   },
   {
     id: 'codex-cli',
@@ -218,6 +253,132 @@ export const TOOLS = [
       macos: { manual: ['npm install -g @openai/codex'] },
       windows: { manual: ['npm install -g @openai/codex'] },
       linux: { manual: ['npm install -g @openai/codex'] },
+    },
+    tips: {
+      verify: 'codex --version',
+      hello: [
+        { cmd: 'codex', label: 'Start interactive session' },
+        { cmd: 'codex "fix this bug"', label: 'Quick task' },
+      ],
+      cliRef: '/cli/codex-cli',
+    },
+  },
+  {
+    id: 'gemini-cli',
+    name: 'Gemini CLI',
+    description:
+      "Google's Gemini Code Assist — an AI coding agent that works in your terminal. Requires Node.js.",
+    category: 'ai-tool',
+    dependencies: ['nodejs'],
+    lts: null,
+    ltsVersions: [],
+    install: {
+      macos: { manual: ['npm install -g @google/gemini-cli'] },
+      windows: { manual: ['npm install -g @google/gemini-cli'] },
+      linux: { manual: ['npm install -g @google/gemini-cli'] },
+    },
+    tips: {
+      verify: 'gemini --version',
+      hello: [
+        { cmd: 'gemini', label: 'Start interactive session' },
+        { cmd: 'gemini "explain this file"', label: 'Quick question' },
+      ],
+      cliRef: '/cli/gemini-cli',
+    },
+  },
+  {
+    id: 'deno',
+    name: 'Deno',
+    description:
+      'Secure JavaScript and TypeScript runtime. Batteries included — no node_modules, no package.json required.',
+    category: 'runtime',
+    dependencies: [],
+    lts: null,
+    ltsVersions: [],
+    install: {
+      macos: {
+        homebrew: ['brew install deno'],
+        curl: ['curl -fsSL https://deno.land/install.sh | sh'],
+      },
+      windows: {
+        winget: ['winget install DenoLand.Deno'],
+      },
+      linux: {
+        curl: ['curl -fsSL https://deno.land/install.sh | sh'],
+      },
+    },
+    tips: {
+      verify: 'deno --version',
+      hello: [
+        { cmd: 'deno run main.ts', label: 'Run a script' },
+        { cmd: 'deno add npm:express', label: 'Add a package' },
+        { cmd: 'deno test', label: 'Run tests' },
+      ],
+      cliRef: '/cli/deno',
+    },
+  },
+  {
+    id: 'docker',
+    name: 'Docker',
+    description:
+      'Container platform for building, shipping, and running applications in isolated environments.',
+    category: 'platform',
+    dependencies: [],
+    lts: null,
+    ltsVersions: [],
+    install: {
+      macos: {
+        homebrew: ['brew install --cask docker'],
+      },
+      windows: {
+        winget: ['winget install Docker.DockerDesktop'],
+      },
+      linux: {
+        curl: [
+          'curl -fsSL https://get.docker.com | sh',
+          'sudo usermod -aG docker $USER',
+          'newgrp docker',
+        ],
+      },
+    },
+    tips: {
+      verify: 'docker --version',
+      hello: [
+        { cmd: 'docker run hello-world', label: 'Test installation' },
+        { cmd: 'docker ps', label: 'List running containers' },
+        { cmd: 'docker compose up', label: 'Start services' },
+      ],
+      cliRef: '/cli/docker',
+    },
+  },
+  {
+    id: 'git',
+    name: 'Git',
+    description:
+      'Distributed version control system. The foundation of almost every modern development workflow.',
+    category: 'vcs',
+    dependencies: [],
+    lts: null,
+    ltsVersions: [],
+    install: {
+      macos: {
+        homebrew: ['brew install git'],
+      },
+      windows: {
+        winget: ['winget install Git.Git'],
+      },
+      linux: {
+        apt: ['sudo apt-get update', 'sudo apt-get install -y git'],
+      },
+    },
+    tips: {
+      verify: 'git --version',
+      hello: [
+        { cmd: 'git init', label: 'Initialize a repo' },
+        { cmd: 'git clone <url>', label: 'Clone a repo' },
+        { cmd: 'git config --global user.email "you@example.com"', label: 'Set your email' },
+      ],
+      cliRef: '/cli/git',
     },
   },
 ] as const satisfies readonly Tool[]
