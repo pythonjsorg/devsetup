@@ -1,56 +1,30 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import type { OS, Tool, InstallMethods, LtsEntry } from '@/data/tools'
+import type { OS, Tool, InstallMethods } from '@/data/tools'
 import OsPicker from '@/components/OsPicker'
 import StepCard from '@/components/StepCard'
 import CommandBlock from '@/components/CommandBlock'
 import LtsBadge from '@/components/LtsBadge'
 import Icon from '@/components/Icon'
 
-// ── method helpers ────────────────────────────────────────────────────────────
-
-const METHOD_ORDER: (keyof InstallMethods)[] = [
-  'nvm', 'homebrew', 'winget', 'apt', 'curl', 'manual',
-]
-
-const METHOD_LABELS: Record<keyof InstallMethods, string> = {
-  nvm:      'nvm',
-  homebrew: 'Homebrew',
-  winget:   'winget',
-  apt:      'apt',
-  curl:     'curl',
-  manual:   'Manual',
+function getCommandsForOs(tool: Tool, os: OS): string[] {
+  const methods = tool.install[os] as InstallMethods
+  return (
+    methods.homebrew ??
+    methods.winget ??
+    methods.apt ??
+    methods.curl ??
+    methods.manual ??
+    []
+  )
 }
-
-function getAvailableMethods(
-  install: Record<OS, InstallMethods>,
-  os: OS,
-): (keyof InstallMethods)[] {
-  const methods = install[os] as InstallMethods
-  return METHOD_ORDER.filter(m => (methods[m]?.length ?? 0) > 0)
-}
-
-function getCommandsForOs(
-  install: Record<OS, InstallMethods>,
-  os: OS,
-  preferred?: keyof InstallMethods,
-): string[] {
-  const methods = install[os] as InstallMethods
-  if (preferred && methods[preferred]?.length) return methods[preferred]!
-  for (const m of METHOD_ORDER) {
-    if (methods[m]?.length) return methods[m]!
-  }
-  return []
-}
-
-// ── OS detection ──────────────────────────────────────────────────────────────
 
 function detectOs(): OS {
   const uaData = (
     navigator as Navigator & { userAgentData?: { platform?: string } }
   ).userAgentData
+
   const platform = uaData?.platform ?? navigator.platform ?? ''
   const p = platform.toLowerCase()
   if (p.includes('mac')) return 'macos'
@@ -58,35 +32,10 @@ function detectOs(): OS {
   return 'linux'
 }
 
-// ── LTS helpers ───────────────────────────────────────────────────────────────
-
-function monthsRemaining(eol: string): number {
-  return (new Date(eol).getTime() - Date.now()) / (1000 * 60 * 60 * 24 * 30.44)
-}
-
-function hasMinSupport(eol: string, months = 12): boolean {
-  return monthsRemaining(eol) >= months
-}
-
-// ── component ─────────────────────────────────────────────────────────────────
-
 type Props = { steps: Tool[] }
 
 export default function InstallGuide({ steps }: Props) {
   const [os, setOs] = useState<OS>('macos')
-  const [method, setMethod] = useState<keyof InstallMethods | null>(null)
-  const [selectedLts, setSelectedLts] = useState<LtsEntry | null>(null)
-
-  const mainTool = steps[steps.length - 1]
-  const ltsVersions = mainTool.ltsVersions as LtsEntry[]
-
-  // initialise LTS selection to the first version with ≥ 12 months support
-  useEffect(() => {
-    if (ltsVersions.length > 0) {
-      const best = ltsVersions.find(v => hasMinSupport(v.eol)) ?? ltsVersions[0]
-      setSelectedLts(best)
-    }
-  }, [mainTool.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const saved = localStorage.getItem('preferred-os') as OS | null
@@ -99,16 +48,10 @@ export default function InstallGuide({ steps }: Props) {
 
   function handleOsChange(newOs: OS) {
     setOs(newOs)
-    setMethod(null)
     localStorage.setItem('preferred-os', newOs)
   }
 
-  function handleLtsChange(v: LtsEntry) {
-    setSelectedLts(v)
-    setMethod(null)
-  }
-
-  // ── category display maps ─────────────────────────────────────────────────
+  const mainTool = steps[steps.length - 1]
   const catLabel: Record<Tool['category'], string> = {
     runtime: 'Runtime',
     'ai-tool': 'AI agent',
@@ -138,21 +81,9 @@ export default function InstallGuide({ steps }: Props) {
     vcs: 'git-branch',
   } as const
 
-  // ── effective install for each step ──────────────────────────────────────
-  function effectiveInstall(step: Tool) {
-    return selectedLts && step.id === mainTool.id
-      ? selectedLts.install
-      : step.install
-  }
-
-  // ── method picker: based on main tool's effective install ─────────────────
-  const mainInstall = effectiveInstall(mainTool)
-  const availableMethods = getAvailableMethods(mainInstall, os)
-  const activeMethod = method ?? availableMethods[0] ?? null
-
   return (
     <main className="flex flex-col flex-1">
-      {/* ── Page header ────────────────────────────────────────── */}
+      {/* ── Page header ────────────────────────────────────── */}
       <header>
         <div className="mx-auto max-w-3xl px-6 pt-10 pb-2">
           {/* Breadcrumb */}
@@ -165,23 +96,9 @@ export default function InstallGuide({ steps }: Props) {
               letterSpacing: '0.04em',
             }}
           >
-            <Link
-              href="/"
-              style={{ color: 'var(--muted-foreground)', textDecoration: 'none' }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--foreground)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted-foreground)')}
-            >
-              ~/tools
-            </Link>
+            <span>~/tools</span>
             <span style={{ opacity: 0.5 }}>/</span>
-            <Link
-              href="/#tools"
-              style={{ color: 'var(--muted-foreground)', textDecoration: 'none' }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--foreground)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted-foreground)')}
-            >
-              install
-            </Link>
+            <span>install</span>
             <span style={{ opacity: 0.5 }}>/</span>
             <span style={{ color: 'var(--primary)', fontWeight: 600 }}>
               {mainTool.id}
@@ -201,7 +118,11 @@ export default function InstallGuide({ steps }: Props) {
                 boxShadow: 'var(--shadow-sm)',
               }}
             >
-              <Icon name={catIcon[mainTool.category]} size={30} strokeWidth={2} />
+              <Icon
+                name={catIcon[mainTool.category]}
+                size={30}
+                strokeWidth={2}
+              />
             </div>
             <div className="flex-1">
               <h1
@@ -259,7 +180,10 @@ export default function InstallGuide({ steps }: Props) {
                     }}
                   >
                     ↳ requires{' '}
-                    {steps.slice(0, -1).map(s => s.name).join(', ')}
+                    {steps
+                      .slice(0, -1)
+                      .map(s => s.name)
+                      .join(', ')}
                   </span>
                 )}
                 <span
@@ -297,171 +221,10 @@ export default function InstallGuide({ steps }: Props) {
 
           {/* OS picker */}
           <OsPicker selected={os} onChange={handleOsChange} />
-
-          {/* LTS version picker — only when tool has multiple versions */}
-          {ltsVersions.length > 1 && (
-            <div className="flex items-center gap-3 mt-5 flex-wrap">
-              <span
-                style={{
-                  fontSize: 11,
-                  fontWeight: 600,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  color: 'var(--muted-foreground)',
-                  fontFamily: 'var(--font-jetbrains)',
-                }}
-              >
-                version
-              </span>
-              <div
-                className="inline-flex gap-1 flex-wrap"
-                style={{
-                  background: 'var(--muted)',
-                  borderRadius: 'var(--radius-full)',
-                  padding: 3,
-                }}
-              >
-                {ltsVersions.map(v => {
-                  const isActive = v.version === selectedLts?.version
-                  const supported = hasMinSupport(v.eol)
-                  const months = Math.round(monthsRemaining(v.eol))
-                  return (
-                    <button
-                      key={v.version}
-                      type="button"
-                      onClick={() => handleLtsChange(v)}
-                      className="inline-flex items-center gap-2 whitespace-nowrap"
-                      style={{
-                        padding: '7px 14px',
-                        background: isActive ? 'var(--card)' : 'transparent',
-                        border: 'none',
-                        borderRadius: 'var(--radius-full)',
-                        cursor: 'pointer',
-                        boxShadow: isActive ? 'var(--shadow-sm)' : 'none',
-                        fontFamily: 'var(--font-jetbrains)',
-                        fontSize: 12,
-                        fontWeight: 600,
-                        color: isActive ? 'var(--foreground)' : 'var(--muted-foreground)',
-                      }}
-                    >
-                      v{v.major}
-                      <span
-                        style={{
-                          fontSize: 10,
-                          fontWeight: 500,
-                          color: isActive
-                            ? supported ? 'var(--cat-pkg-fg)' : 'var(--cat-ai-fg)'
-                            : 'var(--muted-foreground)',
-                          opacity: isActive ? 1 : 0.7,
-                        }}
-                      >
-                        {v.label}
-                      </span>
-                      {!supported && (
-                        <span
-                          style={{
-                            fontSize: 9,
-                            fontWeight: 700,
-                            letterSpacing: '0.06em',
-                            textTransform: 'uppercase',
-                            background: 'var(--cat-ai-bg)',
-                            color: 'var(--cat-ai-fg)',
-                            padding: '2px 6px',
-                            borderRadius: 'var(--radius-full)',
-                          }}
-                        >
-                          {months}mo
-                        </span>
-                      )}
-                      {supported && v.status === 'active' && isActive && (
-                        <span
-                          style={{
-                            fontSize: 9,
-                            fontWeight: 700,
-                            letterSpacing: '0.06em',
-                            textTransform: 'uppercase',
-                            background: 'var(--cat-pkg-bg)',
-                            color: 'var(--cat-pkg-fg)',
-                            padding: '2px 6px',
-                            borderRadius: 'var(--radius-full)',
-                          }}
-                        >
-                          LTS
-                        </span>
-                      )}
-                    </button>
-                  )
-                })}
-              </div>
-              {selectedLts && !hasMinSupport(selectedLts.eol) && (
-                <span
-                  style={{
-                    fontSize: 12,
-                    color: 'var(--cat-ai-fg)',
-                    fontFamily: 'var(--font-jetbrains)',
-                  }}
-                >
-                  ⚠ EOL {selectedLts.eol} — consider upgrading to v{ltsVersions.find(v => hasMinSupport(v.eol))?.major}
-                </span>
-              )}
-            </div>
-          )}
-
-          {/* Method picker — shown when 2+ methods available for this OS */}
-          {availableMethods.length > 1 && (
-            <div className="flex items-center gap-3 mt-4">
-              <span
-                style={{
-                  fontSize: 11,
-                  fontWeight: 600,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  color: 'var(--muted-foreground)',
-                  fontFamily: 'var(--font-jetbrains)',
-                }}
-              >
-                via
-              </span>
-              <div
-                className="inline-flex gap-1"
-                style={{
-                  background: 'var(--muted)',
-                  borderRadius: 'var(--radius-full)',
-                  padding: 3,
-                }}
-              >
-                {availableMethods.map(m => {
-                  const isActive = m === activeMethod
-                  return (
-                    <button
-                      key={m}
-                      type="button"
-                      onClick={() => setMethod(m)}
-                      className="whitespace-nowrap"
-                      style={{
-                        padding: '6px 14px',
-                        background: isActive ? 'var(--card)' : 'transparent',
-                        border: 'none',
-                        borderRadius: 'var(--radius-full)',
-                        cursor: 'pointer',
-                        boxShadow: isActive ? 'var(--shadow-sm)' : 'none',
-                        fontFamily: 'var(--font-jetbrains)',
-                        fontSize: 12,
-                        fontWeight: 600,
-                        color: isActive ? 'var(--foreground)' : 'var(--muted-foreground)',
-                      }}
-                    >
-                      {METHOD_LABELS[m]}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          )}
         </div>
       </header>
 
-      {/* ── Steps ──────────────────────────────────────────────── */}
+      {/* ── Steps ──────────────────────────────────────────── */}
       <section className="mx-auto w-full max-w-3xl px-6 py-8">
         {/* Steps label row */}
         <div className="flex items-center gap-3 mb-4">
@@ -487,15 +250,7 @@ export default function InstallGuide({ steps }: Props) {
 
         <div className="flex flex-col gap-4">
           {steps.map((step, i) => {
-            const install = effectiveInstall(step)
-            const commands = getCommandsForOs(install, os, activeMethod ?? undefined)
-
-            // LTS badge: for the main tool use selected LTS info if available
-            const ltsDisplay =
-              selectedLts && step.id === mainTool.id
-                ? { version: selectedLts.version, label: selectedLts.label }
-                : step.lts
-
+            const commands = getCommandsForOs(step, os)
             return (
               <StepCard
                 key={step.id}
@@ -504,11 +259,8 @@ export default function InstallGuide({ steps }: Props) {
                 tool={step}
                 isCurrent={i === steps.length - 1}
                 badge={
-                  ltsDisplay ? (
-                    <LtsBadge
-                      version={ltsDisplay.version}
-                      label={ltsDisplay.label}
-                    />
+                  step.lts ? (
+                    <LtsBadge version={step.lts.version} label={step.lts.label} />
                   ) : undefined
                 }
               >
