@@ -53,6 +53,8 @@
   --cat-runtime-bg: #dfcaaa; --cat-runtime-fg: #5c3e20;
   --cat-ai-bg:      #f5e2a0; --cat-ai-fg:      #7a5810;
   --cat-pkg-bg:     #c4d9b0; --cat-pkg-fg:     #2c5c24;
+  --cat-platform-bg: #c8d8ea; --cat-platform-fg: #1a4a7a;
+  --cat-vcs-bg:      #f0cfc0; --cat-vcs-fg:      #8a2c14;
 
   /* code panel */
   --code-bg:      #1e1810;
@@ -110,6 +112,8 @@
   --cat-runtime-bg: #1a2410; --cat-runtime-fg: #c8fa00;
   --cat-ai-bg:      #2a1d10; --cat-ai-fg:      #ffaa55;
   --cat-pkg-bg:     #102a25; --cat-pkg-fg:     #5beac8;
+  --cat-platform-bg: #0e2035; --cat-platform-fg: #5bc0f8;
+  --cat-vcs-bg:      #2a1008; --cat-vcs-fg:      #ff8855;
 
   --code-bg:      #06070a;
   --code-fg:      #ece8da;
@@ -160,6 +164,8 @@
   --cat-runtime-bg: #dde4ff; --cat-runtime-fg: #1a37c7;
   --cat-ai-bg:      #ffe2d3; --cat-ai-fg:      #c44a1f;
   --cat-pkg-bg:     #d8eeff; --cat-pkg-fg:     #1d6cb8;
+  --cat-platform-bg: #d8eeff; --cat-platform-fg: #1d5c9e;
+  --cat-vcs-bg:      #ffe0d8; --cat-vcs-fg:      #c44020;
 
   --code-bg:      #0e1830;
   --code-fg:      #e8edff;
