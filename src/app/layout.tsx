@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist, Instrument_Serif, JetBrains_Mono } from 'next/font/google'
 import Link from 'next/link'
-import Icon from '@/components/Icon'
 import ThemeSwitcher from '@/components/ThemeSwitcher'
+import SearchBar from '@/components/SearchBar'
 import { themeBootScript } from '@/components/themeBootScript'
 import './globals.css'
 
@@ -41,9 +41,12 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="paper"
+      suppressHydrationWarning
       className={`${geist.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} h-full`}
     >
       <head>
+        {/* suppressHydrationWarning: boot script updates this before React hydrates */}
+        <meta name="theme-color" content="#f4ede0" suppressHydrationWarning />
         {/* Apply persisted theme before hydration to avoid FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
@@ -106,49 +109,17 @@ export default function RootLayout({
               >
                 Tools
               </Link>
-              <a
-                className="hidden sm:inline text-sm font-medium"
-                style={{ color: 'var(--muted-foreground)' }}
-              >
-                Recipes
-              </a>
-              <a
+              <Link
+                href="/changelog"
                 className="hidden sm:inline text-sm font-medium"
                 style={{ color: 'var(--muted-foreground)' }}
               >
                 Changelog
-              </a>
+              </Link>
 
               <ThemeSwitcher />
 
-              {/* Visual-only search hint — wire up later if you add real search */}
-              <div
-                className="hidden md:inline-flex items-center gap-2 whitespace-nowrap"
-                style={{
-                  padding: '7px 14px 7px 12px',
-                  background: 'var(--card)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 'var(--radius-full)',
-                  fontSize: 13,
-                  color: 'var(--muted-foreground)',
-                  fontFamily: 'var(--font-jetbrains)',
-                }}
-              >
-                <Icon name="search" size={13} strokeWidth={2} />
-                search tools…
-                <span
-                  className="ml-1.5"
-                  style={{
-                    fontSize: 10,
-                    border: '1px solid var(--border)',
-                    padding: '1px 5px',
-                    borderRadius: 'var(--radius-sm)',
-                    color: 'var(--muted-foreground)',
-                  }}
-                >
-                  ⌘K
-                </span>
-              </div>
+              <SearchBar />
             </nav>
           </div>
         </header>

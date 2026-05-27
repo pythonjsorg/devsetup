@@ -1,8 +1,6 @@
 import { getAllTools } from '@/lib/catalog'
-import ToolCard from '@/components/ToolCard'
+import FilterableGrid from '@/components/FilterableGrid'
 import Icon from '@/components/Icon'
-
-const FILTERS = ['All', 'Runtime', 'AI agent', 'Pkg mgr']
 
 export default function HomePage() {
   const tools = getAllTools()
@@ -112,13 +110,16 @@ export default function HomePage() {
                   fontWeight: 600,
                   cursor: 'pointer',
                   boxShadow: 'var(--shadow-lg)',
+                  textDecoration: 'none',
                 }}
               >
                 Browse tools
                 <Icon name="arrow" size={15} strokeWidth={2.25} />
               </a>
-              <button
-                type="button"
+              <a
+                href="https://nodejs.org/en/about/previous-releases"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="whitespace-nowrap"
                 style={{
                   background: 'transparent',
@@ -129,10 +130,12 @@ export default function HomePage() {
                   fontSize: 15,
                   fontWeight: 600,
                   cursor: 'pointer',
+                  textDecoration: 'none',
+                  display: 'inline-block',
                 }}
               >
                 What is LTS?
-              </button>
+              </a>
             </div>
 
             {/* Stat strip */}
@@ -312,82 +315,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Tool grid header ─────────────────────────────────── */}
-      <div
-        id="tools"
-        className="mx-auto w-full max-w-7xl px-6 pt-8 pb-4 flex items-baseline gap-3.5 flex-wrap"
-      >
-        <h2
-          style={{
-            fontFamily: 'var(--font-geist)',
-            fontSize: 34,
-            fontWeight: 700,
-            letterSpacing: '-0.03em',
-            margin: 0,
-            color: 'var(--foreground)',
-          }}
-        >
-          The{' '}
-          <em
-            style={{
-              fontFamily: 'var(--font-instrument-serif)',
-              fontStyle: 'italic',
-              fontWeight: 400,
-              color: 'var(--primary)',
-            }}
-          >
-            collection
-          </em>
-        </h2>
-        <span
-          style={{
-            fontSize: 13,
-            color: 'var(--muted-foreground)',
-            fontFamily: 'var(--font-jetbrains)',
-          }}
-        >
-          — {tools.length} recipes, all maintained
-        </span>
-
-        <div className="flex-1" />
-
-        <div
-          className="inline-flex gap-1"
-          style={{
-            background: 'var(--muted)',
-            borderRadius: 'var(--radius-full)',
-            padding: 4,
-          }}
-        >
-          {FILTERS.map((f, i) => (
-            <span
-              key={f}
-              className="whitespace-nowrap"
-              style={{
-                fontSize: 12,
-                fontWeight: 600,
-                padding: '6px 12px',
-                borderRadius: 'var(--radius-full)',
-                background: i === 0 ? 'var(--card)' : 'transparent',
-                color: i === 0 ? 'var(--foreground)' : 'var(--muted-foreground)',
-                boxShadow: i === 0 ? 'var(--shadow-sm)' : 'none',
-                cursor: 'pointer',
-              }}
-            >
-              {f}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Tool grid ────────────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-7xl px-6 pb-16">
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {tools.map(tool => (
-            <ToolCard key={tool.id} tool={tool} />
-          ))}
-        </div>
-      </section>
+      <FilterableGrid tools={tools} />
     </main>
   )
 }

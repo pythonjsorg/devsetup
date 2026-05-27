@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { setThemeColor } from '@/components/themeBootScript'
 
 export type Theme = 'paper' | 'carbon' | 'cobalt'
 
 const THEMES: { id: Theme; bg: string; accent: string; label: string }[] = [
-  { id: 'paper',  bg: '#f4ede0', accent: '#5b3df5', label: 'Paper'  },
+  { id: 'paper',  bg: '#f4ede0', accent: '#7a5530', label: 'Paper'  },
   { id: 'carbon', bg: '#0e0f13', accent: '#c8fa00', label: 'Carbon' },
   { id: 'cobalt', bg: '#eef1f6', accent: '#2647e8', label: 'Cobalt' },
 ]
@@ -35,6 +36,7 @@ export default function ThemeSwitcher() {
     setTheme(next)
     localStorage.setItem(STORAGE_KEY, next)
     document.documentElement.setAttribute('data-theme', next)
+    setThemeColor(next)
   }
 
   return (
@@ -61,6 +63,7 @@ export default function ThemeSwitcher() {
             title={t.label}
             aria-label={`Switch to ${t.label} theme`}
             aria-pressed={active}
+            className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -73,7 +76,12 @@ export default function ThemeSwitcher() {
               boxShadow: active ? 'var(--shadow-sm)' : 'none',
               borderRadius: 'var(--radius-full)',
               cursor: 'pointer',
+              opacity: active ? 1 : 0.75,
+              transition: 'opacity 150ms, background 150ms',
+              outlineColor: 'var(--primary)',
             }}
+            onMouseEnter={e => { if (!active) e.currentTarget.style.opacity = '1' }}
+            onMouseLeave={e => { if (!active) e.currentTarget.style.opacity = '0.75' }}
           >
             <span
               style={{
