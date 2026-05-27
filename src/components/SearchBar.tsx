@@ -9,7 +9,9 @@ import type { Tool } from '@/data/tools'
 const CAT_CHIP: Record<Tool['category'], { label: string; bg: string; fg: string }> = {
   runtime:           { label: 'Runtime',     bg: 'var(--cat-runtime-bg)', fg: 'var(--cat-runtime-fg)' },
   'ai-tool':         { label: 'AI agent',    bg: 'var(--cat-ai-bg)',      fg: 'var(--cat-ai-fg)'      },
-  'package-manager': { label: 'Pkg manager', bg: 'var(--cat-pkg-bg)',     fg: 'var(--cat-pkg-fg)'     },
+  'package-manager': { label: 'Pkg manager', bg: 'var(--cat-pkg-bg)',      fg: 'var(--cat-pkg-fg)'      },
+  platform:          { label: 'Platform',    bg: 'var(--cat-platform-bg)', fg: 'var(--cat-platform-fg)' },
+  vcs:               { label: 'VCS',         bg: 'var(--cat-vcs-bg)',      fg: 'var(--cat-vcs-fg)'      },
 }
 
 function filterTools(query: string): readonly Tool[] {

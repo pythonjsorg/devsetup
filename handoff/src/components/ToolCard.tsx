@@ -169,7 +169,7 @@ export default function ToolCard({ tool }: Props) {
         ) : (
           <span
             className="inline-flex items-center gap-1.5 whitespace-nowrap"
-            style={{ color: cat.fg, fontWeight: 600 }}
+            style={{ color: 'var(--cat-pkg-fg)', fontWeight: 600 }}
           >
             <Icon name="check" size={12} strokeWidth={2.5} />
             standalone
