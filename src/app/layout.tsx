@@ -101,24 +101,116 @@ export default function RootLayout({
               </span>
             </Link>
 
-            <nav className="flex gap-5 items-center">
+            <nav className="flex items-center">
+              {/* Install — active */}
               <Link
                 href="/"
-                className="hidden sm:inline text-sm font-medium"
-                style={{ color: 'var(--muted-foreground)' }}
+                className="hidden sm:inline-flex items-center whitespace-nowrap"
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  fontFamily: 'var(--font-jetbrains)',
+                  color: 'var(--foreground)',
+                  background: 'var(--muted)',
+                  padding: '5px 12px',
+                  borderRadius: 'var(--radius-full)',
+                  textDecoration: 'none',
+                }}
               >
-                Tools
+                Install
               </Link>
-              <Link
-                href="/changelog"
-                className="hidden sm:inline text-sm font-medium"
-                style={{ color: 'var(--muted-foreground)' }}
+
+              {/* DB Commands — soon */}
+              <span
+                className="hidden sm:inline-flex items-center gap-1.5 whitespace-nowrap"
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  fontFamily: 'var(--font-jetbrains)',
+                  color: 'var(--muted-foreground)',
+                  padding: '5px 12px',
+                  opacity: 0.55,
+                  cursor: 'default',
+                }}
               >
-                Changelog
-              </Link>
+                DB Cmds
+                <span
+                  style={{
+                    fontSize: 9,
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: 'var(--muted-foreground)',
+                    background: 'var(--muted)',
+                    padding: '2px 6px',
+                    borderRadius: 'var(--radius-full)',
+                  }}
+                >
+                  soon
+                </span>
+              </span>
+
+              {/* CLI Ref — soon */}
+              <span
+                className="hidden sm:inline-flex items-center gap-1.5 whitespace-nowrap"
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  fontFamily: 'var(--font-jetbrains)',
+                  color: 'var(--muted-foreground)',
+                  padding: '5px 12px',
+                  opacity: 0.55,
+                  cursor: 'default',
+                }}
+              >
+                CLI Ref
+                <span
+                  style={{
+                    fontSize: 9,
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: 'var(--muted-foreground)',
+                    background: 'var(--muted)',
+                    padding: '2px 6px',
+                    borderRadius: 'var(--radius-full)',
+                  }}
+                >
+                  soon
+                </span>
+              </span>
+
+              {/* Compare — soon */}
+              <span
+                className="hidden sm:inline-flex items-center gap-1.5 whitespace-nowrap"
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  fontFamily: 'var(--font-jetbrains)',
+                  color: 'var(--muted-foreground)',
+                  padding: '5px 12px',
+                  opacity: 0.55,
+                  cursor: 'default',
+                }}
+              >
+                Compare
+                <span
+                  style={{
+                    fontSize: 9,
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: 'var(--muted-foreground)',
+                    background: 'var(--muted)',
+                    padding: '2px 6px',
+                    borderRadius: 'var(--radius-full)',
+                  }}
+                >
+                  soon
+                </span>
+              </span>
 
               <ThemeSwitcher />
-
               <SearchBar />
             </nav>
           </div>
@@ -139,17 +231,30 @@ export default function RootLayout({
                 color: 'var(--muted-foreground)',
               }}
             >
-              LTS versions only · Dependencies resolved automatically
+              LTS where applicable · Dependencies resolved automatically
             </span>
-            <span
-              className="text-xs"
-              style={{
-                fontFamily: 'var(--font-jetbrains)',
-                color: 'var(--muted-foreground)',
-              }}
-            >
-              DevSetup
-            </span>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/changelog"
+                className="text-xs"
+                style={{
+                  fontFamily: 'var(--font-jetbrains)',
+                  color: 'var(--muted-foreground)',
+                  textDecoration: 'none',
+                }}
+              >
+                Changelog
+              </Link>
+              <span
+                className="text-xs"
+                style={{
+                  fontFamily: 'var(--font-jetbrains)',
+                  color: 'var(--muted-foreground)',
+                }}
+              >
+                DevSetup
+              </span>
+            </div>
           </div>
         </footer>
       </body>
