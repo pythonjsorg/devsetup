@@ -129,11 +129,10 @@ export default function RootLayout({
                   fontFamily: 'var(--font-jetbrains)',
                   color: 'var(--muted-foreground)',
                   padding: '5px 12px',
-                  opacity: 0.55,
                   cursor: 'default',
                 }}
               >
-                DB Cmds
+                <span style={{ opacity: 0.55 }}>DB Cmds</span>
                 <span
                   style={{
                     fontSize: 9,
@@ -159,11 +158,10 @@ export default function RootLayout({
                   fontFamily: 'var(--font-jetbrains)',
                   color: 'var(--muted-foreground)',
                   padding: '5px 12px',
-                  opacity: 0.55,
                   cursor: 'default',
                 }}
               >
-                CLI Ref
+                <span style={{ opacity: 0.55 }}>CLI Ref</span>
                 <span
                   style={{
                     fontSize: 9,
@@ -189,11 +187,10 @@ export default function RootLayout({
                   fontFamily: 'var(--font-jetbrains)',
                   color: 'var(--muted-foreground)',
                   padding: '5px 12px',
-                  opacity: 0.55,
                   cursor: 'default',
                 }}
               >
-                Compare
+                <span style={{ opacity: 0.55 }}>Compare</span>
                 <span
                   style={{
                     fontSize: 9,
