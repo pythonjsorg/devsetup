@@ -146,7 +146,7 @@ export default function HomePage() {
               {[
                 { v: String(tools.length), l: 'Tools indexed' },
                 { v: '3', l: 'Platforms' },
-                { v: '100%', l: 'LTS-pinned' },
+                { v: '100%', l: 'LTS where applicable' },
                 { v: '2', l: 'AI agents' },
               ].map(stat => (
                 <div key={stat.l}>
