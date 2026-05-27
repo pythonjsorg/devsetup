@@ -51,7 +51,7 @@ export default function ToolCard({ tool }: Props) {
 
   return (
     <Link
-      href={`/install/${tool.id}`}
+      href={`/tools/${tool.id}`}
       className="group flex flex-col gap-3.5 transition-colors"
       style={{
         background: 'var(--card)',

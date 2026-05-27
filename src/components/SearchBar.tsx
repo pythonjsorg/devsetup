@@ -56,7 +56,7 @@ export default function SearchBar() {
   }
 
   function navigate(tool: Tool) {
-    router.push(`/install/${tool.id}`)
+    router.push(`/tools/${tool.id}`)
     setQuery('')
     setOpen(false)
     setHighlighted(-1)

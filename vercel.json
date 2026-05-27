@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/install/:tool",
+      "destination": "/tools/:tool",
+      "permanent": true
+    }
+  ]
+}

@@ -180,7 +180,7 @@ export default function InstallGuide({ steps }: Props) {
               onMouseEnter={e => (e.currentTarget.style.color = 'var(--foreground)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted-foreground)')}
             >
-              install
+              tools
             </Link>
             <span style={{ opacity: 0.5 }}>/</span>
             <span style={{ color: 'var(--primary)', fontWeight: 600 }}>
