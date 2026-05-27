@@ -11,6 +11,8 @@ const FILTERS: { label: string; category: Category | null }[] = [
   { label: 'Runtime',  category: 'runtime' },
   { label: 'AI agent', category: 'ai-tool' },
   { label: 'Pkg mgr',  category: 'package-manager' },
+  { label: 'Platform', category: 'platform' },
+  { label: 'VCS',      category: 'vcs' },
 ]
 
 export default function FilterableGrid({ tools }: { tools: readonly Tool[] }) {
