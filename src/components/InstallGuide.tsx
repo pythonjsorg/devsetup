@@ -174,15 +174,6 @@ export default function InstallGuide({ steps }: Props) {
               ~/tools
             </Link>
             <span style={{ opacity: 0.5 }}>/</span>
-            <Link
-              href="/#tools"
-              style={{ color: 'var(--muted-foreground)', textDecoration: 'none' }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--foreground)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted-foreground)')}
-            >
-              tools
-            </Link>
-            <span style={{ opacity: 0.5 }}>/</span>
             <span style={{ color: 'var(--primary)', fontWeight: 600 }}>
               {mainTool.id}
             </span>
