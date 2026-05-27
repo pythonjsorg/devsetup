@@ -1,6 +1,6 @@
 export type OS = 'macos' | 'windows' | 'linux'
 
-export type ToolId = 'nodejs' | 'bun' | 'uv' | 'claude-cli' | 'codex-cli'
+export type ToolId = 'nodejs' | 'bun' | 'uv' | 'claude-cli' | 'codex-cli' | 'gemini-cli' | 'deno' | 'docker' | 'git'
 
 export type InstallMethods = {
   homebrew?: string[]
@@ -20,15 +20,22 @@ export type LtsEntry = {
   install: Record<OS, InstallMethods>
 }
 
+export type ToolTip = {
+  verify: string
+  hello?: { cmd: string; label: string }[]
+  cliRef?: string
+}
+
 export type Tool = {
   id: string
   name: string
   description: string
-  category: 'runtime' | 'ai-tool' | 'package-manager'
+  category: 'runtime' | 'ai-tool' | 'package-manager' | 'platform' | 'vcs'
   dependencies: ToolId[]
   lts: { version: string; label: string } | null
   ltsVersions: LtsEntry[]       // empty = no version picker
   install: Record<OS, InstallMethods>
+  tips?: ToolTip
 }
 
 export const TOOLS = [
