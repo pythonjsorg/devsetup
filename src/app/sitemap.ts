@@ -5,7 +5,7 @@ export const dynamic = 'force-static'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const tools = getAllTools()
-  const baseUrl = 'https://devsetup.sh'
+  const baseUrl = 'https://downloader-mauve.vercel.app'
 
   return [
     {

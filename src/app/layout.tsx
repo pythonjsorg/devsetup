@@ -25,13 +25,30 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ['400', '500', '700'],
 })
 
+const SITE_URL = 'https://downloader-mauve.vercel.app'
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     template: '%s — DevSetup',
     default: 'DevSetup — Install any dev tool correctly',
   },
   description:
-    'Step-by-step install guides for Node.js, Bun, uv, Claude CLI, Codex, and more. LTS versions only. All dependencies included.',
+    'Step-by-step install guides for Node.js, Bun, Docker, Git, and more. LTS pinned where applicable, every dependency resolved automatically.',
+  openGraph: {
+    type: 'website',
+    siteName: 'DevSetup',
+    url: SITE_URL,
+    title: 'DevSetup — Install any dev tool correctly',
+    description:
+      'Step-by-step install guides for Node.js, Bun, Docker, Git, and more. LTS pinned where applicable, every dependency resolved automatically.',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'DevSetup — Install any dev tool correctly',
+    description:
+      'Step-by-step install guides for Node.js, Bun, Docker, Git, and more.',
+  },
 }
 
 export default function RootLayout({
