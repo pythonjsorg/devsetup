@@ -100,6 +100,17 @@ Boot script in `themeBootScript.ts` applies saved theme before React hydrates (p
 Header: logo · Install (active Link) · DB Cmds (span, soon) · CLI Ref (span, soon) · Compare (span, soon) · ThemeSwitcher · SearchBar
 Footer: "LTS where applicable · Dependencies resolved automatically" · Changelog · DevSetup
 
+## Related Tools Rule
+
+**Related tools are derived automatically from the catalog — never set manually.**
+
+`ToolInfo.tsx` computes: `getAllTools().filter(t => t.category === tool.category && t.id !== tool.id)`
+
+This means:
+- Adding a new tool in an existing category automatically appears on all peer tools' pages
+- No `related` field exists on `ToolContent` — do not add one
+- The only things to author per tool are `about` (prose) and `comparisons` (cross-category compare stubs)
+
 ## Adding a New Tool
 
 1. Add entry to `TOOLS` array in `src/data/tools.ts`

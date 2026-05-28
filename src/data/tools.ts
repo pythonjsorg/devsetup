@@ -35,7 +35,7 @@ export type ToolComparison = {
 export type ToolContent = {
   about: string
   comparisons?: ToolComparison[]
-  related?: ToolId[]
+  // related tools are derived automatically (same category, excluding self) — never set manually
 }
 
 export type Tool = {
@@ -174,7 +174,6 @@ export const TOOLS = [
         { toolId: 'bun', label: 'Bun vs Node.js', slug: 'bun-vs-nodejs' },
         { toolId: 'deno', label: 'Deno vs Node.js', slug: 'deno-vs-nodejs' },
       ],
-      related: ['bun', 'deno'],
     },
   },
   {
@@ -214,7 +213,6 @@ export const TOOLS = [
         { toolId: 'nodejs', label: 'Bun vs Node.js', slug: 'bun-vs-nodejs' },
         { toolId: 'deno', label: 'Bun vs Deno', slug: 'bun-vs-deno' },
       ],
-      related: ['nodejs', 'deno'],
     },
   },
   {
@@ -281,7 +279,6 @@ export const TOOLS = [
         { toolId: 'codex-cli', label: 'Claude CLI vs Codex CLI', slug: 'claude-cli-vs-codex-cli' },
         { toolId: 'gemini-cli', label: 'Claude CLI vs Gemini CLI', slug: 'claude-cli-vs-gemini-cli' },
       ],
-      related: ['codex-cli', 'gemini-cli'],
     },
   },
   {
@@ -313,7 +310,6 @@ export const TOOLS = [
         { toolId: 'claude-cli', label: 'Claude CLI vs Codex CLI', slug: 'claude-cli-vs-codex-cli' },
         { toolId: 'gemini-cli', label: 'Codex CLI vs Gemini CLI', slug: 'codex-cli-vs-gemini-cli' },
       ],
-      related: ['claude-cli', 'gemini-cli'],
     },
   },
   {
@@ -345,7 +341,6 @@ export const TOOLS = [
         { toolId: 'claude-cli', label: 'Claude CLI vs Gemini CLI', slug: 'claude-cli-vs-gemini-cli' },
         { toolId: 'codex-cli', label: 'Codex CLI vs Gemini CLI', slug: 'codex-cli-vs-gemini-cli' },
       ],
-      related: ['claude-cli', 'codex-cli'],
     },
   },
   {
@@ -385,7 +380,6 @@ export const TOOLS = [
         { toolId: 'nodejs', label: 'Deno vs Node.js', slug: 'deno-vs-nodejs' },
         { toolId: 'bun', label: 'Bun vs Deno', slug: 'bun-vs-deno' },
       ],
-      related: ['nodejs', 'bun'],
     },
   },
   {
@@ -432,7 +426,6 @@ export const TOOLS = [
     content: {
       about:
         'Docker packages your application and all its dependencies into a container — a lightweight, isolated environment that runs identically on any machine. Essential for deploying to production, running databases and services locally without polluting your system, and collaborating on projects where environment consistency matters. Docker Compose lets you define multi-container setups (app + database + cache) in a single file.',
-      related: ['git'],
     },
   },
   {
@@ -467,7 +460,6 @@ export const TOOLS = [
     content: {
       about:
         'Git is the universal version control system — every major code platform (GitHub, GitLab, Bitbucket), CI/CD pipeline, and deployment workflow is built on it. Even working alone, Git gives you a full history of every change, the ability to experiment on branches, and a safety net for mistakes. macOS ships an older version via Xcode Command Line Tools; installing via Homebrew gives you the latest release and keeps it updatable.',
-      related: ['docker'],
     },
   },
 ] as const satisfies readonly Tool[]

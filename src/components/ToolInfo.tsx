@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import type { ToolContent } from '@/data/tools'
-import { getTool } from '@/lib/catalog'
+import type { Tool } from '@/data/tools'
+import { getAllTools } from '@/lib/catalog'
 
 function SectionHeader({ label }: { label: string }) {
   return (
@@ -23,7 +23,16 @@ function SectionHeader({ label }: { label: string }) {
   )
 }
 
-export default function ToolInfo({ content }: { content: ToolContent }) {
+export default function ToolInfo({ tool }: { tool: Tool }) {
+  if (!tool.content) return null
+
+  // Same category, excluding self — enforced by code, not manual lists
+  const related = getAllTools().filter(
+    t => t.category === tool.category && t.id !== tool.id,
+  )
+
+  const { about, comparisons } = tool.content
+
   return (
     <div className="mx-auto w-full max-w-3xl px-6 pb-16 flex flex-col gap-8">
 
@@ -48,17 +57,17 @@ export default function ToolInfo({ content }: { content: ToolContent }) {
               margin: 0,
             }}
           >
-            {content.about}
+            {about}
           </p>
         </div>
       </section>
 
       {/* Compare */}
-      {content.comparisons && content.comparisons.length > 0 && (
+      {comparisons && comparisons.length > 0 && (
         <section>
           <SectionHeader label="Compare" />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {content.comparisons.map(c => (
+            {comparisons.map(c => (
               <div
                 key={c.slug}
                 style={{
@@ -104,37 +113,34 @@ export default function ToolInfo({ content }: { content: ToolContent }) {
         </section>
       )}
 
-      {/* Related tools */}
-      {content.related && content.related.length > 0 && (
+      {/* Related tools — same category, derived automatically */}
+      {related.length > 0 && (
         <section>
           <SectionHeader label="Related tools" />
           <div className="flex flex-wrap gap-2">
-            {content.related.map(id => {
-              const related = getTool(id)
-              return (
-                <Link
-                  key={id}
-                  href={`/tools/${id}`}
-                  style={{
-                    fontSize: 13,
-                    fontWeight: 600,
-                    fontFamily: 'var(--font-jetbrains)',
-                    color: 'var(--foreground)',
-                    background: 'var(--card)',
-                    border: '1px solid var(--border)',
-                    borderRadius: 'var(--radius-full)',
-                    padding: '7px 16px',
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 6,
-                  }}
-                >
-                  {related.name}
-                  <span style={{ opacity: 0.4, fontSize: 11 }}>→</span>
-                </Link>
-              )
-            })}
+            {related.map(t => (
+              <Link
+                key={t.id}
+                href={`/tools/${t.id}`}
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  fontFamily: 'var(--font-jetbrains)',
+                  color: 'var(--foreground)',
+                  background: 'var(--card)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius-full)',
+                  padding: '7px 16px',
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+              >
+                {t.name}
+                <span style={{ opacity: 0.4, fontSize: 11 }}>→</span>
+              </Link>
+            ))}
           </div>
         </section>
       )}

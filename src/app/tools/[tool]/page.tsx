@@ -70,7 +70,7 @@ export default async function InstallPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <InstallGuide steps={steps} />
-      {tool.content && <ToolInfo content={tool.content} />}
+      {tool.content && <ToolInfo tool={tool} />}
     </>
   )
 }
