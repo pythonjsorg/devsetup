@@ -1,6 +1,7 @@
 import { getTool, getAllTools, resolveDeps } from '@/lib/catalog'
 import type { InstallMethods } from '@/data/tools'
 import InstallGuide from '@/components/InstallGuide'
+import ToolInfo from '@/components/ToolInfo'
 
 export async function generateStaticParams() {
   return getAllTools().map(t => ({ tool: t.id }))
@@ -69,6 +70,7 @@ export default async function InstallPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <InstallGuide steps={steps} />
+      {tool.content && <ToolInfo content={tool.content} />}
     </>
   )
 }

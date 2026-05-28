@@ -26,6 +26,18 @@ export type ToolTip = {
   cliRef?: string
 }
 
+export type ToolComparison = {
+  toolId: ToolId
+  label: string   // e.g. "Bun vs Node.js"
+  slug: string    // e.g. "bun-vs-nodejs" → /compare/bun-vs-nodejs (Phase 4)
+}
+
+export type ToolContent = {
+  about: string
+  comparisons?: ToolComparison[]
+  related?: ToolId[]
+}
+
 export type Tool = {
   id: string
   name: string
@@ -36,6 +48,7 @@ export type Tool = {
   ltsVersions: LtsEntry[]       // empty = no version picker
   install: Record<OS, InstallMethods>
   tips?: ToolTip
+  content?: ToolContent
 }
 
 export const TOOLS = [
@@ -154,6 +167,15 @@ export const TOOLS = [
       ],
       cliRef: '/cli/nodejs',
     },
+    content: {
+      about:
+        'Node.js is the foundation of the JavaScript ecosystem outside the browser — npm, build tools, TypeScript compilers, and most CLI utilities run on it. Even if you plan to use Bun or Deno day-to-day, many tools still assume Node.js is present. LTS releases (even-numbered versions) are supported for 30 months; odd-numbered versions are short-lived and not recommended for production.',
+      comparisons: [
+        { toolId: 'bun', label: 'Bun vs Node.js', slug: 'bun-vs-nodejs' },
+        { toolId: 'deno', label: 'Deno vs Node.js', slug: 'deno-vs-nodejs' },
+      ],
+      related: ['bun', 'deno'],
+    },
   },
   {
     id: 'bun',
@@ -184,6 +206,15 @@ export const TOOLS = [
         { cmd: 'bun test', label: 'Run tests' },
       ],
       cliRef: '/cli/bun',
+    },
+    content: {
+      about:
+        'Bun is a fast JavaScript runtime, package manager, and bundler in a single binary. It is fully compatible with most Node.js APIs and npm packages, and installs dependencies significantly faster. Best for new projects where you control the whole stack — established projects may encounter edge cases in Node.js API compatibility.',
+      comparisons: [
+        { toolId: 'nodejs', label: 'Bun vs Node.js', slug: 'bun-vs-nodejs' },
+        { toolId: 'deno', label: 'Bun vs Deno', slug: 'bun-vs-deno' },
+      ],
+      related: ['nodejs', 'deno'],
     },
   },
   {
@@ -216,6 +247,10 @@ export const TOOLS = [
       ],
       cliRef: '/cli/uv',
     },
+    content: {
+      about:
+        'uv is the modern Python package and project manager from Astral. It replaces pip, virtualenv, pyenv, and pip-tools in a single tool — resolving dependencies 10–100x faster than pip and managing Python versions itself. If you are starting a Python project today, uv is the recommended choice. On existing pip-based projects, uv works as a drop-in for pip install and pip freeze.',
+    },
   },
   {
     id: 'claude-cli',
@@ -238,6 +273,15 @@ export const TOOLS = [
         { cmd: 'claude "explain this code"', label: 'Quick question' },
       ],
       cliRef: '/cli/claude-cli',
+    },
+    content: {
+      about:
+        "Claude CLI (Claude Code) is Anthropic's agentic coding assistant for the terminal. It reads your codebase, runs shell commands, edits files, and iterates across multi-step tasks autonomously. Best for complex refactors, debugging sessions, and generating context-aware code across large projects. Requires an Anthropic API key or Claude.ai Pro/Max subscription.",
+      comparisons: [
+        { toolId: 'codex-cli', label: 'Claude CLI vs Codex CLI', slug: 'claude-cli-vs-codex-cli' },
+        { toolId: 'gemini-cli', label: 'Claude CLI vs Gemini CLI', slug: 'claude-cli-vs-gemini-cli' },
+      ],
+      related: ['codex-cli', 'gemini-cli', 'nodejs'],
     },
   },
   {
@@ -262,6 +306,15 @@ export const TOOLS = [
       ],
       cliRef: '/cli/codex-cli',
     },
+    content: {
+      about:
+        "Codex CLI is OpenAI's terminal coding agent. It has similar agentic capabilities to Claude CLI — reads files, runs commands, and iterates on code. Uses OpenAI models including GPT-4o, o1, and o3. Best choice if you are already in the OpenAI ecosystem or have existing API credits. Requires an OpenAI API key.",
+      comparisons: [
+        { toolId: 'claude-cli', label: 'Claude CLI vs Codex CLI', slug: 'claude-cli-vs-codex-cli' },
+        { toolId: 'gemini-cli', label: 'Codex CLI vs Gemini CLI', slug: 'codex-cli-vs-gemini-cli' },
+      ],
+      related: ['claude-cli', 'gemini-cli', 'nodejs'],
+    },
   },
   {
     id: 'gemini-cli',
@@ -284,6 +337,15 @@ export const TOOLS = [
         { cmd: 'gemini "explain this file"', label: 'Quick question' },
       ],
       cliRef: '/cli/gemini-cli',
+    },
+    content: {
+      about:
+        "Gemini CLI is Google's terminal AI coding agent. It offers a generous free tier — 1,000 requests per day with a Google account, no credit card required. Similar workflow to Claude CLI and Codex CLI: reads files, runs commands, and iterates on code. A good starting point if you want to try an AI coding agent without committing to a paid plan.",
+      comparisons: [
+        { toolId: 'claude-cli', label: 'Claude CLI vs Gemini CLI', slug: 'claude-cli-vs-gemini-cli' },
+        { toolId: 'codex-cli', label: 'Codex CLI vs Gemini CLI', slug: 'codex-cli-vs-gemini-cli' },
+      ],
+      related: ['claude-cli', 'codex-cli', 'nodejs'],
     },
   },
   {
@@ -315,6 +377,15 @@ export const TOOLS = [
         { cmd: 'deno test', label: 'Run tests' },
       ],
       cliRef: '/cli/deno',
+    },
+    content: {
+      about:
+        'Deno is a modern JavaScript and TypeScript runtime built with security by default. TypeScript runs natively without a compile step, there are no node_modules directories, and formatting, linting, and testing tools are built in. npm packages work via the npm: specifier so most of the ecosystem is accessible. Best for scripts, edge functions, and new projects that want a cleaner setup than Node.js.',
+      comparisons: [
+        { toolId: 'nodejs', label: 'Deno vs Node.js', slug: 'deno-vs-nodejs' },
+        { toolId: 'bun', label: 'Bun vs Deno', slug: 'bun-vs-deno' },
+      ],
+      related: ['nodejs', 'bun'],
     },
   },
   {
@@ -358,6 +429,11 @@ export const TOOLS = [
       ],
       cliRef: '/cli/docker',
     },
+    content: {
+      about:
+        'Docker packages your application and all its dependencies into a container — a lightweight, isolated environment that runs identically on any machine. Essential for deploying to production, running databases and services locally without polluting your system, and collaborating on projects where environment consistency matters. Docker Compose lets you define multi-container setups (app + database + cache) in a single file.',
+      related: ['git'],
+    },
   },
   {
     id: 'git',
@@ -387,6 +463,11 @@ export const TOOLS = [
         { cmd: 'git config --global user.email "you@example.com"', label: 'Set your email' },
       ],
       cliRef: '/cli/git',
+    },
+    content: {
+      about:
+        'Git is the universal version control system — every major code platform (GitHub, GitLab, Bitbucket), CI/CD pipeline, and deployment workflow is built on it. Even working alone, Git gives you a full history of every change, the ability to experiment on branches, and a safety net for mistakes. macOS ships an older version via Xcode Command Line Tools; installing via Homebrew gives you the latest release and keeps it updatable.',
+      related: ['docker'],
     },
   },
 ] as const satisfies readonly Tool[]
