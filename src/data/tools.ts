@@ -281,7 +281,7 @@ export const TOOLS = [
         { toolId: 'codex-cli', label: 'Claude CLI vs Codex CLI', slug: 'claude-cli-vs-codex-cli' },
         { toolId: 'gemini-cli', label: 'Claude CLI vs Gemini CLI', slug: 'claude-cli-vs-gemini-cli' },
       ],
-      related: ['codex-cli', 'gemini-cli', 'nodejs'],
+      related: ['codex-cli', 'gemini-cli'],
     },
   },
   {
@@ -313,7 +313,7 @@ export const TOOLS = [
         { toolId: 'claude-cli', label: 'Claude CLI vs Codex CLI', slug: 'claude-cli-vs-codex-cli' },
         { toolId: 'gemini-cli', label: 'Codex CLI vs Gemini CLI', slug: 'codex-cli-vs-gemini-cli' },
       ],
-      related: ['claude-cli', 'gemini-cli', 'nodejs'],
+      related: ['claude-cli', 'gemini-cli'],
     },
   },
   {
@@ -345,7 +345,7 @@ export const TOOLS = [
         { toolId: 'claude-cli', label: 'Claude CLI vs Gemini CLI', slug: 'claude-cli-vs-gemini-cli' },
         { toolId: 'codex-cli', label: 'Codex CLI vs Gemini CLI', slug: 'codex-cli-vs-gemini-cli' },
       ],
-      related: ['claude-cli', 'codex-cli', 'nodejs'],
+      related: ['claude-cli', 'codex-cli'],
     },
   },
   {
