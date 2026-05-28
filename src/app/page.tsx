@@ -1,6 +1,7 @@
 import { getAllTools } from '@/lib/catalog'
 import FilterableGrid from '@/components/FilterableGrid'
 import Icon from '@/components/Icon'
+import LtsPopover from '@/components/LtsPopover'
 
 export default function HomePage() {
   const tools = getAllTools()
@@ -116,26 +117,7 @@ export default function HomePage() {
                 Browse tools
                 <Icon name="arrow" size={15} strokeWidth={2.25} />
               </a>
-              <a
-                href="https://nodejs.org/en/about/previous-releases"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="whitespace-nowrap"
-                style={{
-                  background: 'transparent',
-                  color: 'var(--foreground)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 'var(--radius-full)',
-                  padding: '14px 24px',
-                  fontSize: 15,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  textDecoration: 'none',
-                  display: 'inline-block',
-                }}
-              >
-                What is LTS?
-              </a>
+              <LtsPopover />
             </div>
 
             {/* Stat strip */}
