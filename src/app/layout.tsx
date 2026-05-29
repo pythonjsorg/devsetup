@@ -4,6 +4,7 @@ import Link from 'next/link'
 import ThemeSwitcher from '@/components/ThemeSwitcher'
 import SearchBar from '@/components/SearchBar'
 import { themeBootScript } from '@/components/themeBootScript'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
 
 const geist = Geist({
@@ -232,6 +233,8 @@ export default function RootLayout({
 
         {/* ── Content ───────────────────────────────────────── */}
         <div className="flex flex-1 flex-col">{children}</div>
+
+        <SpeedInsights />
 
         {/* ── Footer ────────────────────────────────────────── */}
         <footer style={{ borderTop: '1px solid var(--border-soft)' }}>
