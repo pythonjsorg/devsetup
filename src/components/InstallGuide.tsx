@@ -198,7 +198,7 @@ export default function InstallGuide({ steps }: Props) {
               <h1
                 style={{
                   fontFamily: 'var(--font-geist)',
-                  fontSize: 48,
+                  fontSize: 'clamp(1.75rem, 8vw, 3rem)',
                   fontWeight: 700,
                   letterSpacing: '-0.035em',
                   lineHeight: 1,
@@ -400,7 +400,7 @@ export default function InstallGuide({ steps }: Props) {
 
           {/* Method picker — shown when 2+ methods available for this OS */}
           {availableMethods.length > 1 && (
-            <div className="flex items-center gap-3 mt-4">
+            <div className="flex items-center gap-3 mt-4 flex-wrap">
               <span
                 style={{
                   fontSize: 11,

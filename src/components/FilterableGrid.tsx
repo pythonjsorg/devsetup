@@ -61,6 +61,7 @@ export default function FilterableGrid({ tools }: { tools: readonly Tool[] }) {
 
         <div className="flex-1" />
 
+        <div className="w-full sm:w-auto overflow-x-auto">
         <div
           className="inline-flex gap-1"
           style={{
@@ -93,6 +94,7 @@ export default function FilterableGrid({ tools }: { tools: readonly Tool[] }) {
               </button>
             )
           })}
+        </div>
         </div>
       </div>
 

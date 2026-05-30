@@ -35,9 +35,8 @@ export default function OsPicker({ selected, onChange }: Props) {
             type="button"
             aria-pressed={active}
             onClick={() => onChange(value)}
-            className="inline-flex items-center gap-2.5 whitespace-nowrap"
+            className="inline-flex items-center gap-2 whitespace-nowrap px-3 py-2 sm:gap-2.5 sm:px-[18px] sm:py-[10px]"
             style={{
-              padding: '10px 18px',
               background: active ? 'var(--card)' : 'transparent',
               border: 'none',
               borderRadius: 'var(--radius-full)',
@@ -63,6 +62,7 @@ export default function OsPicker({ selected, onChange }: Props) {
               {label}
             </span>
             <span
+              className="hidden sm:inline"
               style={{
                 fontFamily: 'var(--font-jetbrains)',
                 fontSize: 11,

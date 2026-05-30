@@ -3,6 +3,8 @@ import { Geist, Instrument_Serif, JetBrains_Mono } from 'next/font/google'
 import Link from 'next/link'
 import ThemeSwitcher from '@/components/ThemeSwitcher'
 import SearchBar from '@/components/SearchBar'
+import MobileSearch from '@/components/MobileSearch'
+import MobileNav from '@/components/MobileNav'
 import { themeBootScript } from '@/components/themeBootScript'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
@@ -119,11 +121,11 @@ export default function RootLayout({
               </span>
             </Link>
 
-            <nav className="flex items-center">
+            <nav className="flex items-center gap-2">
               {/* Install — active */}
               <Link
                 href="/"
-                className="hidden sm:inline-flex items-center whitespace-nowrap"
+                className="hidden md:inline-flex items-center whitespace-nowrap"
                 style={{
                   fontSize: 13,
                   fontWeight: 600,
@@ -140,7 +142,7 @@ export default function RootLayout({
 
               {/* DB Commands — soon */}
               <span
-                className="hidden sm:inline-flex items-center gap-1.5 whitespace-nowrap"
+                className="hidden md:inline-flex items-center gap-1.5 whitespace-nowrap"
                 style={{
                   fontSize: 13,
                   fontWeight: 600,
@@ -169,7 +171,7 @@ export default function RootLayout({
 
               {/* CLI Ref — soon */}
               <span
-                className="hidden sm:inline-flex items-center gap-1.5 whitespace-nowrap"
+                className="hidden md:inline-flex items-center gap-1.5 whitespace-nowrap"
                 style={{
                   fontSize: 13,
                   fontWeight: 600,
@@ -198,7 +200,7 @@ export default function RootLayout({
 
               {/* Compare — soon */}
               <span
-                className="hidden sm:inline-flex items-center gap-1.5 whitespace-nowrap"
+                className="hidden md:inline-flex items-center gap-1.5 whitespace-nowrap"
                 style={{
                   fontSize: 13,
                   fontWeight: 600,
@@ -225,8 +227,12 @@ export default function RootLayout({
                 </span>
               </span>
 
-              <ThemeSwitcher />
+              <div className="hidden md:block">
+                <ThemeSwitcher />
+              </div>
               <SearchBar />
+              <MobileSearch />
+              <MobileNav />
             </nav>
           </div>
         </header>

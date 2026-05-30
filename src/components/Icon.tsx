@@ -12,7 +12,7 @@ import type { CSSProperties } from 'react'
 export type IconName =
   | 'sparkles' | 'package' | 'bolt' | 'arrow' | 'check' | 'copy'
   | 'terminal' | 'monitor' | 'apple' | 'windows' | 'search'
-  | 'layers' | 'git-branch'
+  | 'layers' | 'git-branch' | 'x'
 
 type Props = {
   name: IconName
@@ -100,6 +100,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M18 9a9 9 0 0 1-9 9" />
     </>
   ),
+  x: <path d="M18 6 6 18M6 6l12 12" />,
 }
 
 export default function Icon({

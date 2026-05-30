@@ -18,7 +18,7 @@ function isTheme(v: unknown): v is Theme {
   return v === 'paper' || v === 'carbon' || v === 'cobalt'
 }
 
-export default function ThemeSwitcher() {
+export default function ThemeSwitcher({ onSelect }: { onSelect?: (theme: Theme) => void } = {}) {
   // Server render with the default to avoid hydration mismatch; client
   // useEffect reads localStorage and updates.
   const [theme, setTheme] = useState<Theme>(DEFAULT_THEME)
@@ -37,6 +37,7 @@ export default function ThemeSwitcher() {
     localStorage.setItem(STORAGE_KEY, next)
     document.documentElement.setAttribute('data-theme', next)
     setThemeColor(next)
+    onSelect?.(next)
   }
 
   return (
