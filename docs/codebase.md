@@ -1,5 +1,14 @@
 # DevSetup — Codebase Reference
 
+> **Monorepo note (2026-06):** This repo is now a Turborepo monorepo (npm workspaces).
+> The DevSetup Next.js app lives at **`apps/devtools/`** — every `src/...` path below is
+> actually `apps/devtools/src/...`. Siblings: `apps/web/` (the pythonjs.org Astro marketing
+> site) and `packages/design-system/` (shared CSS tokens + primitives consumed by both apps).
+> See `docs/multi-zone-setup.md` for the zone/proxy architecture and `apps/web` README context.
+> Design language is the shared light/dark "terracotta/greige" system (Bricolage Grotesque /
+> Hanken Grotesk / JetBrains Mono); the old paper/carbon/cobalt themes are retired.
+> Build/lint from root: `npx turbo run build` / `npx turbo run lint`.
+
 ## Identity
 - **What:** Static site with step-by-step install guides for dev tools. Dependency resolution (installing Codex auto-shows Node.js first).
 - **Live URL:** https://pythonjs.org/devtools (subdirectory via Next.js Multi-Zones — this app is the `/devtools` zone; the root app at `pythonjs.org` rewrites `/devtools/*` here). See `docs/multi-zone-setup.md`. `downloader-mauve.vercel.app` is the raw Vercel deploy URL.
