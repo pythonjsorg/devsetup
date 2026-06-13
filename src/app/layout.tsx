@@ -28,10 +28,12 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ['400', '500', '700'],
 })
 
-const SITE_URL = 'https://downloader-mauve.vercel.app'
+const SITE_URL = 'https://pythonjs.org'
+const ZONE_PATH = '/devtools' // this app is the /devtools Multi-Zone
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  alternates: { canonical: ZONE_PATH },
   title: {
     template: '%s — DevSetup',
     default: 'DevSetup — Install any dev tool correctly',
@@ -41,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'DevSetup',
-    url: SITE_URL,
+    url: ZONE_PATH,
     title: 'DevSetup — Install any dev tool correctly',
     description:
       'Step-by-step install guides for Node.js, Bun, Docker, Git, and more. LTS pinned where applicable, every dependency resolved automatically.',

@@ -2,16 +2,16 @@
 
 ## Identity
 - **What:** Static site with step-by-step install guides for dev tools. Dependency resolution (installing Codex auto-shows Node.js first).
-- **Live URL:** https://downloader-mauve.vercel.app
+- **Live URL:** https://pythonjs.org/devtools (subdirectory via Next.js Multi-Zones — this app is the `/devtools` zone; the root app at `pythonjs.org` rewrites `/devtools/*` here). See `docs/multi-zone-setup.md`. `downloader-mauve.vercel.app` is the raw Vercel deploy URL.
 - **Repo:** `git@github.com-personal:pythonjsorg/devsetup.git`
 - **Branch:** `feat/devsetup-app`
 - **Deploy:** `git push origin feat/devsetup-app && npx vercel --prod`
 
 ## Stack
-- Next.js 15, App Router, `output: 'export'` (fully static — no server runtime)
+- Next.js 15, App Router. Runs as a normal Next app on Vercel (SSG-prerendered). `basePath: '/devtools'` for Multi-Zones. (Was `output: 'export'` — dropped because basePath needs a server to route the prefix.)
 - TypeScript 5, Tailwind CSS v4
 - No test runner — use `npx tsc --noEmit` to verify, `npm run build` for full check
-- Vercel for hosting; redirects via `vercel.json` (not `next.config.ts` — redirects don't work in static exports)
+- Vercel for hosting; redirects in `next.config.ts` `redirects()` (basePath auto-applied). `vercel.json` removed.
 
 ## Data Flow
 ```
@@ -45,7 +45,7 @@ src/components/InstallGuide.tsx  ← renders OS picker + steps + tips
 | `src/components/LtsPopover.tsx` | "What is LTS?" popover on home page (client component) |
 | `src/components/Icon.tsx` | SVG icon component — IconName union + PATHS map |
 | `src/components/ThemeSwitcher.tsx` | Paper/Carbon/Cobalt theme toggle |
-| `vercel.json` | CDN redirect: /install/:tool → /tools/:tool |
+| `next.config.ts` | `basePath: '/devtools'`, redirect /install/:tool → /tools/:tool |
 | `handoff/` | Frozen delivery snapshot — excluded from tsconfig, do not edit |
 
 ## Key Types (tools.ts)

@@ -21,7 +21,8 @@ export async function generateMetadata({
   return {
     title,
     description,
-    openGraph: { title, description },
+    alternates: { canonical: `/devtools/tools/${toolId}` },
+    openGraph: { title, description, url: `/devtools/tools/${toolId}` },
     twitter: { title, description },
   }
 }
