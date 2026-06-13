@@ -3,110 +3,91 @@
 import { useEffect, useState } from 'react'
 import { setThemeColor } from '@/components/themeBootScript'
 
-export type Theme = 'paper' | 'carbon' | 'cobalt'
+export type Theme = 'light' | 'dark'
 
-const THEMES: { id: Theme; bg: string; accent: string; label: string }[] = [
-  { id: 'paper',  bg: '#f4ede0', accent: '#7a5530', label: 'Paper'  },
-  { id: 'carbon', bg: '#0e0f13', accent: '#c8fa00', label: 'Carbon' },
-  { id: 'cobalt', bg: '#eef1f6', accent: '#2647e8', label: 'Cobalt' },
-]
-
-const STORAGE_KEY = 'devsetup-theme'
-const DEFAULT_THEME: Theme = 'paper'
+const STORAGE_KEY = 'pyjs.theme'
 
 function isTheme(v: unknown): v is Theme {
-  return v === 'paper' || v === 'carbon' || v === 'cobalt'
+  return v === 'light' || v === 'dark'
 }
 
 export default function ThemeSwitcher({ onSelect }: { onSelect?: (theme: Theme) => void } = {}) {
-  // Server render with the default to avoid hydration mismatch; client
-  // useEffect reads localStorage and updates.
-  const [theme, setTheme] = useState<Theme>(DEFAULT_THEME)
+  // Server renders 'light'; client reads localStorage / prefers-color-scheme on mount.
+  const [theme, setTheme] = useState<Theme>('light')
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY)
-    if (isTheme(saved) && saved !== theme) {
-      setTheme(saved)
-      document.documentElement.setAttribute('data-theme', saved)
-    }
+    const initial: Theme = isTheme(saved)
+      ? saved
+      : matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light'
+    setTheme(initial)
+    document.documentElement.setAttribute('data-theme', initial)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  function handleChange(next: Theme) {
+  function apply(next: Theme) {
     setTheme(next)
-    localStorage.setItem(STORAGE_KEY, next)
+    try {
+      localStorage.setItem(STORAGE_KEY, next)
+    } catch {}
     document.documentElement.setAttribute('data-theme', next)
     setThemeColor(next)
     onSelect?.(next)
   }
 
+  function toggle(e: React.MouseEvent) {
+    const next: Theme = theme === 'dark' ? 'light' : 'dark'
+    const root = document.documentElement
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
+    root.style.setProperty('--vt-x', `${e.clientX}px`)
+    root.style.setProperty('--vt-y', `${e.clientY}px`)
+    const startVT = (document as Document & {
+      startViewTransition?: (cb: () => void) => { finished: Promise<void> }
+    }).startViewTransition
+    if (typeof startVT === 'function' && !reduced) {
+      startVT.call(document, () => apply(next))
+    } else {
+      apply(next)
+    }
+  }
+
+  const nextLabel = theme === 'dark' ? 'light' : 'dark'
+
   return (
-    <div
-      role="group"
-      aria-label="Color theme"
+    <button
+      type="button"
+      onClick={toggle}
+      aria-label={`Switch to ${nextLabel} theme`}
+      title={`Switch to ${nextLabel} theme`}
+      className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
       style={{
         display: 'inline-flex',
         alignItems: 'center',
-        gap: 4,
-        padding: 4,
-        background: 'var(--muted)',
-        borderRadius: 'var(--radius-full)',
+        justifyContent: 'center',
+        width: 34,
+        height: 34,
+        padding: 0,
         border: '1px solid var(--border-soft)',
+        borderRadius: 'var(--radius-full)',
+        background: 'var(--muted)',
+        color: 'var(--foreground)',
+        cursor: 'pointer',
+        outlineColor: 'var(--primary)',
+        transition: 'background 150ms, border-color 150ms',
       }}
     >
-      {THEMES.map(t => {
-        const active = t.id === theme
-        return (
-          <button
-            key={t.id}
-            type="button"
-            onClick={() => handleChange(t.id)}
-            title={t.label}
-            aria-label={`Switch to ${t.label} theme`}
-            aria-pressed={active}
-            className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 26,
-              height: 26,
-              border: 'none',
-              padding: 0,
-              background: active ? 'var(--card)' : 'transparent',
-              boxShadow: active ? 'var(--shadow-sm)' : 'none',
-              borderRadius: 'var(--radius-full)',
-              cursor: 'pointer',
-              opacity: active ? 1 : 0.75,
-              transition: 'opacity 150ms, background 150ms',
-              outlineColor: 'var(--primary)',
-            }}
-            onMouseEnter={e => { if (!active) e.currentTarget.style.opacity = '1' }}
-            onMouseLeave={e => { if (!active) e.currentTarget.style.opacity = '0.75' }}
-          >
-            <span
-              style={{
-                position: 'relative',
-                width: 14,
-                height: 14,
-                borderRadius: '50%',
-                background: t.bg,
-                border: '1px solid var(--border)',
-                overflow: 'hidden',
-              }}
-            >
-              <span
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: t.accent,
-                  clipPath: 'polygon(100% 0, 0 100%, 100% 100%)',
-                }}
-              />
-            </span>
-          </button>
-        )
-      })}
-    </div>
+      {theme === 'dark' ? (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2" />
+          <path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7" />
+        </svg>
+      ) : (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1111.2 3a7 7 0 109.8 9.8z" />
+        </svg>
+      )}
+    </button>
   )
 }

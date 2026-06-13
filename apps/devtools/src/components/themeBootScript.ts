@@ -1,31 +1,31 @@
 /**
- * Optional inline snippet that flips `data-theme` on <html> as early as
- * possible, before React hydration — prevents a FOUC on theme change.
+ * Inline snippet that sets `data-theme` on <html> before React hydration —
+ * prevents a FOUC. Wired into <head> via dangerouslySetInnerHTML in layout.tsx.
  *
- * Drop into <head> via `dangerouslySetInnerHTML` or inline <script> in
- * layout.tsx (already wired in the provided layout.tsx).
+ * Shared pythonjs.org theme contract: light | dark, key `pyjs.theme`,
+ * default from prefers-color-scheme. Matches the Astro site's boot script.
  */
 const THEME_BG: Record<string, string> = {
-  paper:  '#f4ede0',
-  carbon: '#0e0f13',
-  cobalt: '#eef1f6',
+  light: '#f5efe8',
+  dark: '#14100c',
 }
 
 export function setThemeColor(theme: string) {
   const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
-  if (meta) meta.content = THEME_BG[theme] ?? THEME_BG.paper
+  if (meta) meta.content = THEME_BG[theme] ?? THEME_BG.light
 }
 
 export const themeBootScript = `
 (function() {
-  var bg = { paper: '#f4ede0', carbon: '#0e0f13', cobalt: '#eef1f6' };
+  var bg = { light: '#f5efe8', dark: '#14100c' };
   try {
-    var t = localStorage.getItem('devsetup-theme');
-    if (t === 'paper' || t === 'carbon' || t === 'cobalt') {
-      document.documentElement.setAttribute('data-theme', t);
-      var m = document.querySelector('meta[name="theme-color"]');
-      if (m) m.content = bg[t];
+    var t = localStorage.getItem('pyjs.theme');
+    if (t !== 'light' && t !== 'dark') {
+      t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
+    document.documentElement.setAttribute('data-theme', t);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.content = bg[t];
   } catch (_) {}
 })();
 `

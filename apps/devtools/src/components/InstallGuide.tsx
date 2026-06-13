@@ -593,7 +593,7 @@ export default function InstallGuide({ steps }: Props) {
               <code
                 style={{
                   fontFamily: 'var(--font-jetbrains)',
-                  background: 'rgba(255,255,255,0.12)',
+                  background: 'color-mix(in srgb, var(--background) 18%, transparent)',
                   padding: '1px 8px',
                   borderRadius: 'var(--radius-sm)',
                   fontSize: 13,

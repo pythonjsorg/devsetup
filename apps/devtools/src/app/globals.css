@@ -1,192 +1,82 @@
 @import "tailwindcss";
+@import "@pythonjs/design-system/tokens.css";
 
 /* ============================================================
-   DevSetup — Design tokens
-   ------------------------------------------------------------
-   Three themes via [data-theme="..."] on <html>:
-     - "paper"   (default) — warm cream + violet primary + lime accent
-     - "carbon"            — soft black + electric lime primary (callback)
-     - "cobalt"            — cool gray + cobalt blue + coral
+   DevSetup — re-skinned to the shared pythonjs.org design system.
+   Theme: light / dark via [data-theme] on <html> (key: pyjs.theme).
+
+   The shared tokens.css owns the real values for:
+     --bg --surface --elev --text --text-2 --text-3 --line --line-2
+     --accent --accent-strong --accent-2 --accent-soft --accent-text
+     --good --r-xs..--r-xl --shadow-sm --shadow --shadow-lg --shadow-accent
+   This file is an ALIAS LAYER mapping DevSetup's legacy token names onto
+   those — so components keep using var(--background) etc. unchanged.
+   NEVER alias a name back onto a token tokens.css already owns (circular).
    ============================================================ */
-
-/* Tailwind v4 theme bridge — keeps `bg-background`, `text-foreground`,
-   etc. working if any existing markup references them. */
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card:       var(--card);
-  --color-muted:      var(--muted);
-  --color-border:     var(--border);
-  --color-primary:    var(--primary);
-  --color-highlight:  var(--highlight);
-  --font-sans:        var(--font-geist), system-ui, sans-serif;
-  --font-mono:        var(--font-jetbrains), ui-monospace, monospace;
-  --font-serif:       var(--font-instrument-serif), Georgia, serif;
-}
-
-:root,
-[data-theme="paper"] {
+:root {
   /* surfaces & ink */
-  --background:        #f4ede0;
-  --foreground:        #1f1a14;
-  --foreground-dim:    #6b6253;
-  --card:              #fcf8f0;
-  --surface-2:         #ede4d2;
-  --muted:             #e4dcc9;
-  --muted-foreground:  #8a8170;
-  --border:            #ddd2b9;
-  --border-soft:       #ebe1cb;
-  --accent-surface:    #ece1c8;
+  --background:       var(--bg);
+  --foreground:       var(--text);
+  --foreground-dim:   var(--text-2);
+  --card:             var(--surface);
+  --surface-2:        var(--elev);
+  --muted:            var(--elev);
+  --muted-foreground: var(--text-3);
+  --border:           var(--line-2);
+  --border-soft:      var(--line);
+  --accent-surface:   var(--accent-soft);
 
-  /* primary — warm sepia ink */
-  --primary:            #7a5530;
-  --primary-foreground: #fdf8f0;
-  --primary-soft:       #f0e6d4;
-  --primary-700:        #5c3e20;
+  /* primary → accent (terracotta); -foreground flips light/dark automatically */
+  --primary:            var(--accent);
+  --primary-foreground: var(--accent-text);
+  --primary-soft:       var(--accent-soft);
+  --primary-700:        var(--accent-strong);
 
-  /* highlight */
-  --highlight:            #cdff5b;
-  --highlight-foreground: #1f1a14;
-  --highlight-soft:       #f3ffd3;
-
-  /* category chips */
-  --cat-runtime-bg: #dfcaaa; --cat-runtime-fg: #5c3e20;
-  --cat-ai-bg:      #f5e2a0; --cat-ai-fg:      #7a5810;
-  --cat-pkg-bg:     #c4d9b0; --cat-pkg-fg:     #2c5c24;
-  --cat-platform-bg: #c8d8ea; --cat-platform-fg: #1a4a7a;
-  --cat-vcs-bg:      #f0cfc0; --cat-vcs-fg:      #8a2c14;
-
-  /* code panel */
-  --code-bg:      #1e1810;
-  --code-fg:      #f2ead6;
-  --code-prompt:  #c8902a;
-  --code-keyword: #b07840;
-
-  /* radii */
-  --radius-sm: 6px;  --radius-md: 10px; --radius-lg: 14px;
-  --radius-xl: 18px; --radius-2xl: 22px; --radius-full: 9999px;
-
-  /* warm-tinted shadows */
-  --shadow-sm:  0 1px 2px rgba(31,26,20,0.05);
-  --shadow:     0 1px 3px rgba(31,26,20,0.08), 0 1px 2px -1px rgba(31,26,20,0.06);
-  --shadow-md:  0 4px 10px -2px rgba(31,26,20,0.08), 0 2px 4px -2px rgba(31,26,20,0.05);
-  --shadow-lg:  0 14px 28px -8px rgba(31,26,20,0.14), 0 4px 8px -4px rgba(31,26,20,0.06);
-  --shadow-xl:  0 24px 48px -12px rgba(31,26,20,0.18);
-  --shadow-2xl: 0 32px 64px -16px rgba(31,26,20,0.22);
-
-  /* ── Back-compat aliases (matches the old globals.css) ── */
-  --bg:           var(--background);
-  --surface:      var(--card);
-  --fg:           var(--foreground);
-  --fg-dim:       var(--foreground-dim);
-  --border-col:   var(--border);
-  --border-accent:var(--border);
-  --accent:       var(--primary);
-  --accent-glow:  color-mix(in srgb, var(--primary) 12%, transparent);
-}
-
-/* ============================================================
-   CARBON — soft black + electric lime (callback to the original)
-   ============================================================ */
-[data-theme="carbon"] {
-  --background:        #0e0f13;
-  --foreground:        #ece8da;
-  --foreground-dim:    #9a9685;
-  --card:              #16181f;
-  --surface-2:         #1c1f27;
-  --muted:             #22252e;
-  --muted-foreground:  #6b6f7a;
-  --border:            #262932;
-  --border-soft:       #1d2027;
-  --accent-surface:    #1f2228;
-
-  --primary:            #c8fa00;
-  --primary-foreground: #0e0f13;
-  --primary-soft:       #1d2410;
-  --primary-700:        #b3e400;
-
-  --highlight:            #ff6b35;
-  --highlight-foreground: #0e0f13;
-  --highlight-soft:       #2a1812;
-
-  --cat-runtime-bg: #1a2410; --cat-runtime-fg: #c8fa00;
-  --cat-ai-bg:      #2a1d10; --cat-ai-fg:      #ffaa55;
-  --cat-pkg-bg:     #102a25; --cat-pkg-fg:     #5beac8;
-  --cat-platform-bg: #0e2035; --cat-platform-fg: #5bc0f8;
-  --cat-vcs-bg:      #2a1008; --cat-vcs-fg:      #ff8855;
-
-  --code-bg:      #06070a;
-  --code-fg:      #ece8da;
-  --code-prompt:  #c8fa00;
-  --code-keyword: #ff6b35;
-
-  --shadow-sm:  0 1px 2px rgba(0,0,0,0.4);
-  --shadow:     0 1px 3px rgba(0,0,0,0.5), 0 1px 2px -1px rgba(0,0,0,0.4);
-  --shadow-md:  0 4px 10px -2px rgba(0,0,0,0.5), 0 2px 4px -2px rgba(0,0,0,0.4);
-  --shadow-lg:  0 14px 28px -8px rgba(0,0,0,0.55), 0 4px 8px -4px rgba(0,0,0,0.4);
-  --shadow-xl:  0 24px 48px -12px rgba(0,0,0,0.6);
-  --shadow-2xl: 0 32px 64px -16px rgba(0,0,0,0.7);
-
-  --bg:           var(--background);
-  --surface:      var(--card);
-  --fg:           var(--foreground);
-  --fg-dim:       var(--foreground-dim);
-  --border-col:   var(--border);
-  --border-accent:var(--border);
-  --accent:       var(--primary);
-  --accent-glow:  color-mix(in srgb, var(--primary) 12%, transparent);
-}
-
-/* ============================================================
-   COBALT — cool gray + cobalt blue + coral highlight
-   ============================================================ */
-[data-theme="cobalt"] {
-  --background:        #eef1f6;
-  --foreground:        #0e1830;
-  --foreground-dim:    #5a667e;
-  --card:              #ffffff;
-  --surface-2:         #e3e8f0;
-  --muted:             #dde4ee;
-  --muted-foreground:  #6b7689;
-  --border:            #cfd8e6;
-  --border-soft:       #dde4ee;
-  --accent-surface:    #e3e8f0;
-
-  --primary:            #2647e8;
-  --primary-foreground: #ffffff;
-  --primary-soft:       #dde4ff;
-  --primary-700:        #1a37c7;
-
-  --highlight:            #ff7849;
+  /* highlight (success/“you’re set up”) → green, with explicit fg */
+  --highlight:            var(--good);
   --highlight-foreground: #ffffff;
-  --highlight-soft:       #ffe8de;
+  --highlight-soft:       color-mix(in srgb, var(--good) 14%, transparent);
 
-  --cat-runtime-bg: #dde4ff; --cat-runtime-fg: #1a37c7;
-  --cat-ai-bg:      #ffe2d3; --cat-ai-fg:      #c44a1f;
-  --cat-pkg-bg:     #d8eeff; --cat-pkg-fg:     #1d6cb8;
-  --cat-platform-bg: #d8eeff; --cat-platform-fg: #1d5c9e;
-  --cat-vcs-bg:      #ffe0d8; --cat-vcs-fg:      #c44020;
+  /* category chips — re-derived warm palette (light) */
+  --cat-runtime-bg: #efddc9; --cat-runtime-fg: #9a5a1e;
+  --cat-ai-bg:      #f1e6c2; --cat-ai-fg:      #7a5d10;
+  --cat-pkg-bg:     #d9e4cf; --cat-pkg-fg:     #3f6630;
+  --cat-platform-bg:#d4dde6; --cat-platform-fg:#39597a;
+  --cat-vcs-bg:     #f0d8cc; --cat-vcs-fg:     #9a4424;
 
-  --code-bg:      #0e1830;
-  --code-fg:      #e8edff;
-  --code-prompt:  #ff7849;
-  --code-keyword: #7a9bff;
+  /* code panel — intentionally dark in BOTH themes (fixed, not theme-tracked) */
+  --code-bg:      #14100c;
+  --code-fg:      #efedf4;
+  --code-prompt:  #e0a96d;
+  --code-keyword: #f0bd86;
 
-  --shadow-sm:  0 1px 2px rgba(14,24,48,0.06);
-  --shadow:     0 1px 3px rgba(14,24,48,0.1), 0 1px 2px -1px rgba(14,24,48,0.06);
-  --shadow-md:  0 4px 10px -2px rgba(14,24,48,0.1), 0 2px 4px -2px rgba(14,24,48,0.06);
-  --shadow-lg:  0 14px 28px -8px rgba(14,24,48,0.16);
-  --shadow-xl:  0 24px 48px -12px rgba(14,24,48,0.2);
-  --shadow-2xl: 0 32px 64px -16px rgba(14,24,48,0.24);
+  /* radii → shared soft/pillowy scale */
+  --radius-sm:   var(--r-xs);
+  --radius-md:   var(--r-sm);
+  --radius-lg:   var(--r);
+  --radius-xl:   var(--r-lg);
+  --radius-2xl:  var(--r-xl);
+  --radius-full: 9999px;
 
-  --bg:           var(--background);
-  --surface:      var(--card);
-  --fg:           var(--foreground);
-  --fg-dim:       var(--foreground-dim);
-  --border-col:   var(--border);
-  --border-accent:var(--border);
-  --accent:       var(--primary);
-  --accent-glow:  color-mix(in srgb, var(--primary) 12%, transparent);
+  /* extra shadow tiers DevSetup uses (sm/base/lg come from tokens.css) */
+  --shadow-md:  var(--shadow);
+  --shadow-xl:  var(--shadow-lg);
+  --shadow-2xl: var(--shadow-lg);
+
+  /* fonts: legacy names → next/font vars (declared in layout.tsx) */
+  --font-geist:            var(--font-hanken);
+  --font-instrument-serif: var(--font-bricolage);
+  /* --font-jetbrains is the next/font JetBrains Mono var (unchanged) */
+}
+
+/* dark: only the category chips need explicit dark values —
+   all surface/ink/accent tokens flip via tokens.css [data-theme="dark"] */
+[data-theme="dark"] {
+  --cat-runtime-bg: #2e2417; --cat-runtime-fg: #e0a96d;
+  --cat-ai-bg:      #2c2814; --cat-ai-fg:      #e6c878;
+  --cat-pkg-bg:     #1b2a1e; --cat-pkg-fg:     #7fc98e;
+  --cat-platform-bg:#19222e; --cat-platform-fg:#8fb4d8;
+  --cat-vcs-bg:     #2e1c16; --cat-vcs-fg:     #e09a78;
 }
 
 /* base */
@@ -194,10 +84,8 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { color-scheme: light; }
-
-[data-theme="carbon"] { color-scheme: dark; }
-[data-theme="cobalt"] { color-scheme: light; }
+:root { color-scheme: light; }
+[data-theme="dark"] { color-scheme: dark; }
 
 body {
   background: var(--background);

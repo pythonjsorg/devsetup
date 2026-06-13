@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Instrument_Serif, JetBrains_Mono } from 'next/font/google'
+import { Bricolage_Grotesque, Hanken_Grotesk, JetBrains_Mono } from 'next/font/google'
 import Link from 'next/link'
 import ThemeSwitcher from '@/components/ThemeSwitcher'
 import SearchBar from '@/components/SearchBar'
@@ -9,17 +9,17 @@ import { themeBootScript } from '@/components/themeBootScript'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
 
-const geist = Geist({
-  variable: '--font-geist',
+// Shared pythonjs.org type system: Bricolage Grotesque (display) + Hanken Grotesk (body) + JetBrains Mono.
+const bricolage = Bricolage_Grotesque({
+  variable: '--font-bricolage',
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700', '800'],
 })
 
-const instrumentSerif = Instrument_Serif({
-  variable: '--font-instrument-serif',
+const hanken = Hanken_Grotesk({
+  variable: '--font-hanken',
   subsets: ['latin'],
-  weight: ['400'],
-  style: ['normal', 'italic'],
+  weight: ['400', '500', '600', '700'],
 })
 
 const jetbrainsMono = JetBrains_Mono({
@@ -62,13 +62,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="paper"
+      data-theme="light"
       suppressHydrationWarning
-      className={`${geist.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} h-full`}
+      className={`${bricolage.variable} ${hanken.variable} ${jetbrainsMono.variable} h-full`}
     >
       <head>
         {/* suppressHydrationWarning: boot script updates this before React hydrates */}
-        <meta name="theme-color" content="#f4ede0" suppressHydrationWarning />
+        <meta name="theme-color" content="#f5efe8" suppressHydrationWarning />
         {/* Apply persisted theme before hydration to avoid FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
@@ -103,7 +103,7 @@ export default function RootLayout({
               <span
                 className="text-[19px] font-bold tracking-tight"
                 style={{
-                  fontFamily: 'var(--font-geist)',
+                  fontFamily: 'var(--font-instrument-serif)',
                   color: 'var(--foreground)',
                   letterSpacing: '-0.025em',
                 }}
