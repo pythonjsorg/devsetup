@@ -38,7 +38,7 @@
   --highlight-soft:       color-mix(in srgb, var(--good) 14%, transparent);
 
   /* category chips — re-derived warm palette (light) */
-  --cat-runtime-bg: #efddc9; --cat-runtime-fg: #9a5a1e;
+  --cat-runtime-bg: #efddc9; --cat-runtime-fg: #834c15;
   --cat-ai-bg:      #f1e6c2; --cat-ai-fg:      #7a5d10;
   --cat-pkg-bg:     #d9e4cf; --cat-pkg-fg:     #3f6630;
   --cat-platform-bg:#d4dde6; --cat-platform-fg:#39597a;

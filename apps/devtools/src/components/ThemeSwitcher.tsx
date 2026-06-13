@@ -24,7 +24,6 @@ export default function ThemeSwitcher({ onSelect }: { onSelect?: (theme: Theme) 
         : 'light'
     setTheme(initial)
     document.documentElement.setAttribute('data-theme', initial)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function apply(next: Theme) {

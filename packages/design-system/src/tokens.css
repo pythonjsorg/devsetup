@@ -39,7 +39,7 @@
   --surface:   #ffffff;
   --text:      #181a1f;
   --text-2:    #595a5e;
-  --text-3:    #8c8b8c;
+  --text-3:    #6d6c6d;   /* caption/label muted — darkened from #8c8b8c for WCAG AA (4.5:1) */
   --line:      rgba(40, 30, 20, 0.07);
   --line-2:    rgba(40, 30, 20, 0.11);
   --line-3:    rgba(28, 24, 20, 0.26);
@@ -67,7 +67,7 @@
   --surface:   #1d1812;
   --text:      #efedf4;
   --text-2:    #9f9aab;
-  --text-3:    #6b6675;
+  --text-3:    #8e889b;   /* lightened from #6b6675 for WCAG AA on dark surfaces */
   --line:      rgba(255, 255, 255, 0.08);
   --line-2:    rgba(255, 255, 255, 0.13);
   --line-3:    rgba(255, 255, 255, 0.30);
