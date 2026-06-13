@@ -1,0 +1,32 @@
+/* ============================================================
+   pythonjs.org — Tailwind v4 @theme bridge
+   Maps the design-system tokens (tokens.css) to Tailwind utility
+   namespaces so apps can use e.g. bg-bg, text-text, text-accent,
+   font-display. Import AFTER `@import "tailwindcss"` and tokens.css.
+   Optional — only needed by apps that use Tailwind color/font utilities.
+   ============================================================ */
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-elev: var(--elev);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-2: var(--accent-2);
+  --color-good: var(--good);
+
+  --font-display: var(--display);
+  --font-body: var(--body);
+  --font-mono: var(--mono);
+
+  --radius-xs: var(--r-xs);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
+}

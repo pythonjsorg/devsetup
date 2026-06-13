@@ -1,0 +1,15 @@
+{
+  "name": "@pythonjs/design-system",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tokens.css": "./src/tokens.css",
+    "./base.css": "./src/base.css",
+    "./fonts.css": "./src/fonts.css",
+    "./tailwind-theme.css": "./src/tailwind-theme.css"
+  },
+  "files": [
+    "src"
+  ]
+}

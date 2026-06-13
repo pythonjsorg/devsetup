@@ -1,0 +1,10 @@
+/* ============================================================
+   pythonjs.org — production fonts
+   Bricolage Grotesque (display) · Hanken Grotesk (body) · JetBrains Mono (mono)
+
+   NOTE: CSS @import is render-blocking. For best performance prefer
+   <link rel="preconnect"> + <link rel="stylesheet"> in <head> (see Base.astro),
+   or self-host. This file exists for consumers that prefer a single CSS import.
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
