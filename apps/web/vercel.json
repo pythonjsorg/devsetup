@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/devtools", "destination": "https://downloader-mauve.vercel.app/devtools" },
+    { "source": "/devtools/:path*", "destination": "https://downloader-mauve.vercel.app/devtools/:path*" }
+  ]
+}

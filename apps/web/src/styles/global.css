@@ -1,0 +1,7 @@
+/* pythonjs.org global stylesheet — cascade order matters: tokens → base → app → ux → mobile.
+   Fonts are loaded via <link> in Base.astro <head> (faster than CSS @import). */
+@import "@pythonjs/design-system/tokens.css";
+@import "@pythonjs/design-system/base.css";
+@import "./app.css";
+@import "./ux.css";
+@import "./mobile.css";
