@@ -3,18 +3,18 @@ import ThemeToggle from './ThemeToggle.astro';
 ---
 <header class="nav" id="nav">
   <div class="wrap nav-in">
-    <a class="brand" href="#top"><span class="mark">py</span>pythonjs<span class="tld">.org</span></a>
+    <a class="brand" href="/"><span class="mark">py</span>pythonjs<span class="tld">.org</span></a>
     <nav class="nav-mid" id="navMid">
       <span class="nav-pill" id="navPill"></span>
-      <a href="#work" data-sec="work">Work</a>
-      <a href="#services" data-sec="services">Services</a>
-      <a href="#team" data-sec="team">Team</a>
-      <a href="#docs" data-sec="docs">Docs</a>
-      <a href="#journal" data-sec="journal">Journal</a>
+      <a href="/#work" data-sec="work">Work</a>
+      <a href="/#services" data-sec="services">Services</a>
+      <a href="/#team" data-sec="team">Team</a>
+      <a href="/#docs" data-sec="docs">Docs</a>
+      <a href="/#journal" data-sec="journal">Journal</a>
     </nav>
     <div class="nav-right">
       <ThemeToggle />
-      <a class="btn btn-primary magnetic" href="#contact">Start a project</a>
+      <a class="btn btn-primary magnetic" href="/#contact">Start a project</a>
       <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="mPanel">
         <svg class="ic-burger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
         <svg class="ic-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -22,12 +22,12 @@ import ThemeToggle from './ThemeToggle.astro';
     </div>
   </div>
   <nav class="m-panel" id="mPanel" aria-label="Site sections">
-    <a class="m-link" href="#work">Work</a>
-    <a class="m-link" href="#services">Services</a>
-    <a class="m-link" href="#team">Team</a>
-    <a class="m-link" href="#docs">Docs</a>
-    <a class="m-link" href="#journal">Journal</a>
-    <a class="m-cta" href="#contact">Start a project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a class="m-link" href="/#work">Work</a>
+    <a class="m-link" href="/#services">Services</a>
+    <a class="m-link" href="/#team">Team</a>
+    <a class="m-link" href="/#docs">Docs</a>
+    <a class="m-link" href="/#journal">Journal</a>
+    <a class="m-cta" href="/#contact">Start a project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
   </nav>
 </header>
 <div class="m-scrim" id="mScrim"></div>
