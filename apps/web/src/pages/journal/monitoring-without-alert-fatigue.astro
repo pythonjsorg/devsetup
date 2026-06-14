@@ -1,0 +1,88 @@
+---
+import Article from '../../layouts/Article.astro';
+---
+<Article
+  title="Monitoring dozens of sites & APIs without drowning in alerts"
+  description="A client came to us with 60-odd domains, pages and endpoints and no way to watch them. The hard part wasn't checking if things were up — it was making sure a human only heard about it when it actually mattered."
+  category="Engineering"
+  dek="A client came to us with 60-odd domains, pages and endpoints and no way to watch them. The hard part wasn't checking if things were up — it was making sure a human only heard about it when it actually mattered."
+  avatar="LE"
+  role="backend · infra"
+  date="Mar 18, 2026"
+  readtime="9 min read"
+  coverLabel="Dashboard / uptime & alerts overview"
+  tags={["Monitoring", "Observability", "On-call", "Reliability", "Python"]}
+  keep={{ href: "/journal/the-automation-audit", cat: "Playbook", title: "The automation audit we run for every new client" }}
+  cta={{ title: "Drowning in alerts no one reads?", text: "Tell us what you're trying to watch. We'll help you turn the noise into one calm dashboard — and only the pages that matter." }}
+>
+  <article class="prose">
+    <p class="lede reveal">The brief sounded simple. <em>"We have a lot of websites and APIs. We want to know when one breaks."</em> What the client actually had was a graveyard of half-configured uptime checks, three different tools nobody trusted, and a team that had quietly muted every notification channel months ago.</p>
+
+    <p class="reveal">That last part is the real story. They <strong>did</strong> have monitoring — too much of it. Every check fired into the same Slack channel, every blip became a message, and within a week the humans had learned to ignore all of it. The system was technically watching everything and practically watching nothing.</p>
+
+    <p class="reveal">So we didn't start by adding more checks. We started by deciding what was worth waking someone up for.</p>
+
+    <h2 class="reveal"><span class="h2-no">01 / The problem</span>More signals than anyone can read</h2>
+    <p class="reveal">When you spin up a check per URL across 60 surfaces, a single shared outage — a flaky upstream, an expired certificate on a wildcard domain, one bad deploy — lights up everything at once. The on-call engineer doesn't see "one incident." They see forty messages in ninety seconds and have to reverse-engineer what's actually wrong.</p>
+    <p class="reveal">This is alert fatigue, and it's not a discipline problem. It's a design problem. If a person has to triage noise to find signal, they will eventually stop looking.</p>
+
+    <blockquote class="reveal">An alert that doesn't change what someone does is just a notification with anxiety attached.</blockquote>
+
+    <p class="reveal">We set one rule for the whole project: <strong>every page that reaches a human has to be actionable.</strong> If there's nothing to do about it, it belongs on a dashboard, not in someone's pocket at 3am.</p>
+
+    <h2 class="reveal"><span class="h2-no">02 / The model</span>Checks, services, and incidents are three different things</h2>
+    <p class="reveal">The biggest unlock was separating three concepts the old setup had mashed together:</p>
+    <ul class="reveal">
+      <li><strong>Checks</strong> are the raw probes — an HTTP request, a TLS handshake, a DNS lookup, a synthetic login flow. They run constantly and they're noisy by nature.</li>
+      <li><strong>Services</strong> group checks into something a person cares about. "Checkout" is one service even if it's six endpoints across two domains.</li>
+      <li><strong>Incidents</strong> are what humans respond to. An incident opens when a service crosses a threshold and stays open until it recovers — no matter how many individual checks flap in between.</li>
+    </ul>
+    <p class="reveal">Once those layers exist, deduplication falls out almost for free. Forty failing checks that all belong to one degraded service become <em>one</em> incident. The dashboard still shows every red check for debugging; the human only ever gets paged about the incident.</p>
+
+    <pre class="reveal"><code><span class="c"># one incident, regardless of how many checks are failing underneath</span>
+<span class="k">def</span> evaluate(service):
+    failing = [c <span class="k">for</span> c <span class="k">in</span> service.checks <span class="k">if</span> c.is_down()]
+    ratio = len(failing) / len(service.checks)
+
+    <span class="k">if</span> ratio &gt;= service.threshold:
+        open_or_update_incident(service, severity=<span class="s">"down"</span>)
+    <span class="k">elif</span> failing:
+        open_or_update_incident(service, severity=<span class="s">"degraded"</span>)
+    <span class="k">else</span>:
+        resolve_incident(service)</code></pre>
+
+    <h2 class="reveal"><span class="h2-no">03 / The budget</span>Severity, quiet hours, and an alert budget</h2>
+    <p class="reveal">Not every incident deserves the same response. We gave each service a severity ladder and routed accordingly:</p>
+    <ul class="reveal">
+      <li><strong>Page</strong> — revenue-critical services (checkout, auth, the public API) can wake a human, any hour.</li>
+      <li><strong>Notify</strong> — important but degraded-tolerant services post to a channel and wait for business hours.</li>
+      <li><strong>Log</strong> — everything else lands on the dashboard and in the weekly digest, full stop.</li>
+    </ul>
+    <p class="reveal">Then we added the piece most teams skip: an <strong>alert budget</strong>. If a single service pages more than a set number of times in a window, the system stops paging and escalates differently — because a service that's flapping every ten minutes isn't an incident anymore, it's a project. Paging someone twenty times won't fix it; it'll just burn them out.</p>
+
+    <div class="callout reveal">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span>
+      <p class="ct"><b>Rule of thumb</b><span>If the same alert fires three times and nobody can act on it, the alert is the bug. Fix the threshold or fix the service — don't train people to ignore it.</span></p>
+    </div>
+
+    <h2 class="reveal"><span class="h2-no">04 / The proof</span>Catch it before users do</h2>
+    <p class="reveal">Reactive checks tell you something broke. Synthetic checks tell you <em>before</em> your users find out. We added scripted flows that actually log in, hit the API, and walk through checkout on a schedule — so a 200 response on the homepage never lulls anyone into thinking the thing behind it works.</p>
+
+    <figure class="reveal">
+      <div class="ph"><span>screenshot — incident timeline view</span></div>
+      <figcaption>A single incident, with every contributing check folded underneath it.</figcaption>
+    </figure>
+
+    <p class="reveal">The combination — grouped incidents, severity routing, an alert budget, and synthetic flows — is what turned a wall of red into a calm board. Here's where it landed after the first quarter.</p>
+
+    <div class="art-stats reveal">
+      <div class="s"><div class="v">90<span class="u">%</span></div><div class="k">fewer pages reaching a human</div></div>
+      <div class="s"><div class="v">1</div><div class="k">dashboard, every surface</div></div>
+      <div class="s"><div class="v">4<span class="u">min</span></div><div class="k">median time to detect</div></div>
+    </div>
+
+    <h2 class="reveal"><span class="h2-no">05 / The takeaway</span>Calm is a feature</h2>
+    <p class="reveal">Good monitoring isn't measured by how much it watches. It's measured by how rarely it has to interrupt you — and how much you trust it when it does. The goal was never a prettier wall of graphs. It was an on-call rotation where a page means "drop what you're doing," every single time, because the system already filtered out everything that didn't.</p>
+    <p class="reveal">If your team has quietly muted its alerts, that's the signal. The fix usually isn't more monitoring — it's less, aimed better.</p>
+  </article>
+</Article>

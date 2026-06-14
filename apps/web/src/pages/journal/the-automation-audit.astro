@@ -1,0 +1,78 @@
+---
+import Article from '../../layouts/Article.astro';
+---
+<Article
+  title="The automation audit we run for every new client"
+  description="Before we automate anything, we spend an hour finding out where the hours actually go. Five questions do most of the work — and they're the same five whether you're a two-person shop or a fifty-person team."
+  category="Playbook"
+  dek="Before we automate anything, we spend an hour finding out where the hours actually go. Five questions do most of the work — and they're the same five whether you're a two-person shop or a fifty-person team."
+  avatar="py"
+  role="automation · data"
+  date="Feb 27, 2026"
+  readtime="7 min read"
+  coverLabel="Worksheet / the five-question audit"
+  tags={["Automation", "Process", "Discovery", "Playbook", "Ops"]}
+  keep={{ href: "/journal/monitoring-without-alert-fatigue", cat: "Engineering", title: "Monitoring dozens of sites & APIs without drowning in alerts" }}
+  cta={{ title: "Not sure what's worth automating?", text: "Tell us how your week goes. We'll run this audit with you and point at the three things worth building first — no obligation." }}
+>
+  <article class="prose">
+    <p class="lede reveal">Everyone who calls us already knows what they want automated. The invoicing. The reports. "That spreadsheet." They're almost always half right — and the other half is where the real time is hiding.</p>
+
+    <p class="reveal">A bad automation project starts with a tool. A good one starts with an honest hour looking at how work actually flows today. So before we scope, build, or quote anything, we sit down with the people doing the work and run the same short audit. It's deliberately low-tech: a call, a shared doc, and five questions.</p>
+
+    <p class="reveal">The point isn't to find the flashiest thing to automate. It's to find the <strong>boring, repetitive, high-frequency</strong> work that quietly eats a team alive — and to make sure that whatever we build is worth more than it costs to keep alive.</p>
+
+    <h2 class="reveal"><span class="h2-no">01 / Frequency</span>"What did you do more than five times last week?"</h2>
+    <p class="reveal">Automation pays off on repetition, not difficulty. A gnarly task you do twice a year is rarely worth a robot. A trivial one you do forty times a day almost always is. We ask people to walk through a normal week and flag anything they touched repeatedly — even the small stuff they've stopped noticing.</p>
+    <p class="reveal">The things people forget to mention are the best candidates, because they've already been mentally filed under "just part of the job."</p>
+
+    <blockquote class="reveal">The most expensive tasks are the ones so routine that nobody complains about them anymore.</blockquote>
+
+    <h2 class="reveal"><span class="h2-no">02 / Cost</span>"How long does it take, and who has to do it?"</h2>
+    <p class="reveal">Now we put a number on each candidate. Two cheap numbers, actually:</p>
+    <ul class="reveal">
+      <li><strong>Time per run</strong> — a rough minutes-per-occurrence, honest rather than precise.</li>
+      <li><strong>Who does it</strong> — because the same task costs very differently depending on whether it's the founder, an ops hire, or a contractor.</li>
+    </ul>
+    <p class="reveal">Multiply frequency by time and you get a weekly hour count. Multiply that across the year and the "small annoying task" often turns out to be a week of someone's life. That number is what justifies the build — and it's the number we measure against when we're done.</p>
+
+    <pre class="reveal"><code><span class="c"># the only math the audit really needs</span>
+hours_per_year = (minutes_per_run * runs_per_week * <span class="s">52</span>) / <span class="s">60</span>
+
+<span class="c"># &gt; ~40 hrs/yr on a repeatable task = almost always worth automating</span>
+<span class="c"># &lt; ~10 hrs/yr = probably leave it alone, for now</span></code></pre>
+
+    <h2 class="reveal"><span class="h2-no">03 / Stability</span>"How often do the rules change?"</h2>
+    <p class="reveal">This is the question that saves projects. A task can be frequent <em>and</em> expensive and still be a terrible thing to automate — if the rules behind it change every month. Automating a moving target means you're not building a tool, you're signing up for permanent maintenance.</p>
+    <p class="reveal">So we ask how stable the process is. Stable, well-understood work gets fully automated. Fast-changing work gets <strong>assisted</strong> instead — we build something that does the tedious 80% and hands a human the judgment call, rather than pretending the judgment doesn't exist.</p>
+
+    <div class="callout reveal">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span>
+      <p class="ct"><b>Watch out for</b><span>"It depends" is not a blocker — it's a spec. When someone can't give you fixed rules, that's exactly the step to leave in human hands and automate everything around it.</span></p>
+    </div>
+
+    <h2 class="reveal"><span class="h2-no">04 / Failure</span>"What happens when it goes wrong?"</h2>
+    <p class="reveal">Every automation will fail eventually — a login expires, a format changes, an upstream goes down. The question is whether failure is loud or silent. A report that doesn't send is annoying. A bot that silently sends the <em>wrong</em> numbers for three weeks is a disaster.</p>
+    <p class="reveal">For each candidate we ask what a wrong answer costs and how quickly someone would notice. That tells us how much to invest in checks, logging and alerts — and occasionally it tells us not to fully automate at all, because the blast radius is bigger than the time saved.</p>
+
+    <figure class="reveal">
+      <div class="ph"><span>diagram — the audit scorecard</span></div>
+      <figcaption>Each candidate scored on frequency, cost, stability and failure risk.</figcaption>
+    </figure>
+
+    <h2 class="reveal"><span class="h2-no">05 / Ownership</span>"Who looks after it once we're gone?"</h2>
+    <p class="reveal">An automation with no owner becomes a haunted house — it works until it doesn't, and then nobody knows how it was built. So the last question is about life after launch: who gets the alert, who has the keys, and where the docs live. We'd rather build something slightly simpler that the client can actually own than something clever that only we understand.</p>
+
+    <p class="reveal">Run those five questions across a team's work and a clear shortlist falls out: high-frequency, expensive, stable, safe-to-fail, and owned. That's the list we build from. Here's roughly how a first audit tends to shake out.</p>
+
+    <div class="art-stats reveal">
+      <div class="s"><div class="v">~20</div><div class="k">candidate tasks surfaced</div></div>
+      <div class="s"><div class="v">3<span class="u">–5</span></div><div class="k">worth building first</div></div>
+      <div class="s"><div class="v">1<span class="u">hr</span></div><div class="k">to run the whole thing</div></div>
+    </div>
+
+    <h2 class="reveal"><span class="h2-no">06 / The takeaway</span>Audit before you automate</h2>
+    <p class="reveal">The temptation with automation is to start coding the first thing someone points at. But the cheapest, fastest win is almost never the most obvious one — it's the quiet, repetitive task hiding in plain sight. An hour of honest questions before you write any code is the highest-leverage hour in the whole project.</p>
+    <p class="reveal">You can run this yourself. Open a doc, list what your team did more than five times last week, and put a time and an owner next to each one. The shortlist will be obvious — and a little uncomfortable.</p>
+  </article>
+</Article>

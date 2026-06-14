@@ -1,15 +1,93 @@
 ---
-// Article reading shell (scaffold). Journal/blog prose styles ported in a later pass.
 import Base from './Base.astro';
 
 interface Props {
-  title?: string;
-  description?: string;
+  title: string;
+  description: string;
+  category: string;
+  dek: string;
+  avatar: string;
+  role: string;
+  date: string;
+  readtime: string;
+  coverLabel: string;
+  tags: string[];
+  keep: { href: string; cat: string; title: string };
+  cta: { title: string; text: string };
 }
-const { title, description } = Astro.props;
+
+const { title, description, category, dek, avatar, role, date, readtime, coverLabel, tags, keep, cta } = Astro.props;
 ---
-<Base title={title} description={description}>
-  <article class="article wrap">
-    <slot />
-  </article>
+<Base title={`${title} — pythonjs.org`} description={description}>
+  <main class="art" id="top" tabindex="-1">
+    <div class="art-wrap">
+      <nav class="crumb reveal" aria-label="Breadcrumb">
+        <a href="/">pythonjs</a>
+        <span class="sep">/</span>
+        <a href="/#journal">Journal</a>
+        <span class="sep">/</span>
+        <span class="here">{category}</span>
+      </nav>
+
+      <header class="art-head">
+        <span class="art-cat reveal">{category}</span>
+        <h1 class="art-title reveal" data-d="1">{title}</h1>
+        <p class="art-dek reveal" data-d="2">{dek}</p>
+        <div class="byline reveal" data-d="3">
+          <span class="av">{avatar}</span>
+          <span class="who">
+            <span class="nm">The pythonjs team</span>
+            <span class="rl">{role}</span>
+          </span>
+          <span class="meta">
+            <span>{date}</span>
+            <span class="dot"></span>
+            <span>{readtime}</span>
+          </span>
+        </div>
+      </header>
+
+      <div class="art-cover reveal" data-d="3">
+        <span class="pattern"></span>
+        <span class="pc-label">{coverLabel}</span>
+      </div>
+
+      <slot />
+
+      <footer class="art-foot reveal">
+        <div class="art-tags">
+          {tags.map((t) => <span class="tagchip">{t}</span>)}
+        </div>
+        <div class="author-card">
+          <span class="av">py</span>
+          <div>
+            <div class="nm">The pythonjs team</div>
+            <div class="rl">backend · infra · automation</div>
+            <p>We're a small studio of engineers and designers building products, automations and the systems that keep them running. We write up what we ship — the wins and the sharp edges.</p>
+          </div>
+        </div>
+      </footer>
+
+      <section class="keep">
+        <div class="keep-label">Keep reading</div>
+        <a class="keep-card reveal" href={keep.href}>
+          <span class="kc-art"></span>
+          <div>
+            <div class="kc-cat">{keep.cat}</div>
+            <h3>{keep.title}</h3>
+          </div>
+          <span class="kc-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+      </section>
+
+      <section class="art-cta reveal">
+        <div class="ct-text">
+          <h3>{cta.title}</h3>
+          <p>{cta.text}</p>
+        </div>
+        <a class="btn btn-primary magnetic" href="/#contact">Start a project <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </section>
+    </div>
+    <div class="art-end"></div>
+  </main>
 </Base>

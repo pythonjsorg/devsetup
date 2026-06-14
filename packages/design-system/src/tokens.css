@@ -43,13 +43,14 @@
   --line:      rgba(40, 30, 20, 0.07);
   --line-2:    rgba(40, 30, 20, 0.11);
   --line-3:    rgba(28, 24, 20, 0.26);
-  --accent:        #c77f4a;   /* warm amber/tan — primary action */
-  --accent-strong: #b56e3a;
-  --accent-2:      #d79361;   /* lighter tan — accent text/italics */
-  --accent-soft:   rgba(199, 127, 74, 0.12);
-  --accent-2-soft: rgba(200, 133, 60, 0.14);
+  --accent:        #9e5527;   /* deep terracotta — deepened from #c77f4a for WCAG AA
+                                 (white-on-accent 5.5:1, accent-as-text on bg ~4.7:1) */
+  --accent-strong: #854419;
+  --accent-2:      #b3672f;   /* lighter terracotta — large display italics (AA-large 3:1) */
+  --accent-soft:   rgba(158, 85, 39, 0.13);
+  --accent-2-soft: rgba(179, 103, 47, 0.15);
   --accent-text:   #ffffff;   /* text on accent fills */
-  --good:      #1f9460;       /* "live"/available green */
+  --good:      #157a4b;       /* "live"/available green — deepened for WCAG AA (4.7:1 on white) */
   --spot:      rgba(181, 110, 42, 0.14);
   --grid-line: rgba(40, 30, 20, 0.03);
 
