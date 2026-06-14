@@ -46,9 +46,8 @@ img, svg, video { max-width: 100%; }
   .team-copy p { margin-left: auto; margin-right: auto; max-width: 56ch; }
   .team-copy .team-meta { justify-content: center; }
 
-  #contact .cta-intro { text-align: center; }
-  #contact .cta-intro .kicker { justify-content: center; }
-  #contact .cta-lead { margin-left: auto; margin-right: auto; }
+  /* (contact keeps its own 2-col card layout into this band — see contact.css —
+     and stays left-aligned, matching the form. No centering here.) */
 
   /* bento tile spans are sized for the 6-col desktop grid; reset them so the
      four work tiles form an even 2×2 (no orphan, bottoms aligned). */
@@ -120,10 +119,7 @@ img, svg, video { max-width: 100%; }
   .team-copy .kicker { justify-content: center; }
   .team-copy p { margin-left: auto; margin-right: auto; max-width: 48ch; }
 
-  /* contact intro (headline + lead) reads as a centered editorial column;
-     the form and the email/meta fallback below stay left-aligned */
-  #contact .cta-intro { text-align: center; }
-  #contact .cta-intro .kicker { justify-content: center; }
+  /* contact intro stays left-aligned, matching the form below it */
 
   /* trim the section rhythm further on a small screen */
   main .sec { padding: clamp(40px, 9vw, 60px) 0; }

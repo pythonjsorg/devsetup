@@ -192,8 +192,10 @@
 #contact .form-ok h3 { font-size: 26px; letter-spacing: -0.02em; }
 #contact .form-ok p { max-width: 38ch; }
 
-/* ---- responsive ---- */
-@media (max-width: 1000px) {
+/* ---- responsive ----
+   Keep the two-column card (intro + reach | form) down into the tablet band so
+   it fills the width; only stack on narrow tablets / phones (≤820). */
+@media (max-width: 820px) {
   /* single column; order so the form is the priority action:
      intro (headline + lead) → form → email + meta as the fallback */
   #contact .cta-grid {
