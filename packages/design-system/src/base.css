@@ -61,7 +61,7 @@ input, textarea, select { font-family: inherit; }
   position: relative;
 }
 main { position: relative; z-index: 2; }
-.sec { padding: clamp(48px, 6vw, 88px) 0; position: relative; }
+.sec { padding: clamp(32px, 3.6vw, 56px) 0; position: relative; }
 
 /* ---- type utilities ---- */
 .kicker {
@@ -98,7 +98,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -0.0
   grid-template-columns: 1.3fr 1fr;
   gap: 32px;
   align-items: end;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 .sec-head .lead {
   color: var(--text-2);

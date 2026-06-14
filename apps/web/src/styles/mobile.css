@@ -122,7 +122,7 @@ img, svg, video { max-width: 100%; }
   /* contact intro stays left-aligned, matching the form below it */
 
   /* trim the section rhythm further on a small screen */
-  main .sec { padding: clamp(40px, 9vw, 60px) 0; }
+  main .sec { padding: clamp(26px, 6vw, 40px) 0; }
 
   /* stats: keep 2×2, tighten */
   .stats { gap: 2px; }
