@@ -1,0 +1,225 @@
+/* ============================================================
+   Contact card — pythonjs.html
+   Scoped under #contact so it overrides v2-app.css without
+   touching the older pages that share that stylesheet.
+   ============================================================ */
+
+/* ---- card shell: drop the glow blob, let structure do the work ---- */
+#contact .cta-card::before { content: none; }
+#contact .cta-card { padding: clamp(34px, 5vw, 72px); }
+
+#contact .cta-grid {
+  grid-template-columns: 0.92fr 1.08fr;
+  grid-template-areas:
+    "intro form"
+    "reach form";
+  gap: 0;
+  align-items: start;
+}
+#contact .cta-intro { grid-area: intro; }
+#contact .cta-reach  { grid-area: reach; }
+#contact .cta-left { padding-right: clamp(28px, 4.5vw, 72px); }
+#contact .cta-grid .form {
+  grid-area: form;
+  border-left: 1px solid var(--line);
+  padding-left: clamp(28px, 4.5vw, 72px);
+}
+
+#contact .cta-lead { margin-bottom: 36px; }
+
+/* ---- the email IS the contact card ---- */
+.cta-mail {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--display);
+  font-size: clamp(19px, 2.2vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  padding-bottom: 8px;
+  position: relative;
+  transition: color .25s;
+}
+.cta-mail::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: var(--line-2);
+}
+.cta-mail::before {
+  content: "";
+  position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s var(--ease);
+  z-index: 1;
+}
+.cta-mail:hover { color: var(--accent-strong); }
+.cta-mail:hover::before { transform: scaleX(1); }
+.cta-mail svg { width: 17px; height: 17px; flex: none; transition: transform .25s var(--ease); }
+.cta-mail:hover svg { transform: translate(2px, -2px); }
+
+/* ---- hairline meta rows instead of icon chips ---- */
+.cta-meta { list-style: none; margin: 38px 0 0; padding: 0; }
+.cta-meta li {
+  display: grid;
+  grid-template-columns: 98px 1fr;
+  gap: 18px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+.cta-meta li:last-child { border-bottom: 1px solid var(--line); }
+.cta-meta .k {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.cta-meta .v { font-size: 14.5px; color: var(--text-2); }
+.cta-meta .v-links { display: flex; flex-wrap: wrap; gap: 18px; }
+.cta-meta .v-links a {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 1px solid var(--line-2);
+  padding-bottom: 1px;
+  transition: color .2s, border-color .2s;
+}
+.cta-meta .v-links a:hover { color: var(--accent); border-color: var(--accent); }
+.cta-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--text-2);
+}
+.cta-status .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--good);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--good) 16%, transparent);
+}
+
+/* ---- form: underline fields, numbered labels ---- */
+#contact .field { margin-bottom: 26px; }
+#contact .field label {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  margin-bottom: 2px;
+}
+#contact .field label .fn { color: var(--accent); }
+#contact .field label .opt {
+  margin-left: auto;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--text-3);
+}
+#contact .field input,
+#contact .field select,
+#contact .field textarea {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line-2);
+  border-radius: 0;
+  padding: 10px 2px 12px;
+  font-size: 16px;
+  font-family: var(--body);
+  box-shadow: none;
+}
+#contact .field input:focus,
+#contact .field select:focus,
+#contact .field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 1px 0 0 var(--accent);
+  background: transparent;
+}
+#contact .field textarea { min-height: 92px; }
+#contact .field select {
+  padding-right: 30px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8b8c' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  background-size: 15px;
+}
+
+/* chips: quieter, clearly toggleable */
+#contact .need-chips { padding: 10px 0 2px; }
+#contact .nc { background: transparent; cursor: pointer; }
+#contact .nc.on {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+/* submit row: button + note side by side, not a full-width slab */
+#contact .form-submit {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+#contact .form-submit .btn-primary {
+  width: auto;
+  height: auto;
+  padding: 15px 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+#contact .form-submit .btn-primary svg { width: 15px; height: 15px; }
+#contact .form-note { margin-top: 0; text-align: right; }
+
+/* sent state: matches the editorial tone */
+#contact .form-ok { text-align: left; padding: 10px 0; }
+#contact .form-ok .i {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  margin: 0 0 18px;
+}
+#contact .form-ok h3 { font-size: 26px; letter-spacing: -0.02em; }
+#contact .form-ok p { max-width: 38ch; }
+
+/* ---- responsive ---- */
+@media (max-width: 1000px) {
+  /* single column; order so the form is the priority action:
+     intro (headline + lead) → form → email + meta as the fallback */
+  #contact .cta-grid {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+    grid-template-areas: none;
+    gap: 0;
+  }
+  #contact .cta-intro { order: 1; }
+  #contact .cta-grid .form { order: 2; }
+  #contact .cta-reach { order: 3; }
+
+  #contact .cta-left { padding-right: 0; }
+  #contact .cta-grid .form {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 36px;
+    margin-top: 36px;
+  }
+  /* email + meta become a quiet "prefer email?" block under the form */
+  #contact .cta-reach {
+    border-top: 1px solid var(--line);
+    padding-top: 32px;
+    margin-top: 36px;
+  }
+  .cta-meta li:last-child { border-bottom: 0; }
+}

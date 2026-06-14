@@ -1,0 +1,53 @@
+---
+// Contact — card with intro, brief form (chips + inline validation, wired in
+// interactions.ts), and reach column.
+---
+<section class="sec" id="contact">
+  <div class="wrap">
+    <div class="cta-card reveal">
+      <div class="cta-grid">
+        <div class="cta-left cta-intro">
+          <span class="kicker">Contact</span>
+          <h2>Let's build something.</h2>
+          <p class="cta-lead">Tell us what you're trying to do — an automation, a product, a website, or just an idea. Write it the way you'd explain it to a colleague.</p>
+        </div>
+        <form class="form" id="contactForm" novalidate>
+          <div class="form-inner">
+            <div class="form-row">
+              <div class="field"><label for="cf-name"><span class="fn">01</span>Name <span class="req">*</span></label><input id="cf-name" type="text" name="name" placeholder="Jane Doe" required /></div>
+              <div class="field"><label for="cf-email"><span class="fn">02</span>Email <span class="req">*</span></label><input id="cf-email" type="email" name="email" placeholder="jane@company.com" required /></div>
+            </div>
+            <div class="field">
+              <label id="cf-need-label"><span class="fn">03</span>What do you need?</label>
+              <div class="need-chips" id="needChips" role="group" aria-labelledby="cf-need-label">
+                <button type="button" class="nc" data-v="Automation" aria-pressed="false">Automation</button>
+                <button type="button" class="nc" data-v="Product" aria-pressed="false">Product</button>
+                <button type="button" class="nc" data-v="Website" aria-pressed="false">Website</button>
+                <button type="button" class="nc" data-v="Consulting" aria-pressed="false">Consulting</button>
+                <button type="button" class="nc" data-v="Not sure" aria-pressed="false">Not sure yet</button>
+              </div>
+            </div>
+            <div class="field"><label for="cf-message"><span class="fn">04</span>The brief <span class="req">*</span></label><textarea id="cf-message" name="message" placeholder="What are you trying to build or automate? What's broken today? What does done look like?" required></textarea></div>
+            <div class="form-submit">
+              <button class="btn btn-primary" type="submit">Send the brief <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+              <div class="form-note">Takes a minute · lands in the team inbox</div>
+            </div>
+          </div>
+          <div class="form-ok">
+            <div class="i"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg></div>
+            <h3>Brief received.</h3>
+            <p>Thanks — it's in the team inbox. You'll hear from a developer within 24 hours.</p>
+          </div>
+        </form>
+        <div class="cta-left cta-reach">
+          <a class="cta-mail" href="mailto:hello@pythonjs.org">hello@pythonjs.org <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+          <ul class="cta-meta">
+            <li><span class="k">Reply</span><span class="v">Within 24 hours, from a developer — not an autoresponder</span></li>
+            <li><span class="k">Elsewhere</span><span class="v v-links"><a href="https://github.com/pythonjs" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/company/pythonjs" target="_blank" rel="noopener">LinkedIn</a><a href="https://x.com/pythonjs" target="_blank" rel="noopener">X / Twitter</a></span></li>
+            <li><span class="k">Status</span><span class="v"><span class="cta-status"><span class="dot"></span>accepting new projects</span></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
