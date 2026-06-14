@@ -31,8 +31,41 @@ img, svg, video { max-width: 100%; }
   .hero-aside--tuck { margin-top: -150px; }
 }
 
-/* ---------------- PHONE ---------------- */
-@media (max-width: 560px) {
+/* ---------------- TABLET (641–1000): aligned where there's room ----------------
+   The card grids already go two-up here, but the section headers stack to one
+   column — so present heading + lead as a centered editorial block (heading
+   centered, cards below), per the design system's alignment rule. Also reset the
+   bento's 6-col spans so tiles flow two-up instead of each clamping full-width. */
+@media (min-width: 641px) and (max-width: 1000px) {
+  .sec-head { text-align: center; justify-items: center; }
+  .sec-head .kicker { justify-content: center; }
+  .sec-head .lead { justify-self: center; text-align: center; max-width: 56ch; margin-left: auto; margin-right: auto; }
+
+  .team-copy { text-align: center; }
+  .team-copy .kicker { justify-content: center; }
+  .team-copy p { margin-left: auto; margin-right: auto; max-width: 56ch; }
+  .team-copy .team-meta { justify-content: center; }
+
+  #contact .cta-intro { text-align: center; }
+  #contact .cta-intro .kicker { justify-content: center; }
+  #contact .cta-lead { margin-left: auto; margin-right: auto; }
+
+  /* bento tile spans are sized for the 6-col desktop grid; reset them so the
+     four work tiles form an even 2×2 (no orphan, bottoms aligned). */
+  .tile-wide, .tile-tall, .tile-half, .tile-third { grid-column: auto; }
+  .bento { grid-auto-rows: auto; }
+
+  /* testimonials: feature quote spans the row; the two others sit two-up. */
+  .quote.feature { grid-column: 1 / -1; }
+
+  /* journal: keep three posts three-up through the tablet band (no orphan). */
+  .posts { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ---------------- PHONE / LARGE PHONE (≤640) ----------------
+   Matches where the card grids collapse to a single column, so the whole
+   narrative (hero, section headers, intros) reads as one centered column. */
+@media (max-width: 640px) {
   :root { --gut: 18px; }
 
   /* nav: the inline CTA already lives in the menu panel — drop it
@@ -92,8 +125,8 @@ img, svg, video { max-width: 100%; }
   #contact .cta-intro { text-align: center; }
   #contact .cta-intro .kicker { justify-content: center; }
 
-  /* trim the cavernous section rhythm on a small screen */
-  main .sec { padding: clamp(52px, 13vw, 84px) 0; }
+  /* trim the section rhythm further on a small screen */
+  main .sec { padding: clamp(40px, 9vw, 60px) 0; }
 
   /* stats: keep 2×2, tighten */
   .stats { gap: 2px; }
