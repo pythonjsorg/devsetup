@@ -61,7 +61,7 @@ input, textarea, select { font-family: inherit; }
   position: relative;
 }
 main { position: relative; z-index: 2; }
-.sec { padding: clamp(32px, 3.6vw, 56px) 0; position: relative; }
+.sec { padding: clamp(24px, 2.6vw, 42px) 0; position: relative; }
 
 /* ---- type utilities ---- */
 .kicker {
