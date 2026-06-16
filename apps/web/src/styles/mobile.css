@@ -31,23 +31,18 @@ img, svg, video { max-width: 100%; }
   .hero-aside--tuck { margin-top: -150px; }
 }
 
-/* ---------------- TABLET (641–1000): aligned where there's room ----------------
-   The card grids already go two-up here, but the section headers stack to one
-   column — so present heading + lead as a centered editorial block (heading
-   centered, cards below), per the design system's alignment rule. Also reset the
-   bento's 6-col spans so tiles flow two-up instead of each clamping full-width. */
+/* ---------------- TABLET (641–1000): left-aligned, stacked ----------------
+   Section headers collapse from the desktop two-column grid to a single
+   LEFT-aligned column (heading, then lead beneath it). Centering is reserved
+   for ≤640px phones, where short narrative content benefits from it; at tablet
+   width there's enough room that left-aligned reads cleaner and more
+   intentional. Card grids are also reset so tiles flow evenly. */
 @media (min-width: 641px) and (max-width: 1000px) {
-  .sec-head { text-align: center; justify-items: center; }
-  .sec-head .kicker { justify-content: center; }
-  .sec-head .lead { justify-self: center; text-align: center; max-width: 56ch; margin-left: auto; margin-right: auto; }
+  .sec-head { grid-template-columns: 1fr; text-align: left; justify-items: start; }
+  .sec-head .lead { justify-self: start; text-align: left; max-width: 62ch; margin: 0; }
 
-  .team-copy { text-align: center; }
-  .team-copy .kicker { justify-content: center; }
-  .team-copy p { margin-left: auto; margin-right: auto; max-width: 56ch; }
-  .team-copy .team-meta { justify-content: center; }
-
-  /* (contact keeps its own 2-col card layout into this band — see contact.css —
-     and stays left-aligned, matching the form. No centering here.) */
+  /* team intro stays left-aligned (base layout); just cap line length */
+  .team-copy p { max-width: 62ch; }
 
   /* bento tile spans are sized for the 6-col desktop grid; reset them so the
      four work tiles form an even 2×2 (no orphan, bottoms aligned). */
@@ -107,6 +102,8 @@ img, svg, video { max-width: 100%; }
   /* section headers: eyebrow + title + lead, centered */
   .sec-head { text-align: center; justify-items: center; }
   .sec-head .kicker { justify-content: center; }
+  /* the title has a max-width — center its BOX (margin auto), not just its text */
+  .sec-head .sec-title { margin-left: auto; margin-right: auto; }
   .sec-head .lead {
     justify-self: center;
     text-align: center;
@@ -115,9 +112,12 @@ img, svg, video { max-width: 100%; }
     margin-right: auto;
   }
   /* team intro copy, centered to match */
-  .team-copy { text-align: center; }
+  /* flex-column + align-items:center centers EVERY child (incl. max-width
+     headings) automatically — no per-child margin patching needed */
+  .team-copy { text-align: center; display: flex; flex-direction: column; align-items: center; }
   .team-copy .kicker { justify-content: center; }
   .team-copy p { margin-left: auto; margin-right: auto; max-width: 48ch; }
+  .team-copy .team-meta { justify-content: center; }
 
   /* contact intro stays left-aligned, matching the form below it */
 
