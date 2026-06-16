@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pythonjs.org/devtools/sitemap.xml
+Sitemap: https://pythonjs.org/sitemap-index.xml

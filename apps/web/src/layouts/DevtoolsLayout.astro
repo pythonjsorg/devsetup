@@ -1,0 +1,122 @@
+---
+// Layout for the /devtools section — faithful port of the former Next.js
+// app/layout.tsx (own header/footer chrome). Owns its <head> (not shared with
+// the marketing Base.astro). Imports devtools.css here so Astro scopes Tailwind
+// + the alias layer to /devtools routes only.
+import '../styles/devtools.css';
+import ThemeSwitcher from '../components/devtools/ThemeSwitcher.tsx';
+import SearchBar from '../components/devtools/SearchBar.tsx';
+import MobileSearch from '../components/devtools/MobileSearch.tsx';
+import MobileNav from '../components/devtools/MobileNav.tsx';
+import { homeHref, changelogHref } from '../lib/devtools-paths';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const DEFAULT_TITLE = 'DevSetup — Install any dev tool correctly';
+const DEFAULT_DESC =
+  'Step-by-step install guides for Node.js, Bun, Docker, Git, and more. LTS pinned where applicable, every dependency resolved automatically.';
+
+const { title = DEFAULT_TITLE, description = DEFAULT_DESC } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+// Anti-flash: apply persisted theme + theme-color before paint (key pyjs.theme).
+const THEME_BOOT = `(function(){var d=document.documentElement;try{var t=localStorage.getItem('pyjs.theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}d.setAttribute('data-theme',t);var m=document.querySelector('meta[name="theme-color"]');if(m)m.content=(t==='dark'?'#14100c':'#f5efe8');}catch(e){}})();`;
+---
+
+<!doctype html>
+<html lang="en" data-theme="light" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f5efe8" />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DevSetup" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script is:inline set:html={THEME_BOOT} />
+  </head>
+  <body class="min-h-full flex flex-col" style="background: var(--background); color: var(--foreground);">
+    <!-- Header -->
+    <header
+      class="sticky top-0 z-50"
+      style="border-bottom: 1px solid var(--border-soft); background: color-mix(in srgb, var(--background) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
+    >
+      <div class="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
+        <a href={homeHref} class="flex items-center gap-2.5 group" style="text-decoration: none;">
+          <span
+            class="flex h-8 w-8 items-center justify-center text-xs font-bold"
+            style="background: var(--foreground); color: var(--background); border-radius: var(--radius-md); font-family: var(--font-jetbrains); letter-spacing: -0.04em;"
+          >›_</span>
+          <span
+            class="text-[19px] font-bold tracking-tight"
+            style="font-family: var(--font-instrument-serif); color: var(--foreground); letter-spacing: -0.025em;"
+          >DevSetup</span>
+          <span
+            class="ml-1 text-[11px] px-2 py-0.5 whitespace-nowrap"
+            style="font-family: var(--font-jetbrains); color: var(--muted-foreground); background: var(--muted); border-radius: var(--radius-sm);"
+          >v1.0</span>
+        </a>
+
+        <nav class="flex items-center gap-2">
+          <a
+            href={homeHref}
+            class="hidden md:inline-flex items-center whitespace-nowrap"
+            style="font-size: 13px; font-weight: 600; font-family: var(--font-jetbrains); color: var(--foreground); background: var(--muted); padding: 5px 12px; border-radius: var(--radius-full); text-decoration: none;"
+          >Install</a>
+
+          {['DB Cmds', 'CLI Ref', 'Compare'].map((label) => (
+            <span
+              class="hidden md:inline-flex items-center gap-1.5 whitespace-nowrap"
+              style="font-size: 13px; font-weight: 600; font-family: var(--font-jetbrains); color: var(--muted-foreground); padding: 5px 12px; cursor: default;"
+            >
+              <span style="opacity: 0.55;">{label}</span>
+              <span style="font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-foreground); background: var(--muted); padding: 2px 6px; border-radius: var(--radius-full);">soon</span>
+            </span>
+          ))}
+
+          <div class="hidden md:block">
+            <ThemeSwitcher client:load />
+          </div>
+          <SearchBar client:load />
+          <MobileSearch client:load />
+          <MobileNav client:load />
+        </nav>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="flex flex-1 flex-col"><slot /></div>
+
+    <!-- Footer -->
+    <footer style="border-top: 1px solid var(--border-soft);">
+      <div class="mx-auto max-w-7xl px-6 py-5 flex items-center justify-between flex-wrap gap-3">
+        <span class="text-xs" style="font-family: var(--font-jetbrains); color: var(--muted-foreground);">
+          LTS where applicable · Dependencies resolved automatically
+        </span>
+        <div class="flex items-center gap-4">
+          <a href={changelogHref} class="text-xs" style="font-family: var(--font-jetbrains); color: var(--muted-foreground); text-decoration: none;">Changelog</a>
+          <span class="text-xs" style="font-family: var(--font-jetbrains); color: var(--muted-foreground);">DevSetup</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

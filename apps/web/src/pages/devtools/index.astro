@@ -1,0 +1,122 @@
+---
+import DevtoolsLayout from '../../layouts/DevtoolsLayout.astro';
+import { getAllTools } from '../../lib/catalog';
+import Icon from '../../components/devtools/Icon.tsx';
+import LtsPopover from '../../components/devtools/LtsPopover.tsx';
+import FilterableGrid from '../../components/devtools/FilterableGrid.tsx';
+
+const tools = getAllTools();
+const stats = [
+  { v: String(tools.length), l: 'Tools indexed' },
+  { v: '3', l: 'Platforms' },
+  { v: '100%', l: 'LTS where applicable' },
+  { v: '2', l: 'AI agents' },
+];
+---
+
+<DevtoolsLayout>
+  <main class="flex flex-col flex-1">
+    <!-- Hero -->
+    <section class="relative">
+      <div class="mx-auto max-w-7xl px-6 py-14 sm:py-20 grid lg:grid-cols-[1.3fr_1fr] gap-16 items-center">
+        <!-- Left column -->
+        <div>
+          <div
+            class="inline-flex items-center gap-2.5 whitespace-nowrap mb-7"
+            style="padding: 5px 5px 5px 14px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-full); font-size: 12px; font-family: var(--font-jetbrains); color: var(--foreground-dim); box-shadow: var(--shadow-sm);"
+          >
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--cat-pkg-fg); box-shadow: 0 0 0 4px var(--cat-pkg-bg);"></span>
+            All guides verified · updated weekly
+            <span style="background: var(--primary); color: var(--primary-foreground); font-weight: 700; font-size: 10px; letter-spacing: 0.06em; padding: 4px 10px; border-radius: var(--radius-full); text-transform: uppercase;">v1.0</span>
+          </div>
+
+          <h1 style="font-family: var(--font-geist); font-size: clamp(2.75rem, 7vw, 5rem); font-weight: 700; line-height: 0.96; letter-spacing: -0.04em; margin: 0; color: var(--foreground); text-wrap: balance;">
+            Install any dev tool, <em style="font-family: var(--font-instrument-serif); font-style: italic; font-weight: 400; color: var(--primary); letter-spacing: -0.02em;">correctly</em>.
+          </h1>
+
+          <p class="mt-5 max-w-xl" style="font-size: 18px; line-height: 1.55; color: var(--foreground-dim); text-wrap: pretty;">
+            Step-by-step recipes for Node, Bun, uv, and the new generation of
+            terminal AI agents. Pinned to LTS, every dependency taken care of —
+            no copy-pasting from five Stack Overflow tabs.
+          </p>
+
+          <div class="mt-7 flex gap-3 items-center flex-wrap">
+            <a
+              href="#tools"
+              class="inline-flex items-center gap-2 whitespace-nowrap"
+              style="background: var(--primary); color: var(--primary-foreground); border: none; border-radius: var(--radius-full); padding: 15px 28px; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: var(--shadow-lg); text-decoration: none;"
+            >
+              Browse tools
+              <Icon name="arrow" size={15} strokeWidth={2.25} />
+            </a>
+            <LtsPopover client:load />
+          </div>
+
+          <div class="mt-10 pt-5 flex gap-10 flex-wrap" style="border-top: 1px solid var(--border-soft);">
+            {stats.map((stat) => (
+              <div>
+                <div style="font-family: var(--font-geist); font-size: 26px; font-weight: 700; color: var(--foreground); line-height: 1; letter-spacing: -0.03em;">{stat.v}</div>
+                <div class="mt-1.5" style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-foreground); font-family: var(--font-jetbrains);">{stat.l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Right column — preview card -->
+        <div
+          class="hidden lg:block"
+          style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-2xl); box-shadow: var(--shadow-2xl); overflow: hidden; transform: rotate(0.4deg);"
+        >
+          <div
+            class="flex items-center gap-2.5"
+            style="padding: 14px 18px; background: var(--surface-2); border-bottom: 1px solid var(--border-soft); font-family: var(--font-jetbrains); font-size: 11px; color: var(--muted-foreground); letter-spacing: 0.04em;"
+          >
+            <span class="flex gap-1.5">
+              <span style="width: 9px; height: 9px; border-radius: 50%; background: #ff5f57;"></span>
+              <span style="width: 9px; height: 9px; border-radius: 50%; background: #febc2e;"></span>
+              <span style="width: 9px; height: 9px; border-radius: 50%; background: #28c840;"></span>
+            </span>
+            <span class="ml-1.5">~/dev/setup/node</span>
+          </div>
+
+          <div class="p-5">
+            <div class="flex items-center gap-3 mb-3.5">
+              <div class="flex items-center justify-center" style="width: 44px; height: 44px; background: var(--cat-runtime-bg); color: var(--cat-runtime-fg); border-radius: var(--radius-lg);">
+                <Icon name="bolt" size={22} strokeWidth={2} />
+              </div>
+              <div>
+                <div style="font-family: var(--font-geist); font-weight: 700; font-size: 22px; letter-spacing: -0.025em; line-height: 1.05; color: var(--foreground);">Node.js</div>
+                <div class="inline-flex items-center gap-1.5 mt-1.5 whitespace-nowrap" style="font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--cat-pkg-fg); font-family: var(--font-jetbrains);">
+                  <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--cat-pkg-fg);"></span>
+                  LTS v22.x · &ldquo;Jod&rdquo; · 30-mo support
+                </div>
+              </div>
+            </div>
+
+            <p class="mb-3.5" style="font-size: 13.5px; line-height: 1.55; color: var(--foreground-dim); margin: 0 0 14px;">
+              JavaScript runtime built on Chrome&rsquo;s V8. Required for npm, npx,
+              and most JS-based CLIs.
+            </p>
+
+            <div class="relative" style="background: var(--code-bg); border-radius: var(--radius-md); padding: 14px 16px; font-family: var(--font-jetbrains); font-size: 13px; color: var(--code-fg); line-height: 1.6;">
+              <div>
+                <span style="color: var(--code-prompt); margin-right: 10px;">$</span>
+                brew install node@22
+              </div>
+            </div>
+
+            <div class="mt-3.5 flex justify-between items-center" style="font-size: 12px; color: var(--muted-foreground); font-family: var(--font-jetbrains);">
+              <span>3 steps · ~2 min</span>
+              <span class="inline-flex items-center gap-1 whitespace-nowrap" style="color: var(--primary); font-weight: 600;">
+                open recipe
+                <Icon name="arrow" size={12} strokeWidth={2.5} />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <FilterableGrid tools={tools} client:load />
+  </main>
+</DevtoolsLayout>

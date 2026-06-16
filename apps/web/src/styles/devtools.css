@@ -1,0 +1,119 @@
+/* ============================================================
+   /devtools styles (migrated from the former Next.js zone).
+   Imported ONLY by DevtoolsLayout.astro, so Astro scopes it to
+   /devtools routes — marketing pages never load Tailwind.
+
+   Tailwind v4 WITHOUT preflight: import only the theme (spacing
+   scale + sm/md/lg breakpoints, required by the utility classes)
+   and utilities layers. The design-system base.css supplies the
+   resets (box-sizing, margin) that preflight would have.
+   ============================================================ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@import "@pythonjs/design-system/tokens.css";
+@import "@pythonjs/design-system/base.css";
+
+/* ------------------------------------------------------------
+   Alias layer: map DevSetup's legacy token names onto the shared
+   tokens, so the ported components keep using var(--background) etc.
+   unchanged. Never alias a name back onto one tokens.css owns.
+   ------------------------------------------------------------ */
+:root {
+  /* surfaces & ink */
+  --background:       var(--bg);
+  --foreground:       var(--text);
+  --foreground-dim:   var(--text-2);
+  --card:             var(--surface);
+  --surface-2:        var(--elev);
+  --muted:            var(--elev);
+  --muted-foreground: var(--text-3);
+  --border:           var(--line-2);
+  --border-soft:      var(--line);
+  --accent-surface:   var(--accent-soft);
+
+  /* primary → accent (terracotta); -foreground flips light/dark automatically */
+  --primary:            var(--accent);
+  --primary-foreground: var(--accent-text);
+  --primary-soft:       var(--accent-soft);
+  --primary-700:        var(--accent-strong);
+
+  /* highlight (success/"you're set up") → green, with explicit fg */
+  --highlight:            var(--good);
+  --highlight-foreground: #ffffff;
+  --highlight-soft:       color-mix(in srgb, var(--good) 14%, transparent);
+
+  /* category chips — re-derived warm palette (light) */
+  --cat-runtime-bg: #efddc9; --cat-runtime-fg: #834c15;
+  --cat-ai-bg:      #f1e6c2; --cat-ai-fg:      #7a5d10;
+  --cat-pkg-bg:     #d9e4cf; --cat-pkg-fg:     #3f6630;
+  --cat-platform-bg:#d4dde6; --cat-platform-fg:#39597a;
+  --cat-vcs-bg:     #f0d8cc; --cat-vcs-fg:     #9a4424;
+
+  /* code panel — intentionally dark in BOTH themes (fixed, not theme-tracked) */
+  --code-bg:      #14100c;
+  --code-fg:      #efedf4;
+  --code-prompt:  #e0a96d;
+  --code-keyword: #f0bd86;
+
+  /* radii → shared soft/pillowy scale */
+  --radius-sm:   var(--r-xs);
+  --radius-md:   var(--r-sm);
+  --radius-lg:   var(--r);
+  --radius-xl:   var(--r-lg);
+  --radius-2xl:  var(--r-xl);
+  --radius-full: 9999px;
+
+  /* extra shadow tiers DevSetup uses (sm/base/lg come from tokens.css) */
+  --shadow-md:  var(--shadow);
+  --shadow-xl:  var(--shadow-lg);
+  --shadow-2xl: var(--shadow-lg);
+
+  /* fonts: legacy names → real families (loaded via <link> in DevtoolsLayout).
+     Replaces the next/font CSS vars from the old Next app. */
+  --font-hanken:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-bricolage: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-jetbrains: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-geist:            var(--font-hanken);
+  --font-instrument-serif: var(--font-bricolage);
+}
+
+/* dark: only the category chips need explicit dark values —
+   all surface/ink/accent tokens flip via tokens.css [data-theme="dark"] */
+[data-theme="dark"] {
+  --cat-runtime-bg: #2e2417; --cat-runtime-fg: #e0a96d;
+  --cat-ai-bg:      #2c2814; --cat-ai-fg:      #e6c878;
+  --cat-pkg-bg:     #1b2a1e; --cat-pkg-fg:     #7fc98e;
+  --cat-platform-bg:#19222e; --cat-platform-fg:#8fb4d8;
+  --cat-vcs-bg:     #2e1c16; --cat-vcs-fg:     #e09a78;
+}
+
+/* base */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+:root { color-scheme: light; }
+[data-theme="dark"] { color-scheme: dark; }
+
+/* guard against decorative bleed causing horizontal scroll */
+html, body { overflow-x: hidden; }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
