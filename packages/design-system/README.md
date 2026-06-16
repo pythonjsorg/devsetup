@@ -12,6 +12,7 @@ Next.js devtools app alike. No build step.
 | `@pythonjs/design-system/base.css` | Reset + global primitives: `.wrap` `.sec` `.kicker` `.btn` `.chip` `.tlink` `.reveal` `.atmos` `.progress` + View-Transition theme reveal. Import **after** tokens. |
 | `@pythonjs/design-system/fonts.css` | Google Fonts `@import` (Bricolage Grotesque / Hanken Grotesk / JetBrains Mono). Prefer `<link>` in `<head>` for performance. |
 | `@pythonjs/design-system/tailwind-theme.css` | Optional Tailwind v4 `@theme` bridge (tokens → utilities). For apps using Tailwind color/font utilities. |
+| `@pythonjs/design-system/theme` | Framework-agnostic theme JS: `THEME_BOOT_SCRIPT` (anti-flash), `initThemeToggle()`, `getInitialTheme/applyTheme/toggleTheme`. The shared `data-theme` + `pyjs.theme` contract — don't re-implement it per site. |
 
 ## Usage
 
