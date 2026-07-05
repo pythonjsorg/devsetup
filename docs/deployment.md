@@ -12,13 +12,16 @@ Marketing, `/devtools`, and `/journal` all ship together. No multi-zone proxy.
 - Must live in the Vercel **team/account that owns the `pythonjs.org` apex domain**.
 
 ## Build note — Rollup native binary (npm/cli#4828)
-Astro builds via Vite → Rollup, which ships **per-platform native binaries**
-(`@rollup/rollup-<os>-<arch>`). Because our `package-lock.json` is generated on macOS, npm's
-optional-deps bug ([npm/cli#4828](https://github.com/npm/cli/issues/4828)) omits the Linux binary's
-lockfile entry — so Vercel's Linux build can't find `@rollup/rollup-linux-x64-gnu` and `astro build`
-fails. Fix: the root `package.json` pins it in `optionalDependencies` (os-gated, so it's a no-op on
-macOS). **Keep this pin's version in lockstep with `rollup`** — if you upgrade astro/vite/rollup, set
-it to the new `rollup` version (`node -e "console.log(require('./package-lock.json').packages['node_modules/rollup'].version)"`).
+The build toolchain (Rollup, esbuild, Lightning CSS, Tailwind Oxide, sharp) ships **per-platform
+native binaries** as os/cpu-gated optional deps. Because our `package-lock.json` is generated on
+macOS, npm's optional-deps bug ([npm/cli#4828](https://github.com/npm/cli/issues/4828)) omits the
+**Linux** binaries' lockfile entries — so Vercel's Linux build can't find them (e.g.
+`@rollup/rollup-linux-x64-gnu`, `lightningcss.linux-x64-gnu.node`) and `astro build` fails. Fix: the
+root `package.json` pins each Linux x64/glibc binary in `optionalDependencies` (os-gated, so they're
+no-ops on macOS): `@rollup/rollup-linux-x64-gnu`, `@esbuild/linux-x64`, `lightningcss-linux-x64-gnu`,
+`@tailwindcss/oxide-linux-x64-gnu`, `@img/sharp-linux-x64`, `@img/sharp-libvips-linux-x64`.
+**Keep each pin's version in lockstep with its parent** — if you upgrade astro/vite/tailwind/etc.,
+re-derive the versions from the lockfile (each pin must byte-match its parent package's version).
 Do **not** `rm package-lock.json && npm install` to "fix" deps — the `^` ranges will pull newer,
 build-breaking Vite/Tailwind; treat the lockfile as load-bearing and build-test any regeneration.
 
