@@ -1,5 +1,8 @@
 ---
 // Journal teasers — blog post cards linking to the published /journal articles.
+import { Image } from 'astro:assets';
+import lcLight from '../assets/journal/localconnect-light.png';
+import lcDark from '../assets/journal/localconnect-dark.png';
 ---
 <section class="sec" id="journal">
   <div class="wrap">
@@ -29,14 +32,18 @@
           <span class="post-go">Read article <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
       </a>
-      <article class="post reveal" data-d="2">
-        <div class="post-cover"><span class="pattern"></span><span class="pc-label">Case study / Local Connect</span></div>
+      <a class="post reveal" data-d="2" href="https://localconnectpro.com" target="_blank" rel="noopener">
+        <div class="post-cover">
+          <Image src={lcLight} alt="LocalConnect Pro homepage" class="shot shot-light" width={640} densities={[1, 2]} />
+          <Image src={lcDark} alt="LocalConnect Pro homepage — dark mode" class="shot shot-dark" width={640} densities={[1, 2]} />
+        </div>
         <div class="post-body">
-          <div class="post-meta"><span class="post-cat">Case study</span><span>·</span><span class="soon-tag">Coming soon</span></div>
+          <div class="post-meta"><span class="post-cat">Case study</span><span>·</span><span>Live</span></div>
           <h3>Shipping Local Connect in two weeks — on weekends</h3>
           <p>How tight scoping let us take a marketplace from idea to launch, fast.</p>
+          <span class="post-go">Visit site <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
         </div>
-      </article>
+      </a>
     </div>
   </div>
 </section>

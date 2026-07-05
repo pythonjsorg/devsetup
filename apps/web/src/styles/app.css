@@ -336,24 +336,6 @@
 .tile-metric { font-family: var(--mono); font-size: 13px; color: var(--text-2); }
 .tile-metric b { color: var(--accent); font-weight: 500; }
 
-/* product-preview tile (e.g. Local Connect) — theme-switched screenshot + visit cue */
-.tile.has-shot .tile-top { margin-bottom: 16px; }
-.tile.has-shot h3 { margin-top: 2px; }
-.tile-shot {
-  position: relative; aspect-ratio: 16 / 9; margin-bottom: 18px;
-  border-radius: var(--r-sm); overflow: hidden;
-  border: 1px solid var(--line-2); box-shadow: var(--shadow-sm);
-  transition: border-color .35s;
-}
-.tile-shot .shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
-.tile-shot .shot-dark { display: none; }
-[data-theme="dark"] .tile-shot .shot-light { display: none; }
-[data-theme="dark"] .tile-shot .shot-dark { display: block; }
-.tile.has-shot:hover .tile-shot { border-color: var(--accent); }
-.visit { font-family: var(--mono); font-size: 12px; color: var(--accent); display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
-.visit .arrow { transition: transform .3s var(--spring); }
-.tile.has-shot:hover .visit .arrow { transform: translate(2px, -2px); }
-
 /* decorative big tile visual */
 .tile-viz {
   position: absolute; right: -30px; bottom: -30px;
@@ -482,6 +464,11 @@
     repeating-linear-gradient(45deg, transparent 0 14px, var(--grid-line) 14px 15px);
 }
 .post-cover .pc-label { position: relative; font-family: var(--mono); font-size: 12px; color: var(--text-2); letter-spacing: 0.05em; }
+/* post cover showing a real screenshot (theme-switched) */
+.post-cover .shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.post-cover .shot-dark { display: none; }
+[data-theme="dark"] .post-cover .shot-light { display: none; }
+[data-theme="dark"] .post-cover .shot-dark { display: block; }
 .post-body { padding: 24px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
 .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-family: var(--mono); font-size: 11.5px; color: var(--text-3); }
 .post-meta > span { white-space: nowrap; }
