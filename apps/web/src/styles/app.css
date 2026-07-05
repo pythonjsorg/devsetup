@@ -419,7 +419,7 @@
 .face .nameplate .nm { font-family: var(--display); font-weight: 700; font-size: 16px; }
 .face .nameplate .rl { font-family: var(--mono); font-size: 11px; color: var(--text-2); }
 /* a face showing a real photo: fill + bottom scrim so the nameplate stays legible */
-.face-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 18%; }
+.face-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 6%; }
 .face.has-photo::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(18, 14, 10, 0.78), rgba(18, 14, 10, 0.06) 42%, transparent 60%); }
 .face.has-photo .nameplate .nm { color: #fff; }
 .face.has-photo .nameplate .rl { color: rgba(255, 255, 255, 0.82); }
