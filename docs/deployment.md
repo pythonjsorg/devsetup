@@ -11,6 +11,17 @@ Marketing, `/devtools`, and `/journal` all ship together. No multi-zone proxy.
   ever fails on a missing `@pythonjs/design-system`, set the Install Command to `npm install` (root).
 - Must live in the Vercel **team/account that owns the `pythonjs.org` apex domain**.
 
+## Build note — Rollup native binary (npm/cli#4828)
+Astro builds via Vite → Rollup, which ships **per-platform native binaries**
+(`@rollup/rollup-<os>-<arch>`). Because our `package-lock.json` is generated on macOS, npm's
+optional-deps bug ([npm/cli#4828](https://github.com/npm/cli/issues/4828)) omits the Linux binary's
+lockfile entry — so Vercel's Linux build can't find `@rollup/rollup-linux-x64-gnu` and `astro build`
+fails. Fix: the root `package.json` pins it in `optionalDependencies` (os-gated, so it's a no-op on
+macOS). **Keep this pin's version in lockstep with `rollup`** — if you upgrade astro/vite/rollup, set
+it to the new `rollup` version (`node -e "console.log(require('./package-lock.json').packages['node_modules/rollup'].version)"`).
+Do **not** `rm package-lock.json && npm install` to "fix" deps — the `^` ranges will pull newer,
+build-breaking Vite/Tailwind; treat the lockfile as load-bearing and build-test any regeneration.
+
 ## First-time deploy
 1. **Decommission any old project** still wired to this repo (e.g. a former `devtools` project) —
    delete it or disconnect its Git so it doesn't auto-deploy stale output.
