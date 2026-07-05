@@ -49,9 +49,6 @@ img, svg, video { max-width: 100%; }
   .tile-wide, .tile-tall, .tile-half, .tile-third { grid-column: auto; }
   .bento { grid-auto-rows: auto; }
 
-  /* testimonials: feature quote spans the row; the two others sit two-up. */
-  .quote.feature { grid-column: 1 / -1; }
-
   /* journal: keep three posts three-up through the tablet band (no orphan). */
   .posts { grid-template-columns: repeat(3, 1fr); }
 }
