@@ -555,14 +555,14 @@
   .bento { grid-template-columns: repeat(2, 1fr); }
   .tile-wide, .tile-tall, .tile-half, .tile-third { grid-column: span 1; }
   .team-grid { grid-template-columns: 1fr; gap: 36px; }
-  .docs-grid, .quotes, .posts { grid-template-columns: 1fr 1fr; }
+  .docs-grid, .posts { grid-template-columns: 1fr 1fr; }
   .cta-grid { grid-template-columns: 1fr; gap: 36px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 640px) {
   .hero h1 { font-size: clamp(40px, 13vw, 60px); }
   .stats { grid-template-columns: 1fr 1fr; }
-  .bento, .docs-grid, .quotes, .posts { grid-template-columns: 1fr; }
+  .bento, .docs-grid, .posts { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
   .svc-head { grid-template-columns: 40px 1fr auto; gap: 14px; }
   .svc-detail { grid-template-columns: 1fr; gap: 16px; }
