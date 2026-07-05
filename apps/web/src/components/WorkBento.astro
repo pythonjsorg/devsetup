@@ -1,5 +1,8 @@
 ---
 // Selected work — bento grid with cursor-spotlight tiles (wired in interactions.ts).
+import { Image } from 'astro:assets';
+import lcLight from '../assets/work/localconnect-light.png';
+import lcDark from '../assets/work/localconnect-dark.png';
 ---
 <section class="sec" id="work">
   <div class="wrap">
@@ -27,18 +30,30 @@
         </div>
       </article>
 
-      <article class="tile tile-tall reveal" data-d="1">
+      <a
+        class="tile tile-tall has-shot reveal"
+        data-d="1"
+        href="https://localconnectpro.com"
+        target="_blank"
+        rel="noopener"
+        aria-label="Local Connect — visit localconnectpro.com"
+      >
         <div class="spotlight"></div>
         <div class="tile-top">
           <div class="tile-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-5.1-7-10a7 7 0 0114 0c0 4.9-7 10-7 10z"/><circle cx="12" cy="11" r="2.5"/></svg></div>
           <span class="chip live"><span class="led"></span>Client work · Live</span>
         </div>
+        <div class="tile-shot">
+          <Image src={lcLight} alt="LocalConnect Pro homepage" class="shot shot-light" width={760} densities={[1, 2]} />
+          <Image src={lcDark} alt="LocalConnect Pro homepage — dark mode" class="shot shot-dark" width={760} densities={[1, 2]} />
+        </div>
         <h3>Local Connect</h3>
-        <p>A platform connecting local businesses with the people around them — scoped, built and shipped in two weeks, working weekends only.</p>
+        <p>A platform connecting local businesses with the people around them — scoped, built and shipped in two weeks.</p>
         <div class="tile-foot">
           <span class="tile-metric"><b>2 weeks</b> idea → launch</span>
+          <span class="visit">localconnectpro.com <svg class="arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
         </div>
-      </article>
+      </a>
 
       <article class="tile tile-half reveal" data-d="1">
         <div class="spotlight"></div>
