@@ -12,10 +12,10 @@ export interface Member {
 
 // Single source of truth — consumed by the homepage teaser (first 4) and the /team page (all).
 export const members: Member[] = [
+  { name: 'Full-stack Dev', role: 'web · apps' }, // 1 — free (placeholder)
   { name: 'Aditya Suthar', role: 'backend · infra', img: adityaSuthar, pos: 'center 52%' },
-  { name: 'Sanjay Modi', role: 'automation · data · bots', img: sanjayModi },
   { name: 'Kiran Joshi', role: 'SEO · ASO · content writer', img: kiranJoshi, pos: 'center 38%' },
-  { name: 'Full-stack Dev', role: 'web · apps' },
+  { name: 'Sanjay Modi', role: 'automation · data · bots', img: sanjayModi },
   { name: 'Product Designer', role: 'ui · brand' },
   { name: 'DevOps', role: 'cloud · ci/cd' },
   { name: 'QA Engineer', role: 'testing · qa' },
