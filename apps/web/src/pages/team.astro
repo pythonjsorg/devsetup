@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import TeamFace from '../components/TeamFace.astro';
+import { members } from '../data/team';
+---
+<Base
+  title="Meet the team — pythonjs.org"
+  description="The engineers, designers and writers behind pythonjs — a small remote-first studio building products, automations and online presence end to end."
+>
+  <main id="top" tabindex="-1">
+    <section class="sec team-page">
+      <div class="wrap">
+        <div class="reveal">
+          <span class="kicker">The team</span>
+          <h1 class="sec-title">Meet the team.</h1>
+          <p class="team-page-lead">A small, remote-first studio of engineers, designers and writers. Everything on this site we've designed, built and shipped ourselves — and we keep it running long after launch.</p>
+        </div>
+
+        <div class="team-roster reveal" data-d="1">
+          {members.map((m) => <TeamFace member={m} />)}
+        </div>
+
+        <div class="team-page-cta reveal">
+          <p>Want us on your team for a project?</p>
+          <a class="btn btn-primary magnetic" href="/#contact">
+            Start a project
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>

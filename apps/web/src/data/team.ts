@@ -1,0 +1,23 @@
+import type { ImageMetadata } from 'astro';
+import adityaSuthar from '../assets/team/aditya-suthar.jpeg';
+import sanjayModi from '../assets/team/sanjay-modi.jpeg';
+import kiranJoshi from '../assets/team/kiran-joshi.jpeg';
+
+export interface Member {
+  name: string;
+  role: string;
+  img?: ImageMetadata;
+  pos?: string; // object-position for the photo crop
+}
+
+// Single source of truth — consumed by the homepage teaser (first 4) and the /team page (all).
+export const members: Member[] = [
+  { name: 'Aditya Suthar', role: 'backend · infra', img: adityaSuthar, pos: 'center 52%' },
+  { name: 'Sanjay Modi', role: 'automation · data · bots', img: sanjayModi },
+  { name: 'Kiran Joshi', role: 'SEO · ASO · content writer', img: kiranJoshi, pos: 'center 38%' },
+  { name: 'Full-stack Dev', role: 'web · apps' },
+  { name: 'Product Designer', role: 'ui · brand' },
+  { name: 'DevOps', role: 'cloud · ci/cd' },
+  { name: 'QA Engineer', role: 'testing · qa' },
+  { name: 'Data Engineer', role: 'data · sql' },
+];

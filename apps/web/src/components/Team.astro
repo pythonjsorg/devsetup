@@ -1,23 +1,9 @@
 ---
-// Team / about — copy + 2×2 grid of flip cards (each card flips between 2 members).
+// Team / about — copy + a 4-face teaser linking to the full /team page.
 import TeamFace from './TeamFace.astro';
-import sanjayModi from '../assets/team/sanjay-modi.jpeg';
-import adityaSuthar from '../assets/team/aditya-suthar.jpeg';
-import kiranJoshi from '../assets/team/kiran-joshi.jpeg';
+import { members } from '../data/team';
 
-// Ordered so the 4 "front" faces (first 4) surface the real members up front.
-const members = [
-  { name: 'Aditya Suthar', role: 'backend · infra', img: adityaSuthar, pos: 'center 52%' },
-  { name: 'Sanjay Modi', role: 'automation · data · bots', img: sanjayModi },
-  { name: 'Kiran Joshi', role: 'SEO · ASO · content writer', img: kiranJoshi, pos: 'center 38%' },
-  { name: 'Full-stack Dev', role: 'web · apps' },
-  { name: 'Product Designer', role: 'ui · brand' },
-  { name: 'DevOps', role: 'cloud · ci/cd' },
-  { name: 'QA Engineer', role: 'testing · qa' },
-  { name: 'Data Engineer', role: 'data · sql' },
-];
-// 4 cards, each flips between members[i] (front) and members[i+4] (back).
-const cards = [0, 1, 2, 3].map((i) => [members[i], members[i + 4]]);
+const featured = members.slice(0, 4); // 3 real photos + 1 placeholder
 ---
 <section class="sec" id="team">
   <div class="wrap">
@@ -32,18 +18,13 @@ const cards = [0, 1, 2, 3].map((i) => [members[i], members[i + 4]]);
           <div class="tm"><div class="v">Global</div><div class="k">remote-first</div></div>
           <div class="tm"><div class="v">24h</div><div class="k">reply time</div></div>
         </div>
+        <a class="btn btn-ghost magnetic team-cta" href="/team">
+          Meet the team
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
       </div>
       <div class="team-faces reveal" data-d="1">
-        {
-          cards.map((pair, i) => (
-            <div class="face-flip" style={`--i: ${i}`}>
-              <div class="face-flip-inner">
-                <TeamFace member={pair[0]} side="front" />
-                <TeamFace member={pair[1]} side="back" />
-              </div>
-            </div>
-          ))
-        }
+        {featured.map((m) => <TeamFace member={m} />)}
       </div>
     </div>
   </div>
