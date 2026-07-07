@@ -1,8 +1,22 @@
 ---
-// Team / about — copy + roles grid.
-import { Image } from 'astro:assets';
+// Team / about — copy + two-column face marquee (opposite scroll, all 8 members).
+import TeamFace from './TeamFace.astro';
 import sanjayModi from '../assets/team/sanjay-modi.jpeg';
 import adityaSuthar from '../assets/team/aditya-suthar.jpeg';
+
+// 2 real members + 6 role placeholders (swap in names/photos as they arrive).
+const members = [
+  { name: 'Aditya Suthar', role: 'backend · infra', img: adityaSuthar, pos: 'center 52%' },
+  { name: 'Sanjay Modi', role: 'automation · data · bots', img: sanjayModi },
+  { name: 'Product Designer', role: 'ui · brand' },
+  { name: 'Full-stack Dev', role: 'web · apps' },
+  { name: 'Frontend Dev', role: 'web · ui' },
+  { name: 'DevOps', role: 'cloud · ci/cd' },
+  { name: 'QA Engineer', role: 'testing · qa' },
+  { name: 'Data Engineer', role: 'data · sql' },
+];
+const colA = members.slice(0, 4);
+const colB = members.slice(4, 8);
 ---
 <section class="sec" id="team">
   <div class="wrap">
@@ -13,16 +27,24 @@ import adityaSuthar from '../assets/team/aditya-suthar.jpeg';
         <p>We started as Python developers automating tedious work, and grew into a studio that builds full products end to end. Today we help <b>small businesses, startups and teams</b> turn ideas into working software — and give them a presence they're proud of.</p>
         <p>Everything you see here we've designed, built and shipped ourselves. We work in the open and care about systems that keep running long after launch.</p>
         <div class="team-meta">
-          <div class="tm"><div class="v">6</div><div class="k">developers</div></div>
+          <div class="tm"><div class="v">8</div><div class="k">developers</div></div>
           <div class="tm"><div class="v">Global</div><div class="k">remote-first</div></div>
           <div class="tm"><div class="v">24h</div><div class="k">reply time</div></div>
         </div>
       </div>
       <div class="team-faces reveal" data-d="1">
-        <div class="face"><span class="ph">[ photo ]</span><div class="nameplate"><div class="nm">Product Designer</div><div class="rl">ui · brand</div></div></div>
-        <div class="face has-photo"><Image src={adityaSuthar} alt="Aditya Suthar" class="face-photo" width={560} densities={[1, 2]} style="object-position: center 52%" /><div class="nameplate"><div class="nm">Aditya Suthar</div><div class="rl">backend · infra</div></div></div>
-        <div class="face has-photo"><Image src={sanjayModi} alt="Sanjay Modi" class="face-photo" width={560} densities={[1, 2]} /><div class="nameplate"><div class="nm">Sanjay Modi</div><div class="rl">automation · data · bots</div></div></div>
-        <div class="face"><span class="ph">[ photo ]</span><div class="nameplate"><div class="nm">Full-stack Dev</div><div class="rl">web · apps</div></div></div>
+        <div class="face-col face-col--up">
+          <div class="face-track">
+            {colA.map((m) => <TeamFace member={m} />)}
+            {colA.map((m) => <TeamFace member={m} clone />)}
+          </div>
+        </div>
+        <div class="face-col face-col--down">
+          <div class="face-track">
+            {colB.map((m) => <TeamFace member={m} />)}
+            {colB.map((m) => <TeamFace member={m} clone />)}
+          </div>
+        </div>
       </div>
     </div>
   </div>

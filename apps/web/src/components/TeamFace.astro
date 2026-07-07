@@ -1,0 +1,37 @@
+---
+import { Image } from 'astro:assets';
+
+interface Member {
+  name: string;
+  role: string;
+  img?: ImageMetadata;
+  pos?: string;
+}
+interface Props {
+  member: Member;
+  clone?: boolean;
+}
+
+const { member, clone = false } = Astro.props;
+const { name, role, img, pos } = member;
+---
+<div class:list={['face', img && 'has-photo']} aria-hidden={clone ? 'true' : undefined} data-clone={clone ? '' : undefined}>
+  {
+    img ? (
+      <Image
+        src={img}
+        alt={name}
+        class="face-photo"
+        width={560}
+        densities={[1, 2]}
+        style={pos ? `object-position: ${pos}` : undefined}
+      />
+    ) : (
+      <span class="ph">[ photo ]</span>
+    )
+  }
+  <div class="nameplate">
+    <div class="nm">{name}</div>
+    <div class="rl">{role}</div>
+  </div>
+</div>
