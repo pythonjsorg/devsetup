@@ -398,9 +398,9 @@
 /* two-column face marquee: left scrolls up, right scrolls down, seamless loop */
 .team-faces {
   display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-  height: clamp(400px, 48vh, 500px); overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
-  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+  height: 660px; overflow: hidden; /* ~2 faces per column = 4 visible, like the original grid */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
 }
 .face-col { overflow: hidden; }
 .face-track { display: flex; flex-direction: column; will-change: transform; }
@@ -410,6 +410,9 @@
 @keyframes faceUp { to { transform: translateY(-50%); } }
 @keyframes faceDown { from { transform: translateY(-50%); } to { transform: translateY(0); } }
 .team-faces:hover .face-track { animation-play-state: paused; }
+/* on the single-column layout (≤1000) the faces get wider/taller — cap width + height so ~4 still show */
+@media (max-width: 1000px) { .team-faces { max-width: 460px; margin-inline: auto; height: 600px; } }
+@media (max-width: 560px) { .team-faces { height: 470px; } }
 .face {
   aspect-ratio: 4/5;
   border-radius: var(--r);
