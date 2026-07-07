@@ -395,24 +395,26 @@
 .team-meta .tm .v { font-family: var(--display); font-weight: 700; font-size: 28px; letter-spacing: -0.02em; }
 .team-meta .tm .k { font-family: var(--mono); font-size: 12px; color: var(--text-3); margin-top: 4px; }
 
-/* two-column face marquee: left scrolls up, right scrolls down, seamless loop */
-.team-faces {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-  height: 660px; overflow: hidden; /* ~2 faces per column = 4 visible, like the original grid */
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
-  mask-image: linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+.team-faces { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+/* each grid cell is a 3D flip card cycling between two members; staggered, pause on hover */
+.face-flip { aspect-ratio: 4/5; perspective: 1000px; }
+.face-flip:nth-child(2), .face-flip:nth-child(3) { margin-top: 28px; }
+.face-flip-inner {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d; will-change: transform;
+  animation: cardFlip 10s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * -2.5s);
 }
-.face-col { overflow: hidden; }
-.face-track { display: flex; flex-direction: column; will-change: transform; }
-.face-track .face { margin-bottom: 16px; }
-.face-col--up .face-track { animation: faceUp 42s linear infinite; }
-.face-col--down .face-track { animation: faceDown 42s linear infinite; }
-@keyframes faceUp { to { transform: translateY(-50%); } }
-@keyframes faceDown { from { transform: translateY(-50%); } to { transform: translateY(0); } }
-.team-faces:hover .face-track { animation-play-state: paused; }
-/* on the single-column layout (≤1000) the faces get wider/taller — cap width + height so ~4 still show */
-@media (max-width: 1000px) { .team-faces { max-width: 460px; margin-inline: auto; height: 600px; } }
-@media (max-width: 560px) { .team-faces { height: 470px; } }
+.face-flip .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.face-flip .face-back { transform: rotateY(180deg); }
+.face-flip .face-front:hover { transform: none; }              /* no lift; keep border highlight */
+.face-flip .face-back:hover { transform: rotateY(180deg); }    /* keep the back's structural rotation */
+.face-flip:hover .face-flip-inner { animation-play-state: paused; }
+@keyframes cardFlip {
+  0%, 40% { transform: rotateY(0deg); }
+  50%, 90% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
 .face {
   aspect-ratio: 4/5;
   border-radius: var(--r);
@@ -439,11 +441,10 @@
 .face.has-photo::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(18, 14, 10, 0.78), rgba(18, 14, 10, 0.06) 42%, transparent 60%); }
 .face.has-photo .nameplate .nm { color: #fff; }
 .face.has-photo .nameplate .rl { color: rgba(255, 255, 255, 0.82); }
-/* reduced motion: no scroll — show all 8 faces as a static stack */
+/* reduced motion: no flipping — show the 4 static front faces */
 @media (prefers-reduced-motion: reduce) {
-  .team-faces { height: auto; overflow: visible; -webkit-mask-image: none; mask-image: none; }
-  .face-track { animation: none; }
-  .face-track [data-clone] { display: none; }
+  .face-flip-inner { animation: none; }
+  .face-flip .face-back { display: none; }
 }
 
 /* ---------- docs ---------- */

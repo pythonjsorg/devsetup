@@ -9,13 +9,13 @@ interface Member {
 }
 interface Props {
   member: Member;
-  clone?: boolean;
+  side?: 'front' | 'back';
 }
 
-const { member, clone = false } = Astro.props;
+const { member, side } = Astro.props;
 const { name, role, img, pos } = member;
 ---
-<div class:list={['face', img && 'has-photo']} aria-hidden={clone ? 'true' : undefined} data-clone={clone ? '' : undefined}>
+<div class:list={['face', img && 'has-photo', side && `face-${side}`]}>
   {
     img ? (
       <Image

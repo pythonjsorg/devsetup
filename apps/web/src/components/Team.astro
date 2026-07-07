@@ -1,23 +1,23 @@
 ---
-// Team / about — copy + two-column face marquee (opposite scroll, all 8 members).
+// Team / about — copy + 2×2 grid of flip cards (each card flips between 2 members).
 import TeamFace from './TeamFace.astro';
 import sanjayModi from '../assets/team/sanjay-modi.jpeg';
 import adityaSuthar from '../assets/team/aditya-suthar.jpeg';
 import kiranJoshi from '../assets/team/kiran-joshi.jpeg';
 
-// 2 real members + 6 role placeholders (swap in names/photos as they arrive).
+// Ordered so the 4 "front" faces (first 4) surface the real members up front.
 const members = [
   { name: 'Aditya Suthar', role: 'backend · infra', img: adityaSuthar, pos: 'center 52%' },
   { name: 'Sanjay Modi', role: 'automation · data · bots', img: sanjayModi },
-  { name: 'Product Designer', role: 'ui · brand' },
-  { name: 'Full-stack Dev', role: 'web · apps' },
   { name: 'Kiran Joshi', role: 'SEO · ASO · content writer', img: kiranJoshi, pos: 'center 38%' },
+  { name: 'Full-stack Dev', role: 'web · apps' },
+  { name: 'Product Designer', role: 'ui · brand' },
   { name: 'DevOps', role: 'cloud · ci/cd' },
   { name: 'QA Engineer', role: 'testing · qa' },
   { name: 'Data Engineer', role: 'data · sql' },
 ];
-const colA = members.slice(0, 4);
-const colB = members.slice(4, 8);
+// 4 cards, each flips between members[i] (front) and members[i+4] (back).
+const cards = [0, 1, 2, 3].map((i) => [members[i], members[i + 4]]);
 ---
 <section class="sec" id="team">
   <div class="wrap">
@@ -34,18 +34,16 @@ const colB = members.slice(4, 8);
         </div>
       </div>
       <div class="team-faces reveal" data-d="1">
-        <div class="face-col face-col--up">
-          <div class="face-track">
-            {colA.map((m) => <TeamFace member={m} />)}
-            {colA.map((m) => <TeamFace member={m} clone />)}
-          </div>
-        </div>
-        <div class="face-col face-col--down">
-          <div class="face-track">
-            {colB.map((m) => <TeamFace member={m} />)}
-            {colB.map((m) => <TeamFace member={m} clone />)}
-          </div>
-        </div>
+        {
+          cards.map((pair, i) => (
+            <div class="face-flip" style={`--i: ${i}`}>
+              <div class="face-flip-inner">
+                <TeamFace member={pair[0]} side="front" />
+                <TeamFace member={pair[1]} side="back" />
+              </div>
+            </div>
+          ))
+        }
       </div>
     </div>
   </div>
