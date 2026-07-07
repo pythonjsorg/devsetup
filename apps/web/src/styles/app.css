@@ -401,6 +401,7 @@
 .team-cta { margin-top: 30px; }
 
 /* /team page — full roster */
+.team-page { padding-top: calc(var(--nav-h) + 48px); } /* clear the fixed nav */
 .team-page-lead { color: var(--text-2); font-size: 18px; max-width: 60ch; margin: 16px 0 0; }
 .team-roster { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 48px; }
 .team-page-cta { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; margin-top: 72px; }
