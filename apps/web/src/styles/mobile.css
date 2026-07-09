@@ -120,6 +120,9 @@ img, svg, video { max-width: 100%; }
 
   /* trim the section rhythm further on a small screen */
   main .sec { padding: clamp(26px, 6vw, 40px) 0; }
+  /* …but the /team page still has to clear the fixed nav (the shorthand
+     above would otherwise reset its padding-top and collide with the logo) */
+  main .team-page { padding-top: calc(var(--nav-h) + 28px); }
 
   /* stats: keep 2×2, tighten */
   .stats { gap: 2px; }
