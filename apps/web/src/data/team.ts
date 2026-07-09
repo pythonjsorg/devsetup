@@ -2,6 +2,7 @@ import type { ImageMetadata } from 'astro';
 import adityaSuthar from '../assets/team/aditya-suthar.jpeg';
 import sanjayModi from '../assets/team/sanjay-modi.jpeg';
 import kiranJoshi from '../assets/team/kiran-joshi.jpeg';
+import bharatSwami from '../assets/team/bharat-swami.jpeg';
 
 export interface Member {
   name: string;
@@ -16,8 +17,8 @@ export const members: Member[] = [
   { name: 'Aditya Suthar', role: 'backend · infra', img: adityaSuthar, pos: 'center 52%' },
   { name: 'Kiran Joshi', role: 'SEO · ASO · content writer', img: kiranJoshi, pos: 'center 38%' },
   { name: 'Sanjay Modi', role: 'automation · data · bots', img: sanjayModi },
+  { name: 'Bharat Swami', role: 'backend · apis', img: bharatSwami },
   { name: 'Product Designer', role: 'ui · brand' },
   { name: 'DevOps', role: 'cloud · ci/cd' },
   { name: 'QA Engineer', role: 'testing · qa' },
-  { name: 'Data Engineer', role: 'data · sql' },
 ];
