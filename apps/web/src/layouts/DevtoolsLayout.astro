@@ -61,6 +61,16 @@ const THEME_BOOT = `(function(){var d=document.documentElement;try{var t=localSt
       style="border-bottom: 1px solid var(--border-soft); background: color-mix(in srgb, var(--background) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
     >
       <div class="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
+       <div class="flex items-center gap-2.5 sm:gap-3.5">
+        {/* Parent site — icon only, so DevSetup stays the single wordmark here */}
+        <a
+          href="/"
+          aria-label="Back to pythonjs.org"
+          title="Back to pythonjs.org"
+          class="flex shrink-0 items-center justify-center transition-opacity hover:opacity-75"
+          style="width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--accent); color: var(--accent-text); font-family: var(--font-jetbrains); font-weight: 600; font-size: 13px; text-decoration: none;"
+        >py</a>
+        <span class="h-5 w-px" style="background: var(--border-soft);" aria-hidden="true"></span>
         <a href={homeHref} class="flex items-center gap-2.5 group" style="text-decoration: none;">
           <span
             class="flex h-8 w-8 items-center justify-center text-xs font-bold"
@@ -71,10 +81,11 @@ const THEME_BOOT = `(function(){var d=document.documentElement;try{var t=localSt
             style="font-family: var(--font-instrument-serif); color: var(--foreground); letter-spacing: -0.025em;"
           >DevSetup</span>
           <span
-            class="ml-1 text-[11px] px-2 py-0.5 whitespace-nowrap"
+            class="ml-1 hidden sm:inline-block text-[11px] px-2 py-0.5 whitespace-nowrap"
             style="font-family: var(--font-jetbrains); color: var(--muted-foreground); background: var(--muted); border-radius: var(--radius-sm);"
           >v1.0</span>
         </a>
+       </div>
 
         <nav class="flex items-center gap-2">
           <a
@@ -83,15 +94,8 @@ const THEME_BOOT = `(function(){var d=document.documentElement;try{var t=localSt
             style="font-size: 13px; font-weight: 600; font-family: var(--font-jetbrains); color: var(--foreground); background: var(--muted); padding: 5px 12px; border-radius: var(--radius-full); text-decoration: none;"
           >Install</a>
 
-          {['DB Cmds', 'CLI Ref', 'Compare'].map((label) => (
-            <span
-              class="hidden md:inline-flex items-center gap-1.5 whitespace-nowrap"
-              style="font-size: 13px; font-weight: 600; font-family: var(--font-jetbrains); color: var(--muted-foreground); padding: 5px 12px; cursor: default;"
-            >
-              <span style="opacity: 0.55;">{label}</span>
-              <span style="font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-foreground); background: var(--muted); padding: 2px 6px; border-radius: var(--radius-full);">soon</span>
-            </span>
-          ))}
+          {/* DB Cmds / CLI Ref / Compare are roadmap, not navigation — they live
+              in the roadmap strip on the index page and the footer line below. */}
 
           <div class="hidden md:block">
             <ThemeSwitcher client:load />
@@ -116,6 +120,11 @@ const THEME_BOOT = `(function(){var d=document.documentElement;try{var t=localSt
           <a href={changelogHref} class="text-xs" style="font-family: var(--font-jetbrains); color: var(--muted-foreground); text-decoration: none;">Changelog</a>
           <span class="text-xs" style="font-family: var(--font-jetbrains); color: var(--muted-foreground);">DevSetup</span>
         </div>
+      </div>
+      <div class="mx-auto max-w-7xl px-6 pb-5">
+        <span class="text-xs" style="font-family: var(--font-jetbrains); color: var(--muted-foreground); opacity: 0.8;">
+          Coming next · DB Cmds · CLI Ref · Compare
+        </span>
       </div>
     </footer>
   </body>

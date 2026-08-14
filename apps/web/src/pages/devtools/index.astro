@@ -118,5 +118,28 @@ const stats = [
     </section>
 
     <FilterableGrid tools={tools} client:load />
+
+    {/* Roadmap — the sections that used to sit greyed-out in the header nav */}
+    <section class="mx-auto w-full max-w-7xl px-6 pb-16">
+      <div
+        class="flex flex-wrap items-center gap-x-7 gap-y-3"
+        style="border: 1px solid var(--border-soft); border-radius: var(--radius-lg); padding: 16px 20px; background: color-mix(in srgb, var(--muted) 35%, transparent);"
+      >
+        <span
+          class="whitespace-nowrap"
+          style="font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-foreground); font-family: var(--font-jetbrains);"
+        >Coming next</span>
+        {[
+          { label: 'DB Cmds', note: 'Postgres · MySQL · Redis one-liners' },
+          { label: 'CLI Ref', note: 'flags and recipes per tool' },
+          { label: 'Compare', note: 'bun vs node · uv vs pip' },
+        ].map((item) => (
+          <span class="inline-flex flex-wrap items-baseline gap-x-2" style="font-family: var(--font-jetbrains); font-size: 12.5px;">
+            <span style="font-weight: 600; color: var(--foreground);">{item.label}</span>
+            <span style="color: var(--muted-foreground);">{item.note}</span>
+          </span>
+        ))}
+      </div>
+    </section>
   </main>
 </DevtoolsLayout>
