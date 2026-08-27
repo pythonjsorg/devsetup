@@ -4,6 +4,7 @@ import sanjayModi from '../assets/team/sanjay-modi.jpeg';
 import kiranJoshi from '../assets/team/kiran-joshi.jpeg';
 import bharatSwami from '../assets/team/bharat-swami.jpeg';
 import pinkuKumar from '../assets/team/pinku-kumar.jpeg';
+import bhawanishankerNai from '../assets/team/bhawanishanker-nai.jpeg';
 
 export interface Member {
   name: string;
@@ -20,6 +21,6 @@ export const members: Member[] = [
   { name: 'Sanjay Modi', role: 'automation · data · bots', img: sanjayModi },
   { name: 'Bharat Swami', role: 'backend · apis', img: bharatSwami },
   { name: 'Pinku Kumar', role: 'frontend · apps', img: pinkuKumar, pos: 'center 22%' },
-  { name: 'Product Designer', role: 'ui · brand' },
+  { name: 'Bhawanishanker Nai', role: 'frontend · ui', img: bhawanishankerNai },
   { name: 'DevOps', role: 'cloud · ci/cd' },
 ];
